@@ -36,7 +36,7 @@ const Signup = () => {
   };
 
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container md:w-4/5 px-5 py-10 mx-auto flex flex-wrap items-center">
         <form
           onSubmit={handleSubmit}

@@ -1,13 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../context/auth";
+import { useThemeContext } from "../../context/theme";
 const Navbar = () => {
   const { auth = {} } = useAuthContext();
+  const { theme, setTheme } = useThemeContext();
 
-  const normalClass = "mr-5 hover:text-yellow-600 hover:bg-gray-100 p-1";
+  const normalClass =
+    "mr-5 hover:text-yellow-600 hover:bg-gray-100 dark:hover:bg-slate-100 p-1";
   const activeClass = "mr-5 text-yellow-600 p-1";
 
+  const handleThemeToggle = () => {
+    if (theme === "dark") return setTheme("light");
+    setTheme("dark");
+  };
   return (
-    <header className="text-gray-600 body-font">
+    <header className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
           <img src="" alt="" />
@@ -23,7 +30,7 @@ const Navbar = () => {
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
-          <span className="ml-3 text-xl">Lingomax</span>
+          <span className="ml-3 text-xl dark:text-white">Lingomax</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           {auth?.token ? (
@@ -69,8 +76,11 @@ const Navbar = () => {
             </>
           )}
         </nav>
-        <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Button
+        <button
+          onClick={handleThemeToggle}
+          className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-slate-700 dark:hover:bg-slate-500"
+        >
+          Toggle {theme === "dark" ? "Light" : "Dark"}
           <svg
             fill="none"
             stroke="currentColor"

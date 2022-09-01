@@ -10,14 +10,14 @@ const Card = ({ title, subtitle, image, enrolled, content }) => {
           src={image}
         />
         <div className="px-8 py-8 relative z-10 w-full border-4 border-gray-200 bg-white transition-opacity duration-200 opacity-0 hover:opacity-100">
-          <h2 className="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
+          <h2 className="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1 dark:text-yellow-700">
             {subtitle}
           </h2>
           <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
             {title}
           </h1>
-          <p className="leading-relaxed">{content}</p>
-          <p className="leading-relaxed text-lg pt-1">
+          <p className="leading-relaxed dark:text-black">{content}</p>
+          <p className="leading-relaxed dark:text-black text-lg pt-1">
             <span className="text-bold">Total Enrolled:</span>{" "}
             <span className="text-yellow-700 underline">{enrolled}</span>
           </p>
@@ -29,10 +29,10 @@ const Card = ({ title, subtitle, image, enrolled, content }) => {
 
 const Gallery = () => {
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">
             Master Cleanse Reliac Heirloom
           </h1>
           <p className="lg:w-2/4 mx-auto leading-relaxed text-base">

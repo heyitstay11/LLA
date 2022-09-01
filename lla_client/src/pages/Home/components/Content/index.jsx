@@ -10,7 +10,7 @@ const Card = ({ icon, title, content }) => {
         <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
           {title}
         </h2>
-        <p className="leading-relaxed text-base">{content}</p>
+        <p className="leading-relaxed text-base dark:text-black">{content}</p>
       </div>
     </div>
   );
@@ -18,10 +18,10 @@ const Card = ({ icon, title, content }) => {
 
 const Content = () => {
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 mx-auto">
         <div className="flex flex-wrap w-full mb-12 flex-col items-center text-center">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 dark:text-white">
             Why Choose Lingomax
           </h1>
           <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">

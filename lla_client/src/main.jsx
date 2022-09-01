@@ -6,14 +6,17 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
+import { ThemeProvider } from "./context/theme";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

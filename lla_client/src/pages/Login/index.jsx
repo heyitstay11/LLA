@@ -2,11 +2,11 @@ import { NavLink } from "react-router-dom";
 
 const Login = () => {
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container md:w-4/5 px-5 py-24 mx-auto flex flex-wrap items-center">
         <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <div className="w-4/5">
-            <h1 className="title-font font-medium text-3xl text-gray-900">
+            <h1 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
               Knowledge of languages is the doorway to wisdom
             </h1>
             <p className="leading-relaxed mt-4">
