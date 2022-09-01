@@ -1,5 +1,8 @@
 import { NavLink } from "react-router-dom"; 
+import { useAuthContext } from '../../context/auth';
 const Navbar = () => {
+    const { auth = {} }= useAuthContext();
+
     const normalClass = "mr-5 hover:text-yellow-600 hover:bg-gray-100 p-1";
     const activeClass = "mr-5 text-yellow-600 p-1"
 
@@ -13,6 +16,17 @@ const Navbar = () => {
             <span className="ml-3 text-xl">Lingomax</span>
             </a>
             <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                {auth?.token ?
+                <>
+                <NavLink to={'/'} className={({ isActive }) => isActive ? activeClass: normalClass } >
+                    Dashboard
+                </NavLink>
+                <NavLink to={'/'} className={({ isActive }) => isActive ? activeClass: normalClass } >
+                    Courses
+                </NavLink>
+                </>
+                :
+                <>
                 <NavLink to={'/'} className={({ isActive }) => isActive ? activeClass: normalClass } >
                     Home
                 </NavLink>
@@ -20,6 +34,8 @@ const Navbar = () => {
                     LogIn
                 </NavLink>
                 <a className="mr-5 hover:text-yellow-600 hover:bg-gray-100 p-1">Third Link</a>
+                </>
+                }
             </nav>
             <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
                 Button
