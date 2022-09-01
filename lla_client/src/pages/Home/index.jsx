@@ -1,14 +1,14 @@
-import { Hero, Content, Gallery, Testimonial} from './components'
+import { Hero, Content, Gallery, Testimonial } from "./components";
 
 const Home = () => {
-    return (
+  return (
     <>
       <Hero />
       <Content />
       <Gallery />
       <Testimonial />
     </>
-    )
-}
+  );
+};
 
 export default Home;
