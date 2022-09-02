@@ -7,11 +7,14 @@ import { initialState, reducer, ACTION_TYPES } from "./reducer";
 const Signup = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { name, email, password, confirmPassword } = state;
-  const isLoading = state.isLoading;
+  const { name, email, password, confirmPassword, isLoading } = state;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // basic validation
+    if (password !== confirmPassword)
+      return toast.error("Passwords doest not match");
+    if (!name.trim()) return toast.error("Fill details properly");
     try {
       dispatch({ type: ACTION_TYPES.LOADING, payload: true });
       const response = await axios.post("/auth/signup", { ...state });
@@ -86,6 +89,7 @@ const Signup = () => {
               type="password"
               id="password"
               name="password"
+              minLength={6}
               required
               className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
@@ -103,6 +107,7 @@ const Signup = () => {
               type="password"
               id="c_password"
               name="c_password"
+              minLength={6}
               required
               className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
@@ -112,7 +117,7 @@ const Signup = () => {
               <span className="block text-center">Loading ...</span>
             </div>
           ) : (
-            <button className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">
+            <button className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium">
               Submit
             </button>
           )}

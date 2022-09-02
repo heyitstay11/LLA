@@ -1,1 +1,1 @@
-export {default as QuizCard} from './QuizCard/index'
+export { default as QuizCard } from "./QuizCard";

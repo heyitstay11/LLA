@@ -5,13 +5,22 @@ import { useContext, createContext, useState } from "react";
 const ThemeContext = createContext({});
 
 export const ThemeProvider = ({ children }) => {
-  const defaultTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  let defaultTheme = window.localStorage.getItem("theme");
+  defaultTheme =
+    !defaultTheme && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : defaultTheme;
+
   const [theme, setTheme] = useState(defaultTheme);
 
+  const updateTheme = (newTheme) => {
+    if (newTheme === theme) return;
+    localStorage.setItem("theme", newTheme);
+    setTheme((prev) => newTheme);
+  };
+
   const value = useMemo(() => {
-    return { theme, setTheme };
+    return { theme, updateTheme };
   }, [theme]);
 
   useEffect(() => {
