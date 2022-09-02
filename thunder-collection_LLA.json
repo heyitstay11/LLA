@@ -1,1 +1,85 @@
-{"client":"Thunder Client","collectionName":"LLA","dateExported":"2022-09-01T08:06:52.267Z","version":"1.1","folders":[],"requests":[{"_id":"ee28533a-1458-4257-9ad9-c3dd7f303e43","colId":"983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c","containerId":"","name":"Sign Up","url":"http://localhost:5000/api/auth/signup","method":"POST","sortNum":10000,"created":"2022-09-01T07:21:57.242Z","modified":"2022-09-01T07:46:02.729Z","headers":[],"params":[],"body":{"type":"json","raw":"{\n  \"name\": \"Tester1\",\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}","form":[]},"tests":[]},{"_id":"011cd3c8-4695-4213-907c-49d387f1695f","colId":"983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c","containerId":"","name":"Log In","url":"http://localhost:5000/api/auth/login","method":"POST","sortNum":20000,"created":"2022-09-01T07:25:02.632Z","modified":"2022-09-01T07:46:27.784Z","headers":[],"params":[],"body":{"type":"json","raw":"{\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}","form":[]},"tests":[]}]}
+{
+  "client": "Thunder Client",
+  "collectionName": "LLA",
+  "dateExported": "2022-09-02T12:58:25.738Z",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "ee28533a-1458-4257-9ad9-c3dd7f303e43",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "",
+      "name": "Sign Up",
+      "url": "http://localhost:5000/api/auth/signup",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2022-09-01T07:21:57.242Z",
+      "modified": "2022-09-01T07:46:02.729Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Tester1\",\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "011cd3c8-4695-4213-907c-49d387f1695f",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "",
+      "name": "Log In",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2022-09-01T07:25:02.632Z",
+      "modified": "2022-09-01T07:46:27.784Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "da10b857-6700-41a4-a9be-92b7404fde3f",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "",
+      "name": "Validation-Signup",
+      "url": "http://localhost:5000/api/auth/signup",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2022-09-02T12:55:25.230Z",
+      "modified": "2022-09-02T12:56:40.473Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"testar\",\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test12\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "332c5f0f-b588-4113-9c2a-7b78ec345caf",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "",
+      "name": "Validation-Login",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 40000,
+      "created": "2022-09-02T12:56:55.320Z",
+      "modified": "2022-09-02T12:58:07.728Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}",
+        "form": []
+      },
+      "tests": []
+    }
+  ]
+}
