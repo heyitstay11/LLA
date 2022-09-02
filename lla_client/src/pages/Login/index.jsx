@@ -1,6 +1,40 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useReducer } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { initialState, reducer, ACTION_TYPES } from "./reducer";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { email, password } = state;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!password) return toast.error("Please enter Password");
+    if (!email) return toast.error("Please enter Email");
+    try {
+      dispatch({ type: ACTION_TYPES.LOADING, payload: true });
+      const response = await axios.post("/auth/login", { ...state });
+      if (response.data) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Error Occured");
+    } finally {
+      dispatch({ type: ACTION_TYPES.LOADING, payload: false });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: ACTION_TYPES[name.toUpperCase()],
+      payload: value,
+    });
+  };
+
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container md:w-4/5 px-5 py-24 mx-auto flex flex-wrap items-center">
@@ -17,7 +51,10 @@ const Login = () => {
             </p>
           </div>
         </div>
-        <form className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+        <form
+          onSubmit={handleSubmit}
+          className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
+        >
           <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
             Log In
           </h2>
@@ -26,6 +63,8 @@ const Login = () => {
               Email
             </label>
             <input
+              value={email}
+              onChange={handleInputChange}
               type="email"
               id="email"
               name="email"
@@ -40,9 +79,13 @@ const Login = () => {
               Password
             </label>
             <input
+              value={password}
+              onChange={handleInputChange}
               type="password"
               id="password"
               name="password"
+              minLength={6}
+              required
               className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
