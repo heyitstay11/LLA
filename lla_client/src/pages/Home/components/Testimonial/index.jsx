@@ -2,7 +2,7 @@ const Testimonial = () => {
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container md:w-4/5 px-5 py-12 mx-auto">
-        <h1 className="text-3xl font-medium title-font text-gray-900 mb-12 text-center">
+        <h1 className="text-3xl font-medium title-font text-gray-900 mb-12 text-center dark:text-white">
           Testimonials
         </h1>
         <div className="flex flex-wrap -m-4">

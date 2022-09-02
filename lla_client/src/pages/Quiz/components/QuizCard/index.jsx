@@ -8,7 +8,7 @@ const QuizCard = () => {
           src="https://dummyimage.com/720x600"
         />
         <div className="w-full flex flex-col mb-16 items-center text-center">
-          <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+          <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-gray-200">
             What is this?{" "}
           </h1>
           <div className="  flex-wrap mx-5">
