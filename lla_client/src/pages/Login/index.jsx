@@ -17,6 +17,7 @@ const Login = () => {
       dispatch({ type: ACTION_TYPES.LOADING, payload: true });
       const response = await axios.post("/auth/login", { ...state });
       if (response.data) {
+        toast.success("Log in successful");
         navigate("/");
       }
     } catch (error) {
