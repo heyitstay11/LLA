@@ -71,9 +71,14 @@ const Navbar = () => {
               >
                 LogIn
               </NavLink>
-              <a className="mr-5 hover:text-yellow-600 hover:bg-gray-100 p-1">
-                Third Link
-              </a>
+              <NavLink
+                to={"/contact"}
+                className={({ isActive }) =>
+                  isActive ? activeClass : normalClass
+                }
+              >
+                Contact
+              </NavLink>
             </>
           )}
         </nav>
@@ -81,7 +86,7 @@ const Navbar = () => {
           onClick={handleThemeToggle}
           className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-slate-700 dark:hover:bg-slate-500"
         >
-          Toggle {theme === "dark" ? "Light" : "Dark"}
+          {theme === "dark" ? "Light" : "Dark"}
           {theme === "dark" ? (
             <svg
               width="32"
