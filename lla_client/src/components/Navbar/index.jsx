@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../context/auth";
 import { useThemeContext } from "../../context/theme";
 const Navbar = () => {
-  const { auth = {} } = useAuthContext();
+  const { auth = {}, setAuth } = useAuthContext();
   const { theme, updateTheme } = useThemeContext();
 
   const normalClass =
@@ -31,7 +31,7 @@ const Navbar = () => {
           {auth?.token ? (
             <>
               <NavLink
-                to={"/"}
+                to={"/dashboard"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }
@@ -39,13 +39,17 @@ const Navbar = () => {
                 Dashboard
               </NavLink>
               <NavLink
-                to={"/"}
+                to={"/course"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }
               >
-                Courses
+                {/* Courses */}
+                <span className="underline">Welcome {auth?.name}</span>
               </NavLink>
+              <button className={normalClass} onClick={() => setAuth({})}>
+                Log Out
+              </button>
             </>
           ) : (
             <>

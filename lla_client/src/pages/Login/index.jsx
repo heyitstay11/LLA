@@ -3,9 +3,11 @@ import { useReducer } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { initialState, reducer, ACTION_TYPES } from "./reducer";
+import { useAuthContext } from "../../context/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setAuth } = useAuthContext();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { email, password } = state;
 
@@ -16,7 +18,8 @@ const Login = () => {
     try {
       dispatch({ type: ACTION_TYPES.LOADING, payload: true });
       const response = await axios.post("/auth/login", { ...state });
-      if (response.data) {
+      if (response?.data) {
+        setAuth(response?.data);
         toast.success("Log in successful");
         navigate("/");
       }

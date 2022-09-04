@@ -33,7 +33,7 @@ const Gallery = () => {
       <div className="container px-5 py-12 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">
-            Master Cleanse Reliac Heirloom
+            Trending Courses
           </h1>
           <p className="lg:w-2/4 mx-auto leading-relaxed text-base">
             Multiple studies have shown that learning a second language can
