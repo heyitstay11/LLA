@@ -33,8 +33,8 @@ const Signup = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     dispatch({
-      type: ACTION_TYPES[name.toUpperCase()],
-      payload: value,
+      type: ACTION_TYPES.INPUT,
+      payload: { [name]: value },
     });
   };
 
@@ -96,7 +96,7 @@ const Signup = () => {
           </div>
           <div className="relative mb-4">
             <label
-              htmlFor="c_password"
+              htmlFor="confirmPassword"
               className="leading-7 text-sm text-gray-600"
             >
               Confirm Password
@@ -105,8 +105,8 @@ const Signup = () => {
               value={confirmPassword}
               onChange={handleInputChange}
               type="password"
-              id="c_password"
-              name="c_password"
+              id="confirmPassword"
+              name="confirmPassword"
               minLength={6}
               required
               className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"

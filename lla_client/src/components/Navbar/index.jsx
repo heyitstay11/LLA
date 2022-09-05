@@ -25,7 +25,7 @@ const Navbar = () => {
               theme !== "dark" ? "darklogo" : ""
             }`}
           />
-          <span className="ml-3 text-xl dark:text-white">Lingomax</span>
+          <span className="ml-3 text-xl dark:text-white">LingoMax</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           {auth?.token ? (

@@ -9,7 +9,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuthContext();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { email, password } = state;
+  const { email, password, isLoading } = state;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,8 +34,8 @@ const Login = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     dispatch({
-      type: ACTION_TYPES[name.toUpperCase()],
-      payload: value,
+      type: ACTION_TYPES.INPUT,
+      payload: { [name]: value },
     });
   };
 
@@ -93,9 +93,15 @@ const Login = () => {
               className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
-          <button className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">
-            Submit
-          </button>
+          {isLoading ? (
+            <div className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">
+              <span className="block text-center">Loading ...</span>
+            </div>
+          ) : (
+            <button className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium">
+              Submit
+            </button>
+          )}
           <p className="text-s text-gray-500 mt-3">
             Don't have an acount &nbsp;
             <NavLink to={"/signup"} className="text-yellow-600">
