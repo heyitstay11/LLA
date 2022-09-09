@@ -7,16 +7,19 @@ import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
 import { ThemeProvider } from "./context/theme";
-axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
+import { SocketProvider } from "./context/socket";
+axios.defaults.baseURL = `${import.meta.env.VITE_SERVER_URL}/api`;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AuthProvider>
+      <SocketProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </SocketProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
