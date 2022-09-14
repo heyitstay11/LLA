@@ -11,15 +11,16 @@ export const setupSocket = (io) => {
     console.log(socketId, "conn");
 
     socket.on("join-meet", (meetingId = "") => {
-      console.log(meetingId, "hello", meetings);
       if (meetingId && meetings[meetingId]) {
         meetings[meetingId].push(socketId);
+        meetings[meetingId] = [...new Set(meetings[meetingId])];
       } else {
         meetings[meetingId] = [socketId];
       }
       socket.join(meetingId);
       meeting = meetingId;
       socket.broadcast.to(meetingId).emit("user-joined", socketId);
+      console.log(meetingId, "hello", meetings);
     });
 
     socket.on("offer", (payload = {}) => {
@@ -40,8 +41,15 @@ export const setupSocket = (io) => {
     socket.on("disconnect", () => {
       console.log(socketId, "disconn", meeting);
       // clean up
-      meetings[meeting]?.filter((user) => user !== socketId);
+      if (!meeting) return;
+      meetings[meeting] = meetings[meeting]?.filter(
+        (user) => user !== socketId
+      );
+      if (meetings[meeting]?.length === 0) {
+        delete meetings[meeting];
+      }
       socket.broadcast.to(meeting).emit("user-left", socketId);
+      console.log(meetings);
     });
   });
 };

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 const Meeting = () => {
   const { meetingId = "" } = useParams();
@@ -35,12 +36,14 @@ const Meeting = () => {
       peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
     });
     socket.current.on("user-left", () => {
+      toast.warn("Peer just left the meeting");
       setCallRunning(false);
     });
 
-    socket.current.emit("join-meet", meetingId);
-
     return () => {
+      if (peerConnection.current) {
+        peerConnection.current.close();
+      }
       socket.current.disconnect(); //! read more
       socket.current.off("connect");
       socket.current.off("disconnect");
@@ -49,7 +52,7 @@ const Meeting = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      ?.getUserMedia({ video: true })
       .then((myStream) => {
         localVideo.current.srcObject = myStream;
         localStream.current = myStream;
@@ -70,18 +73,21 @@ const Meeting = () => {
         },
       ],
     });
-    setCallRunning(() => true);
     peerConnection.onicecandidate = (e) => handleIceCandidateEvent(e, userId);
-    peerConnection.ontrack = handleTrackEvent;
+    peerConnection.ontrack = (e) => handleTrackEvent(e);
 
     return peerConnection;
   };
 
   const handleTrackEvent = (e) => {
+    console.log(e.streams);
+    setCallRunning(() => true);
+    console.log("handle track");
     remoteVideo.current.srcObject = e.streams[0];
   };
 
   const callUser = (userId) => {
+    console.log("calling");
     peerConnection.current = createPeer(userId);
 
     localStream.current
@@ -104,16 +110,17 @@ const Meeting = () => {
   };
 
   const handleIncomingCall = (payload) => {
+    console.log("incoming call");
     peerConnection.current = createPeer(payload.caller);
     peerConnection.current
       .setRemoteDescription(new RTCSessionDescription(payload.sdp))
-      .then(() =>
+      .then(() => {
         localStream.current
           ?.getTracks()
           .forEach((track) =>
             peerConnection.current.addTrack(track, localStream.current)
-          )
-      )
+          );
+      })
       .catch((err) => console.log(err));
 
     peerConnection.current
@@ -130,6 +137,10 @@ const Meeting = () => {
   };
 
   const handleAnswer = (payload) => {
+    console.log("incoming answer");
+    toast.success("Peer has joined, if video is not visible click allow in");
+    setCallRunning(() => true);
+
     peerConnection.current
       .setRemoteDescription(new RTCSessionDescription(payload.sdp))
       .catch((err) => console.log(err));
@@ -145,19 +156,16 @@ const Meeting = () => {
     }
   };
 
+  const joinMeet = () => {
+    socket.current.emit("join-meet", meetingId);
+  };
+
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-6 mx-auto flex flex-col">
         <div className="lg:w-4/6 mx-auto">
           <h1 className="font-">{meetingId}</h1>
           <div className="rounded-lg h- overflow-hidden max-w-xl mx-auto">
-            <video
-              ref={remoteVideo}
-              className={`object-cover object-center h-full w-full mx-auto ${
-                callRunnning ? "ok" : "w-0"
-              }`}
-              autoPlay
-            />
             {!callRunnning && (
               <img
                 alt=""
@@ -166,6 +174,13 @@ const Meeting = () => {
                 autoPlay
               />
             )}
+            <video
+              ref={remoteVideo}
+              className={`object-cover object-center h-full w-full mx-auto ${
+                callRunnning ? "ok" : "w-0"
+              }`}
+              autoPlay
+            />
           </div>
           <div className="flex flex-col sm:flex-row mt-10">
             <div className="sm:w-1/3 text-center sm:pr-2 sm:py-8">
@@ -178,8 +193,11 @@ const Meeting = () => {
                 ></video>
               </div>
               <br />
-              <button className="border b-2 border-black py-1 px-4">
-                Join
+              <button
+                onClick={joinMeet}
+                className="border b-2 border-black py-1 px-4"
+              >
+                {callRunnning ? "Allow In" : "Join Meeting"}
               </button>
             </div>
             <div className="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
