@@ -148,8 +148,8 @@ const Meeting = () => {
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-6 mx-auto flex flex-col">
-        <div className="lg:w-4/6 mx-auto">
-          <h1 className="font-">{meetingId}</h1>
+        <div className="lg:w-5/6 mx-auto">
+          <h1 className="font-medium text-center mb-2">{meetingId}</h1>
           <div className="rounded-lg h- overflow-hidden max-w-xl mx-auto">
             <video
               ref={remoteVideo}
@@ -168,8 +168,8 @@ const Meeting = () => {
             )}
           </div>
           <div className="flex flex-col sm:flex-row mt-10">
-            <div className="sm:w-1/3 text-center sm:pr-2 sm:py-8">
-              <div className="w-50 h-40 rounded-full inline-flex items-center justify-center">
+            <div className="sm:w-1/2 text-center sm:pr-2 sm:py-8">
+              <div className="w-50 h-60 rounded-full inline-flex items-center justify-center">
                 <video
                   ref={localVideo}
                   playsInline
@@ -182,7 +182,7 @@ const Meeting = () => {
                 Join
               </button>
             </div>
-            <div className="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
+            <div className="sm:w-1/2 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 px-8 sm:mt-0 text-center sm:text-left bg-slate-100 dark:bg-slate-700">
               <form className="flex" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="text"
@@ -192,20 +192,29 @@ const Meeting = () => {
                   Send
                 </button>
               </form>
-              <p className="leading-relaxed text-lg mb-4">
-                Meggings portland fingerstache lyft, post-ironic fixie man bun
-                banh mi umami everyday carry hexagon locavore direct trade art
-                party. Locavore small batch listicle gastropub farm-to-table
-                lumbersexual salvia messenger bag. Coloring book flannel
-                truffaut craft beer drinking vinegar sartorial, disrupt fashion
-                axe normcore meh butcher. Portland 90's scenester vexillologist
-                forage post-ironic asymmetrical, chartreuse disrupt butcher
-                paleo intelligentsia pabst before they sold out four loko. 3
-                wolf moon brooklyn.
-              </p>
-              <a className="text-yellow-500 inline-flex items-center">
-                Learn More
-              </a>
+              <div className="mt-2 leading-relaxed text-lg mb-4 min-h-32 max-h-60 overflow-y-auto flex flex-col">
+                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  hello
+                </span>
+                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  hi
+                </span>
+                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  what will you teach today?
+                </span>
+                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  hello
+                </span>
+                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  hello
+                </span>
+                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  hi
+                </span>
+                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                  what will you teach today?
+                </span>
+              </div>
             </div>
           </div>
         </div>
