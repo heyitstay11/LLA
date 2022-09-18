@@ -12,7 +12,7 @@ const Contact = () => {
             marginHeight="0"
             marginWidth="0"
             scrolling="no"
-            src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=%C4%B0zmir+(My%20Business%20Name)&ie=UTF8&t=&z=14&iwloc=B&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.1928010251945!2d72.83847931490357!3d19.230427386999462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b1376442a551%3A0xb58484eb2bf7a98!2sMcDonald&#39;s!5e0!3m2!1sen!2sin!4v1663486466849!5m2!1sen!2sin"
             style={{ filter: "grayscale(1) contrast(1.2) opacity(0.4)" }}
           ></iframe>
           <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md">
@@ -83,10 +83,6 @@ const Contact = () => {
           <button className="text-white font-md bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">
             Submit
           </button>
-          <p className="text-xs text-gray-500 mt-3">
-            Chicharrones blog helvetica normcore iceland tousled brook viral
-            artisan.
-          </p>
         </form>
       </div>
     </section>
