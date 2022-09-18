@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useReducer } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { initialState, reducer, ACTION_TYPES } from "./reducer";
+import { SignUpUser } from "../../api/auth";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Signup = () => {
     if (!name.trim()) return toast.error("Fill details properly");
     try {
       dispatch({ type: ACTION_TYPES.LOADING, payload: true });
-      const response = await axios.post("/auth/signup", { ...state });
+      const response = await SignUpUser(state);
       if (response.data) {
         toast.success("SignIn Successful, Login to continue");
         navigate("/login");

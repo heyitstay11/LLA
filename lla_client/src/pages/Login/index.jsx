@@ -1,9 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useReducer } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { initialState, reducer, ACTION_TYPES } from "./reducer";
 import { useAuthContext } from "../../context/auth";
+import { LoginUser } from "../../api/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Login = () => {
     if (!email) return toast.error("Please enter Email");
     try {
       dispatch({ type: ACTION_TYPES.LOADING, payload: true });
-      const response = await axios.post("/auth/login", { ...state });
+      const response = await LoginUser(state);
       if (response?.data) {
         setAuth(response?.data);
         toast.success("Log in successful");

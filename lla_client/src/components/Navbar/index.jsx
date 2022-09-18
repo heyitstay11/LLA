@@ -92,7 +92,7 @@ const Navbar = () => {
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
-                className="w-4 h-4 "
+                className="w-4 h-4  md:ml-1"
               >
                 <path
                   fill="currentColor"
@@ -104,7 +104,7 @@ const Navbar = () => {
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
-                className="w-4 h-4 "
+                className="w-4 h-4 md:ml-1"
               >
                 <path
                   fill="currentColor"
