@@ -25,10 +25,27 @@ const Meeting = () => {
    */
   const localStream = useRef();
   const [callRunnning, setCallRunning] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    const message = e?.currentTarget?.["message-input"]?.value;
+    if (!message) return;
+    socket.current.emit("send-message", {
+      user: socket.current.id,
+      meetingId,
+      message,
+    });
+  };
+
+  const handleMessage = ({ user, message }) => {
+    setMessages((prev) => [{ user, message }, ...prev]);
+  };
 
   useEffect(() => {
     socket.current = io(import.meta.env.VITE_SERVER_URL);
 
+    socket.current.on("message", handleMessage);
     socket.current.on("user-joined", callUser);
     socket.current.on("offer", handleIncomingCall);
     socket.current.on("answer", handleAnswer);
@@ -201,8 +218,9 @@ const Meeting = () => {
               </button>
             </div>
             <div className="sm:w-1/2 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 px-8 sm:mt-0 text-center sm:text-left bg-slate-100 dark:bg-slate-700">
-              <form className="flex" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex" onSubmit={handleSendMessage}>
                 <input
+                  name="message-input"
                   type="text"
                   className="w-full text-black pt-auto pl-4 border border-black b-2"
                 />
@@ -211,27 +229,25 @@ const Meeting = () => {
                 </button>
               </form>
               <div className="mt-2 leading-relaxed text-lg mb-4 min-h-32 max-h-60 overflow-y-auto flex flex-col">
-                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  hello
-                </span>
-                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  hi
-                </span>
-                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  what will you teach today?
-                </span>
-                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  hello
-                </span>
-                <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  hello
-                </span>
-                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  hi
-                </span>
-                <span className="ml-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                  what will you teach today?
-                </span>
+                {messages?.length === 0 && (
+                  <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
+                    No Messages{" "}
+                  </span>
+                )}
+                {messages?.map((msg, index) => {
+                  const { user, message } = msg;
+                  const isMine = user === socket.current.id;
+                  return (
+                    <span
+                      key={index}
+                      className={`${
+                        isMine ? "ml-auto" : "mr-auto"
+                      } mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full`}
+                    >
+                      {message}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>

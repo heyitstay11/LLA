@@ -10,6 +10,10 @@ export const setupSocket = (io) => {
     let meeting = "";
     console.log(socketId, "conn");
 
+    socket.on("send-message", ({ user = "", meetingId = "", message = "" }) => {
+      io.to(meetingId).emit("message", { user, message });
+    });
+
     socket.on("join-meet", (meetingId = "") => {
       if (meetingId && meetings[meetingId]) {
         meetings[meetingId].push(socketId);
