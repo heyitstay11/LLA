@@ -1,4 +1,5 @@
 import { courseData } from "./data";
+import { Link } from "react-router-dom";
 const Courses = () => {
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
@@ -11,13 +12,15 @@ const Courses = () => {
             const { level, title, stars, enrolled, author, price, img } =
               course;
             return (
-              <div key={author} className="p-4 md:w-1/3 lg:w-1/4">
+              <div key={author} className="p-4 pb-0 md:w-1/3 lg:w-1/4">
                 <div className="h-auto border-2 border-gray-500 dark:border-yellow-400 border-opacity-60 rounded-lg overflow-hidden">
-                  <img
-                    className="lg:h-48 md:h-36 w-full object-cover object-center"
-                    src={img || "https://dummyimage.com/720x400"}
-                    alt="blog"
-                  />
+                  <Link to={`/singlecourse/${author}`}>
+                    <img
+                      className="lg:h-48 md:h-36 w-full object-cover object-center"
+                      src={img || "https://dummyimage.com/720x400"}
+                      alt=""
+                    />
+                  </Link>
                   <div className="p-6">
                     <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
                       {level.toUpperCase()}
@@ -29,16 +32,22 @@ const Courses = () => {
                       {author} &nbsp;
                       <span className="ml-auto inline-block">₹ {price}</span>
                     </p>
-                    <div className="flex items-center flex-wrap ">
-                      <a className="dark:text-yellow-500 text-yellow-600 inline-flex items-center md:mb-2 lg:mb-0">
+                    <div className="flex items-center flex-wrap mt-auto">
+                      <Link
+                        to={`/singlecourse/${author}`}
+                        className="dark:text-yellow-500 text-yellow-600 inline-flex items-center md:mb-2 lg:mb-0"
+                      >
                         Learn More
                         <img
                           className="w-4 h-4 ml-2"
                           src="./right-arrow.svg"
                           alt=""
                         />
-                      </a>
-                      <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-500 dark:border-yellow-400">
+                      </Link>
+                      <span
+                        title="enrolled students"
+                        className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-500 dark:border-yellow-400"
+                      >
                         <svg
                           className="w-4 h-4 mr-1"
                           stroke="currentColor"
@@ -53,7 +62,10 @@ const Courses = () => {
                         </svg>
                         {enrolled}
                       </span>
-                      <span className="text-gray-400 inline-flex items-center leading-none text-sm">
+                      <span
+                        title="ratings"
+                        className="text-gray-400 inline-flex items-center leading-none text-sm"
+                      >
                         <svg
                           className="w-4 h-4 mr-1"
                           stroke="currentColor"
