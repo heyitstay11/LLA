@@ -6,3 +6,4 @@ export { default as Result } from "./Result";
 export { default as Contact } from "./Contactus";
 export { default as Meeting } from "./Meeting";
 export { default as Courses } from "./Courses";
+export { default as SingleCourse } from "./SingleCourse";

@@ -8,6 +8,7 @@ import {
   Contact,
   Meeting,
   Courses,
+  SingleCourse,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -22,6 +23,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/singlecourse" element={<SingleCourse />} />
+        <Route path="/singlecourse/:author" element={<SingleCourse />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/result" element={<Result />} />
         <Route path="/contact" element={<Contact />} />

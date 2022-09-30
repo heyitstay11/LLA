@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 dark:text-white">
           <img
-            src="./lm.png"
+            src="/lm.png"
             alt=""
             className={`w-20 h-15 text-white p-2  rounded-full ${
               theme !== "dark" ? "darklogo" : ""

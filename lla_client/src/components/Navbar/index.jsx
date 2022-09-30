@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
           <img
-            src="./lm.png"
+            src="/lm.png"
             alt=""
             className={`w-20 h-15 text-white p-2  rounded-full ${
               theme !== "dark" ? "darklogo" : ""
