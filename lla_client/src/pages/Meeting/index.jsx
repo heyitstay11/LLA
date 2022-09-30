@@ -224,7 +224,7 @@ const Meeting = () => {
                   type="text"
                   className="w-full text-black pt-auto pl-4 border border-black b-2"
                 />
-                <button className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium">
+                <button className="dark:text-white text-black bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium">
                   Send
                 </button>
               </form>
