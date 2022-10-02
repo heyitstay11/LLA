@@ -6,8 +6,8 @@ const QuizList = () => {
       <div class="container md:w-5/6 w-8/10 px-5 py-12 mx-auto ">
         <div className="p-4 mb-6">
           <div className="md:w-1/3 mx-auto flex">
-            Search&nbsp;
-            <input className="border border-2 border-yellow-400 flex-grow  dark:text-black pl-2" />
+            Search
+            <input className="border border-2 border-yellow-400 flex-grow ml-2 dark:text-black pl-2" />
           </div>
         </div>
         <div class="-my-8 divide-y-2 divide-gray-100">

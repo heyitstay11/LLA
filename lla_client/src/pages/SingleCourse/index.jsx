@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { courseData } from "../Courses/data";
+
 const SingleCourse = () => {
   const { author } = useParams();
   const courseIndex = courseData.findIndex(
     (course) => course.author === author
   );
-  const course = courseIndex !== -1 ? courseData[courseIndex] : {};
+  const course = courseIndex !== -1 ? courseData?.[courseIndex] : {};
   const { level, title, stars, enrolled, price, img } = course;
-  console.log(course);
+
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 mx-auto flex flex-wrap justify-center">
