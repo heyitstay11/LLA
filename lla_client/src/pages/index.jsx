@@ -7,3 +7,4 @@ export { default as Contact } from "./Contactus";
 export { default as Meeting } from "./Meeting";
 export { default as Courses } from "./Courses";
 export { default as SingleCourse } from "./SingleCourse";
+export { default as QuizList } from "./QuizList";

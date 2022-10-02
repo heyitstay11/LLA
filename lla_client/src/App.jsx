@@ -9,6 +9,7 @@ import {
   Meeting,
   Courses,
   SingleCourse,
+  QuizList,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/result" element={<Result />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/meeting/:meetingId" element={<Meeting />} />
+        <Route path="/quizlist" element={<QuizList />} />
       </Routes>
       <Footer />
     </>
