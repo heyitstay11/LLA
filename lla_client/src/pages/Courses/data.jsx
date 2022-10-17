@@ -7,6 +7,7 @@ export const courseData = [
     enrolled: 120,
     author: "Jake McAddams",
     price: 499,
+    content: ["Basic Grammer", "How to talk about your work", "Tenses"],
   },
   {
     level: "Advance",
@@ -16,6 +17,7 @@ export const courseData = [
     enrolled: 80,
     author: "Charlie Jones",
     price: 899,
+    content: ["Advance Grammer", "Script Writing", "Business English"],
   },
   {
     level: "Intermediate",
@@ -25,6 +27,7 @@ export const courseData = [
     enrolled: 600,
     author: "Elyna Monet",
     price: 599,
+    content: ["Writing Emails", "French cuisine"],
   },
   {
     level: "Intermediate",
@@ -34,5 +37,10 @@ export const courseData = [
     enrolled: 200,
     author: "Diego Martínez",
     price: 599,
+    content: [
+      "Introduce Yourself in Spanish",
+      "Counting numbers and verbs",
+      "Spanish culture",
+    ],
   },
 ];

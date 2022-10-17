@@ -7,7 +7,7 @@ const SingleCourse = () => {
     (course) => course.author === author
   );
   const course = courseIndex !== -1 ? courseData?.[courseIndex] : {};
-  const { level, title, stars, enrolled, price, img } = course;
+  const { level, title, stars, enrolled, price, img, content = [] } = course;
 
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
@@ -61,18 +61,14 @@ const SingleCourse = () => {
       <div className="lg:mx-32 text-gray-600 body-font pb-6">
         <div className="container px-5 py-6 mx-auto flex flex-wrap items-center">
           <div className="lg:w-1/2 md:w-1/2 md:pr-16 sm:mx-auto border border-yellow-500 border-2 rounded-md p-4 ">
-            <h1 className="title-font font-medium text-2xl text-gray-900 dark:text-white">
+            <h1 className="title-font font-medium text-2xl mb-4 text-gray-900 dark:text-white">
               What you will learn in <q>{title || "Dummy Title"}</q>
             </h1>
-            <p className="leading-relaxed mt-4 dark:text-white">
-              &nbsp; Introduce Yourself in Spanish
-            </p>
-            <p className="leading-relaxed dark:text-white">
-              &nbsp; Counting numbers and verbs
-            </p>
-            <p className="leading-relaxed dark:text-white">
-              &nbsp; Spanish culture
-            </p>
+            {content.map((point, index) => (
+              <p key={index} className="leading-relaxed dark:text-white">
+                &nbsp; {point}
+              </p>
+            ))}
           </div>
           <div className="lg:w-1/2 md:w-1/2 p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"></div>
         </div>

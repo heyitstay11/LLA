@@ -31,7 +31,7 @@ const Navbar = () => {
           {auth?.token ? (
             <>
               <NavLink
-                to={"/dashboard"}
+                to={"/"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }
@@ -39,13 +39,22 @@ const Navbar = () => {
                 Dashboard
               </NavLink>
               <NavLink
-                to={"/course"}
+                to={"/courses"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }
               >
                 {/* Courses */}
                 <span className="underline">Welcome {auth?.name}</span>
+              </NavLink>
+              <NavLink
+                to={"/quizlist"}
+                className={({ isActive }) =>
+                  isActive ? activeClass : normalClass
+                }
+              >
+                {/* Courses */}
+                <span className="underline">Quiz</span>
               </NavLink>
               <button className={normalClass} onClick={() => setAuth({})}>
                 Log Out
