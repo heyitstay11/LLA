@@ -10,6 +10,7 @@ import {
   Courses,
   SingleCourse,
   QuizList,
+  NewQuiz,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/meeting/:meetingId" element={<Meeting />} />
         <Route path="/quizlist" element={<QuizList />} />
+        <Route path="/newquiz" element={<NewQuiz />} />
       </Routes>
       <Footer />
     </>
