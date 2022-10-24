@@ -1,5 +1,12 @@
 export const quizdata = [
   {
+    quesno: 55,
+    type: "text",
+    question: "What is apple called in german",
+    desc: "choose the correct option with proper pronounciation",
+    options: ["apple", "apfel", "bananen", "brotchen"],
+  },
+  {
     quesno: 1,
     type: "image",
     imgsrc: "https://dummyimage.com/400x300",
@@ -12,7 +19,12 @@ export const quizdata = [
     question: "What are german fruit names?",
     desc: "choose the correct option with proper pronounciation",
     options: ["apple", "apfel", "bananen", "brotchen"],
-    audios: ["apple.mp3", "apfel.mp3", "bananen.mp3", "brotchen.mp3"],
+    audios: [
+      "/audio/a1.wav",
+      "/audio/a2.wav",
+      "/audio/a3.wav",
+      "/audio/a4.wav",
+    ],
   },
   {
     quesno: 3,
