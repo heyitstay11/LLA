@@ -1,39 +1,29 @@
 import mongoose from "mongoose";
 
-const quizQuestionSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    required: true,
-    enum: ["text", "image", "audio", "audio2text"],
+const quizSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    desc: {
+      type: String,
+      required: true,
+    },
+    lang: {
+      type: String,
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
   },
-  question: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-  },
-  options: {
-    type: [String],
-  },
-  answer: {
-    type: String,
-    required: true,
-  },
-  imgsrc: {
-    type: String,
-  },
-  audios: {
-    type: [String],
-  },
-  audio: {
-    type: String,
-  },
-  createdIn: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Quiz",
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
-export default mongoose.model("QuizQuestion", quizQuestionSchema);
+export default mongoose.model("Quiz", quizSchema);

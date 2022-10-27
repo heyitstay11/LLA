@@ -1,78 +1,134 @@
 import { Router } from "express";
-import validate from "../middlewares/validator.js";
 import User from "../models/user.js";
 import Quiz from "../models/quiz.js";
-import {} from "../models/validationSchema.js";
-import { requireAuth } from "../middlewares/auth.js";
+import QuizQuestion from "../models/quizQuestion.js";
 
 const router = Router();
 
-router.post(
-  "/create",
-  requireAuth,
+router.get("/", (req, res) => {});
 
-  async (req, res) => {
-    // get required data
-    const { type, question, desc, options, answer, imgsrc, audios, audio } =
-      req.body;
-    const { _id: userId } = req.user || {};
+router.get("/:id", async (req, res) => {
+  const { id: quizId } = req.params;
+  try {
+    const quiz = await Quiz.findById(quizId).select("-updatedAt -__v");
+    if (!quiz) return res.status(401).json({ message: "No Such Quiz exists" });
+    const questions = await QuizQuestion.find({ createdIn: quizId }).select(
+      "-answer -__v -createdIn"
+    );
+    res.status(200).json({ quiz, questions });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
-    try {
-      // check if user exists
-      const user = await User.findById(userId);
-      if (!user)
-        return res.status(400).json({ message: "No such user exists" });
+router.post("/create", async (req, res) => {
+  // get required data
+  const { title, desc, lang, course, quizs = [] } = req.body;
+  const { _id: userId } = req.user || { _id: "63105e341b0d0089697a124b" };
 
-      let quizObj;
-      // create quiz based on type
+  try {
+    // check if user exists
+    const user = await User.findById(userId);
+    if (!user) return res.status(400).json({ message: "No such user exists" });
+
+    const quiz = await Quiz.create({
+      title,
+      desc,
+      lang,
+      course,
+      createdBy: userId,
+    });
+
+    const quizArr = [];
+
+    for (let i = 0; i < quizs.length; i++) {
+      const quizQuestionObj = quizs[i];
+      const { type, question, desc, options, answer, imgsrc, audio, audios } =
+        quizQuestionObj;
       if (type === "text") {
-        quizObj = {
+        quizArr.push({
           type,
           question,
           desc,
           options,
           answer,
-        };
+          createdIn: quiz._id,
+        });
       }
-
       if (type === "image") {
-        quizObj = {
+        quizArr.push({
           type,
           question,
           desc,
           imgsrc,
           options,
           answer,
-        };
+          createdIn: quiz._id,
+        });
       }
-
       if (type === "audio") {
-        quizObj = {
+        quizArr.push({
           type,
           question,
           desc,
           options,
           audios,
           answer,
-        };
+          createdIn: quiz._id,
+        });
       }
-
       if (type === "audio2text") {
-        quizObj = {
+        quizArr.push({
           type,
           question,
           desc,
           audio,
           answer,
-        };
+          createdIn: quiz._id,
+        });
       }
-
-      res.send(201).json({ id: quiz._id });
-    } catch (error) {
-      console.log(error);
-      res.send(error);
     }
+
+    await QuizQuestion.insertMany(quizArr);
+
+    res.status(201).json({ id: quiz._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
-);
+});
+
+router.put("/:id", async (req, res) => {
+  const { id: quizId } = req.params;
+  const { title, desc, lang, course } = req.body;
+  const { _id: userId } = req.user || { _id: "63105e341b0d0089697a124b" };
+  try {
+    const quiz = await Quiz.findOne({ _id: quizId, createdBy: userId });
+    if (!quiz) return res.status(401).json({ message: "Improper Credentials" });
+
+    await quiz.updateOne({ title, desc, lang, course }, { new: true });
+    res.status(200).json({ id: quiz._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id: quizId } = req.params;
+  const { _id: userId } = req.user || { _id: "63105e341b0d0089697a124b" };
+  try {
+    const quiz = await Quiz.findOne({ _id: quizId, createdBy: userId });
+    if (!quiz) return res.status(401).json({ message: "Improper Credentials" });
+
+    await QuizQuestion.deleteMany({ createdIn: quiz._id });
+    await quiz.deleteOne();
+    res.status(200).json({ id: quiz._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
 export default router;

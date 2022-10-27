@@ -1,20 +1,35 @@
 {
   "client": "Thunder Client",
   "collectionName": "LLA",
-  "dateExported": "2022-10-27T07:30:13.451Z",
+  "dateExported": "2022-10-27T12:50:51.642Z",
   "version": "1.1",
-  "folders": [],
+  "folders": [
+    {
+      "_id": "e4587104-fbe2-4eb6-99a7-5f4bccee6098",
+      "name": "Auth",
+      "containerId": "",
+      "created": "2022-10-27T12:35:05.254Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "2cd40337-7820-444d-b67a-590fc61e30a8",
+      "name": "Quiz",
+      "containerId": "",
+      "created": "2022-10-27T12:35:28.404Z",
+      "sortNum": 20000
+    }
+  ],
   "requests": [
     {
       "_id": "ee28533a-1458-4257-9ad9-c3dd7f303e43",
       "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
-      "containerId": "",
+      "containerId": "e4587104-fbe2-4eb6-99a7-5f4bccee6098",
       "name": "Sign Up",
       "url": "http://localhost:5000/api/auth/signup",
       "method": "POST",
       "sortNum": 10000,
       "created": "2022-09-01T07:21:57.242Z",
-      "modified": "2022-09-01T07:46:02.729Z",
+      "modified": "2022-10-27T12:35:07.337Z",
       "headers": [],
       "params": [],
       "body": {
@@ -25,15 +40,34 @@
       "tests": []
     },
     {
+      "_id": "d1aeb4cd-cc53-4007-a200-02be2696dfe7",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "2cd40337-7820-444d-b67a-590fc61e30a8",
+      "name": "Create Quiz",
+      "url": "http://localhost:5000/api/quiz/create",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2022-10-27T06:59:09.992Z",
+      "modified": "2022-10-27T12:35:30.232Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"New Quiz\",\n  \"lang\": \"english\",\n  \"desc\": \"New \",\n  \"quizs\": [\n    {\n      \"type\": \"text\",\n      \"question\": \"capital of india\",\n      \"options\": [\n        \"mum\",\n        \"del\",\n        \"kol\",\n        \"chn\"\n      ],\n      \"answer\": \"del\"\n    },\n    {\n      \"type\": \"image\",\n      \"question\": \"capital of india\",\n      \"options\": [\n        \"mum\",\n        \"del\",\n        \"kol\",\n        \"chn\"\n      ],\n      \"imgsrc\": \"img.jpg\",\n      \"answer\": \"del\"\n    }\n  ]\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
       "_id": "011cd3c8-4695-4213-907c-49d387f1695f",
       "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
-      "containerId": "",
+      "containerId": "e4587104-fbe2-4eb6-99a7-5f4bccee6098",
       "name": "Log In",
       "url": "http://localhost:5000/api/auth/login",
       "method": "POST",
       "sortNum": 20000,
       "created": "2022-09-01T07:25:02.632Z",
-      "modified": "2022-09-01T07:46:27.784Z",
+      "modified": "2022-10-27T12:35:13.072Z",
       "headers": [],
       "params": [],
       "body": {
@@ -44,15 +78,29 @@
       "tests": []
     },
     {
+      "_id": "32edd5e2-a4d6-4930-97e3-e6a06f4fa9da",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "2cd40337-7820-444d-b67a-590fc61e30a8",
+      "name": "Get Single Quiz",
+      "url": "http://localhost:5000/api/quiz/635a7830567e91de5876e6fd",
+      "method": "GET",
+      "sortNum": 20000,
+      "created": "2022-10-27T12:30:43.891Z",
+      "modified": "2022-10-27T12:35:31.335Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    },
+    {
       "_id": "da10b857-6700-41a4-a9be-92b7404fde3f",
       "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
-      "containerId": "",
+      "containerId": "e4587104-fbe2-4eb6-99a7-5f4bccee6098",
       "name": "Validation-Signup",
       "url": "http://localhost:5000/api/auth/signup",
       "method": "POST",
       "sortNum": 30000,
       "created": "2022-09-02T12:55:25.230Z",
-      "modified": "2022-09-02T12:56:40.473Z",
+      "modified": "2022-10-27T12:35:19.528Z",
       "headers": [],
       "params": [],
       "body": {
@@ -65,13 +113,13 @@
     {
       "_id": "332c5f0f-b588-4113-9c2a-7b78ec345caf",
       "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
-      "containerId": "",
+      "containerId": "e4587104-fbe2-4eb6-99a7-5f4bccee6098",
       "name": "Validation-Login",
       "url": "http://localhost:5000/api/auth/login",
       "method": "POST",
       "sortNum": 40000,
       "created": "2022-09-02T12:56:55.320Z",
-      "modified": "2022-09-02T12:58:07.728Z",
+      "modified": "2022-10-27T12:35:20.872Z",
       "headers": [],
       "params": [],
       "body": {
@@ -82,22 +130,36 @@
       "tests": []
     },
     {
-      "_id": "d1aeb4cd-cc53-4007-a200-02be2696dfe7",
+      "_id": "6c3f1aaa-4c32-4056-a31d-5dff11c01616",
       "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
-      "containerId": "",
-      "name": "Create Quiz",
-      "url": "http://localhost:5000/api/quiz/create",
-      "method": "POST",
-      "sortNum": 60000,
-      "created": "2022-10-27T06:59:09.992Z",
-      "modified": "2022-10-27T07:29:56.403Z",
+      "containerId": "2cd40337-7820-444d-b67a-590fc61e30a8",
+      "name": "Edit Quiz",
+      "url": "http://localhost:5000/api/quiz/635a7830567e91de5876e6fd",
+      "method": "PUT",
+      "sortNum": 90000,
+      "created": "2022-10-27T12:36:16.844Z",
+      "modified": "2022-10-27T12:45:12.054Z",
       "headers": [],
       "params": [],
       "body": {
         "type": "json",
-        "raw": "{\n  \"type\": \"text\",\n  \"question\": \"capital of india\",\n  \"options\": [\"mum\", \"del\", \"kol\", \"chn\"],\n  \"answer\": \"del\"\n}",
+        "raw": "{\n  \"title\": \"Updated Quiz 1\" ,\n  \"lang\": \"english\",\n  \"desc\": \"Newly Updated\"\n}",
         "form": []
       },
+      "tests": []
+    },
+    {
+      "_id": "313fc23a-1c91-4541-ba6f-701bdc32cf1e",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "2cd40337-7820-444d-b67a-590fc61e30a8",
+      "name": "Delete Quiz",
+      "url": "http://localhost:5000/api/quiz/635a7830567e91de5876e6fd",
+      "method": "DELETE",
+      "sortNum": 110000,
+      "created": "2022-10-27T12:47:00.327Z",
+      "modified": "2022-10-27T12:50:24.115Z",
+      "headers": [],
+      "params": [],
       "tests": []
     }
   ]
