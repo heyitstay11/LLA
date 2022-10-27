@@ -1,7 +1,7 @@
 {
   "client": "Thunder Client",
   "collectionName": "LLA",
-  "dateExported": "2022-09-02T12:58:25.738Z",
+  "dateExported": "2022-10-27T07:30:13.451Z",
   "version": "1.1",
   "folders": [],
   "requests": [
@@ -77,6 +77,25 @@
       "body": {
         "type": "json",
         "raw": "{\n  \"email\": \"test@mail1.com\",\n  \"password\": \"test1234\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "d1aeb4cd-cc53-4007-a200-02be2696dfe7",
+      "colId": "983685f2-c3cf-4ae6-ad4d-afd3dcbf0e7c",
+      "containerId": "",
+      "name": "Create Quiz",
+      "url": "http://localhost:5000/api/quiz/create",
+      "method": "POST",
+      "sortNum": 60000,
+      "created": "2022-10-27T06:59:09.992Z",
+      "modified": "2022-10-27T07:29:56.403Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"type\": \"text\",\n  \"question\": \"capital of india\",\n  \"options\": [\"mum\", \"del\", \"kol\", \"chn\"],\n  \"answer\": \"del\"\n}",
         "form": []
       },
       "tests": []
