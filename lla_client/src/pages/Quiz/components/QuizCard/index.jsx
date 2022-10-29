@@ -23,8 +23,8 @@ const QuizCard = ({ data = [], next, currQuestion }) => {
     return <QuizAudio {...{ question, desc, options, next, audios }} />;
   }
   if (quizData.type === "audio2text") {
-    console.log(quizData);
-    return <Audio2Text {...{ next }} />;
+    const { question, desc, audio } = quizData;
+    return <Audio2Text {...{ next, question, desc, audio }} />;
   }
   if (quizData.type === "result") {
     console.log(quizData);
