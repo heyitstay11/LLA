@@ -3,6 +3,7 @@ import { courseData } from "../Courses/data";
 import useRazorpay from "react-razorpay";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const SingleCourse = () => {
   const { author } = useParams();
@@ -14,42 +15,46 @@ const SingleCourse = () => {
   const { level, title, stars, enrolled, price, img, content = [] } = course;
 
   const handleBuy = async () => {
-    const options = {
-      key: import.meta.env.VITE_RAZOR_KEY_ID,
-      amount: price,
-      currency: "INR",
-      order_id: nanoid(12),
-      handler: async (response) => {
-        try {
-          const res = await fetch(
-            `${import.meta.env.VITE_SERVER_URL}/payment/verify`,
-            {
-              method: "POST",
-              body: JSON.stringify({ ...response, orderId: id }),
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/payment/razorpay`,
+        { price, courseId: nanoid(10) }
+      );
+      const options = {
+        key: import.meta.env.VITE_RAZOR_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.id,
+        handler: async (response) => {
+          try {
+            const res = await fetch(
+              `${import.meta.env.VITE_SERVER_URL}/api/payment/verify`,
+              {
+                method: "POST",
+                body: JSON.stringify({ ...response, orderId: data.orderId }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            const verifyData = await res.json();
+            console.log(verifyData);
+            if (verifyData.msg) {
+              toast.success("Done");
             }
-          );
-          const data = await res.json();
-          console.log(data);
-          if (data.msg) {
-            toast("Course Added");
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
-          toast.success("Error occured, try later");
-        }
-      },
-      modal: {
-        ondismiss: function () {
-          toast.success("Payment Unsucessfull");
         },
-      },
-    };
-    const razorpay = new Razorpay(options);
-    razorpay.open();
+        modal: {
+          ondismiss: function () {
+            toast.error("Error occured try again");
+          },
+        },
+      };
+      const razorpay = new Razorpay(options);
+      razorpay.open();
+    } catch (error) {}
   };
 
   return (

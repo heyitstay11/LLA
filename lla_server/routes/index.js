@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRouter from "./auth.js";
 import quizRouter from "./quiz.js";
+import paymentRouter from "./payment.js";
 
 const router = Router();
 
@@ -13,5 +14,8 @@ router.use("/auth", authRouter);
 
 // forward /quiz request to quizRouter
 router.use("/quiz", quizRouter);
+
+// forward /payment request to paymentRouter
+router.use("/payment", paymentRouter);
 
 export default router;
