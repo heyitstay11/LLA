@@ -7,9 +7,11 @@ specifiers:
   autoprefixer: ^10.4.8
   axios: ^0.27.2
   events: ^3.3.0
+  nanoid: ^4.0.0
   postcss: ^8.4.16
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-razorpay: ^1.2.0
   react-router-dom: ^6.3.0
   react-toastify: ^9.0.8
   simple-peer: ^9.11.1
@@ -22,8 +24,10 @@ specifiers:
 dependencies:
   axios: 0.27.2
   events: 3.3.0
+  nanoid: 4.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-razorpay: 1.2.0_react@18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-toastify: 9.0.8_biqbaboplfbrettd7655fr4n2y
   simple-peer: 9.11.1
@@ -37,7 +41,7 @@ devDependencies:
   autoprefixer: 10.4.8_postcss@8.4.16
   postcss: 8.4.16
   sirv: 2.0.2
-  tailwindcss: 3.1.8
+  tailwindcss: 3.1.8_postcss@8.4.16
   vite: 3.0.9
 
 packages:
@@ -1117,6 +1121,12 @@ packages:
     hasBin: true
     dev: true
 
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
+
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
     dev: true
@@ -1246,6 +1256,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-razorpay/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-UMQF8od/yKPPgXcbv5+IaCDeRrZdeu9HCYsKjALpSsPMtPP1LU0QBcjJVYsPi1vjdrlXbrUH9/YhOVMcvFVsIQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-refresh/0.14.0:
@@ -1438,10 +1456,12 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.16:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

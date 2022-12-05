@@ -1,13 +1,56 @@
 import { useParams } from "react-router-dom";
 import { courseData } from "../Courses/data";
+import useRazorpay from "react-razorpay";
+import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 const SingleCourse = () => {
   const { author } = useParams();
+  const Razorpay = useRazorpay();
   const courseIndex = courseData.findIndex(
     (course) => course.author === author
   );
   const course = courseIndex !== -1 ? courseData?.[courseIndex] : {};
   const { level, title, stars, enrolled, price, img, content = [] } = course;
+
+  const handleBuy = async () => {
+    const options = {
+      key: import.meta.env.VITE_RAZOR_KEY_ID,
+      amount: price,
+      currency: "INR",
+      order_id: nanoid(12),
+      handler: async (response) => {
+        try {
+          const res = await fetch(
+            `${import.meta.env.VITE_SERVER_URL}/payment/verify`,
+            {
+              method: "POST",
+              body: JSON.stringify({ ...response, orderId: id }),
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+            }
+          );
+          const data = await res.json();
+          console.log(data);
+          if (data.msg) {
+            toast("Course Added");
+          }
+        } catch (error) {
+          console.log(error);
+          toast.success("Error occured, try later");
+        }
+      },
+      modal: {
+        ondismiss: function () {
+          toast.success("Payment Unsucessfull");
+        },
+      },
+    };
+    const razorpay = new Razorpay(options);
+    razorpay.open();
+  };
 
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
@@ -53,7 +96,10 @@ const SingleCourse = () => {
       <div className="container lg:px-32 px-6 pb-8 mx-auto flex flex-wrap">
         <div className="flex text-xl items-center">
           <h1>Price: ₹{price || 699}</h1>
-          <button className="text-white bg-yellow-500 border-0 py-2 px-8 mx-6 focus:outline-none hover:bg-yellow-600 rounded text-lg font-medium dark:text-yellow-900">
+          <button
+            onClick={handleBuy}
+            className="text-white bg-yellow-500 border-0 py-2 px-8 mx-6 focus:outline-none hover:bg-yellow-600 rounded text-lg font-medium dark:text-yellow-900"
+          >
             Buy Now
           </button>
         </div>
