@@ -48,7 +48,7 @@ const SingleCourse = () => {
         },
         modal: {
           ondismiss: function () {
-            toast.error("Error occured try again");
+            toast.warn("Payment was closed in between");
           },
         },
       };

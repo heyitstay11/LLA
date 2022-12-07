@@ -21,7 +21,7 @@ router.post("/razorpay", async (req, res) => {
     const order = await Order.create({
       courseId,
       price,
-      userId: "abcd",
+      userId: "",
     });
 
     const options = {
