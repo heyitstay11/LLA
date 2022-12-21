@@ -1,20 +1,74 @@
 import { useRef, useState } from "react";
 import { Modal } from "./components/Modal";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export const QuizMaker = () => {
   const selectRef = useRef();
+  const [quiz, setQuiz] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
   const handleAddQuestion = () => {
-    const { answer1, answer2, answer3, answer4, question } = currentQuestion;
+    const { answer1, answer2, answer3, answer4, question, type } =
+      currentQuestion;
     if (!answer1 || !answer2 || !answer3 || !answer4 || !question) {
-      alert("Fill Details properly");
+      toast.error("Fill Details properly");
+      return;
+    }
+    if (type == "image" || type == "audio") {
+      toast.error("Files Not Uploaded");
+      return;
+    }
+    const newQuestion = {
+      ...currentQuestion,
+      correctAnswer: currentQuestion[selectRef.current.value],
+    };
+    setQuiz((prev) => [...prev, newQuestion]);
+    toast.success("Question Added Successfully");
+    setCurrentQuestion({});
+  };
+
+  const handleFileUpload = async (e) => {
+    let file = e?.target?.files?.[0];
+    if (!file) {
+      toast.error("An error occured, upload again");
+      return;
+    }
+    if (currentQuestion.type == "text") {
+      toast.warn("File Uploads not supported for text based questions");
+      return;
+    }
+    let cloudinaryResponse;
+    try {
+      const { data: sData } = await axios.get("/quiz/get-signature");
+
+      const data = new FormData();
+      data.append("file", file);
+      data.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
+      data.append("signature", sData.signature);
+      data.append("timestamp", sData.timestamp);
+      cloudinaryResponse = await axios.post(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+        }/auto/upload`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: function (e) {
+            console.log(e.loaded / e.total);
+          },
+        }
+      );
+    } catch (error) {
+      toast.error("Error While Uploading file");
+      console.log(error);
     }
     setCurrentQuestion((prev) => ({
       ...prev,
-      correctAnswer: currentQuestion[selectRef.current.value],
+      [e.target.id]: cloudinaryResponse.data.secure_url,
     }));
+    toast.success("File Uploaded Sucessfully");
   };
 
   return (
@@ -23,8 +77,8 @@ export const QuizMaker = () => {
 
       {/*  */}
 
-      <div className="wrapper flex flex-col items-center justify-center text-gray-600 body-font dark:bg-slate-900 dark:text-white">
-        <h1 className="text-2xl my-4">Create a Quiz</h1>
+      <div className="wrapper min-h-screen flex flex-col items-center justify-center text-gray-600 body-font dark:bg-slate-900 dark:text-white">
+        <h1 className="text-3xl my-4">Create a Quiz</h1>
         <div className="quiz-name">
           <input
             type="text"
@@ -37,8 +91,8 @@ export const QuizMaker = () => {
 
         {currentQuestion?.type ? (
           <div className="question-box flex flex-col  md:w-1/2 w-full px-6 md:px-0 lg:px-0">
-            <div className="edit-question my-4 p-2 bg-slate-800 flex flex-col">
-              <div className="flex justify-center">
+            <div className="edit-question my-4 p-4 dark:bg-slate-800 border border-2 border-black rounded-md flex flex-col">
+              <div className="flex flex-col items-center margin-auto">
                 <div className="xl:w-96">
                   <label
                     htmlFor="currQuestion"
@@ -58,6 +112,23 @@ export const QuizMaker = () => {
                     id="currQuestion"
                     placeholder="Example label"
                   />
+                </div>
+                <div className="flex">
+                  <div className="">
+                    <label
+                      htmlFor="questionFile"
+                      className="form-label mt-1 inline-block mb-2 text-gray-700 dark:text-white p-2 border border-2 border-yellow-500"
+                    >
+                      Add File
+                    </label>
+                    <input
+                      onChange={handleFileUpload}
+                      className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      id="questionFile"
+                      type="file"
+                      accept=".jpg, .png"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="mt-1 flex flex-col md:flex-row mx-auto md:px-4">
@@ -84,14 +155,15 @@ export const QuizMaker = () => {
                     <div className="flex">
                       <div className="">
                         <label
-                          htmlFor="answer1file"
+                          htmlFor="file1"
                           className="form-label mt-1 inline-block mb-2 text-gray-700 dark:text-white p-2 border border-2 border-yellow-500"
                         >
                           Add File
                         </label>
                         <input
+                          onChange={handleFileUpload}
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          id="answer1file"
+                          id="file1"
                           type="file"
                           accept=".jpg, .png"
                         />
@@ -122,14 +194,15 @@ export const QuizMaker = () => {
                     <div className="flex">
                       <div className="">
                         <label
-                          htmlFor="answer2file"
+                          htmlFor="file2"
                           className="form-label mt-1 inline-block mb-2 text-gray-700 dark:text-white p-2 border border-2 border-yellow-500"
                         >
                           Add File
                         </label>
                         <input
+                          onChange={handleFileUpload}
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          id="answer2file"
+                          id="file2"
                           type="file"
                           accept=".jpg, .png"
                         />
@@ -162,14 +235,15 @@ export const QuizMaker = () => {
                     <div className="flex">
                       <div className="">
                         <label
-                          htmlFor="answer3file"
+                          htmlFor="file3"
                           className="form-label mt-1 inline-block mb-2 text-gray-700 dark:text-white p-2 border border-2 border-yellow-500"
                         >
                           Add File
                         </label>
                         <input
+                          onChange={handleFileUpload}
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          id="answer3file"
+                          id="file3"
                           type="file"
                           accept=".jpg, .png"
                         />
@@ -200,14 +274,15 @@ export const QuizMaker = () => {
                     <div className="flex">
                       <div className="">
                         <label
-                          htmlFor="answer4file"
+                          htmlFor="file4"
                           className="form-label mt-1 inline-block mb-2 text-gray-700 dark:text-white p-2 border border-2 border-yellow-500"
                         >
                           Add File
                         </label>
                         <input
+                          onChange={handleFileUpload}
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          id="answer4file"
+                          id="file4"
                           type="file"
                           accept=".jpg, .png"
                         />
@@ -247,7 +322,10 @@ export const QuizMaker = () => {
                     >
                       Save
                     </button>
-                    <button className="text-white dark:text-white align-center my-2 bg-red-500 ml-3 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg dark:font-medium">
+                    <button
+                      onClick={() => setCurrentQuestion({})}
+                      className="text-white dark:text-white align-center my-2 bg-red-500 ml-3 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg dark:font-medium"
+                    >
                       Cancel
                     </button>
                   </div>
@@ -259,7 +337,7 @@ export const QuizMaker = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="text-white my-2 bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium"
+          className="dark:text-white text-xl my-2 bg-yellow-500 border-0 py-3 px-10 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:font-medium"
         >
           + Add Question
         </button>

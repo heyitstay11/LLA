@@ -2,10 +2,39 @@ import { Router } from "express";
 import User from "../models/user.js";
 import Quiz from "../models/quiz.js";
 import QuizQuestion from "../models/quizQuestion.js";
+import { utils, config } from "cloudinary";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = Router();
 
-router.get("/", (req, res) => {});
+// set cloudinary
+const cloudinaryConfig = (req, res, next) => {
+  config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+  next();
+};
+
+router.use(cloudinaryConfig);
+
+router.get("/", (req, res) => {
+  res.send("yo");
+});
+
+router.get("/get-signature", async (_, res) => {
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  const signature = await utils.api_sign_request(
+    {
+      timestamp: timestamp,
+    },
+    process.env.CLOUDINARY_API_SECRET
+  );
+  res.json({ timestamp, signature });
+});
 
 router.get("/:id", async (req, res) => {
   const { id: quizId } = req.params;
