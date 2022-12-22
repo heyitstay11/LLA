@@ -2,28 +2,32 @@ import { useRef, useState } from "react";
 import { Modal } from "./components/Modal";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Preview } from "./components/Preview";
 
 export const QuizMaker = () => {
   const selectRef = useRef();
+  const [quizTitle, setQuizTitle] = useState("");
   const [quiz, setQuiz] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
   const handleAddQuestion = () => {
-    const { answer1, answer2, answer3, answer4, question, type } =
+    const { answer1, answer2, answer3, answer4, question, type, questionFile } =
       currentQuestion;
     if (!answer1 || !answer2 || !answer3 || !answer4 || !question) {
       toast.error("Fill Details properly");
       return;
     }
-    if (type == "image" || type == "audio") {
+    if (type == "image" && !questionFile) {
       toast.error("Files Not Uploaded");
       return;
     }
+
     const newQuestion = {
       ...currentQuestion,
       correctAnswer: currentQuestion[selectRef.current.value],
     };
+    console.log(newQuestion);
     setQuiz((prev) => [...prev, newQuestion]);
     toast.success("Question Added Successfully");
     setCurrentQuestion({});
@@ -35,8 +39,10 @@ export const QuizMaker = () => {
       toast.error("An error occured, upload again");
       return;
     }
-    if (currentQuestion.type == "text") {
-      toast.warn("File Uploads not supported for text based questions");
+    if (currentQuestion.type == "text" && e.target.id != "questionFile") {
+      toast.warn(
+        "File Uploads for options not supported for text based questions"
+      );
       return;
     }
     let cloudinaryResponse;
@@ -64,6 +70,7 @@ export const QuizMaker = () => {
       toast.error("Error While Uploading file");
       console.log(error);
     }
+    console.log(cloudinaryResponse.data, e.target.id);
     setCurrentQuestion((prev) => ({
       ...prev,
       [e.target.id]: cloudinaryResponse.data.secure_url,
@@ -71,16 +78,20 @@ export const QuizMaker = () => {
     toast.success("File Uploaded Sucessfully");
   };
 
+  const handlePublishQuiz = async () => {};
+
   return (
     <>
       <Modal {...{ showModal, setShowModal, setCurrentQuestion }} />
 
       {/*  */}
 
-      <div className="wrapper min-h-screen flex flex-col items-center justify-center text-gray-600 body-font dark:bg-slate-900 dark:text-white">
+      <div className="wrapper text-slate-900 min-h-screen flex flex-col items-center justify-center text-gray-600 body-font dark:bg-slate-900 dark:text-white">
         <h1 className="text-3xl my-4">Create a Quiz</h1>
         <div className="quiz-name">
           <input
+            onChange={(e) => setQuizTitle(e.target.value)}
+            value={quizTitle}
             type="text"
             placeholder="Enter Quiz Title"
             className="w-full placeholder-black my-2 bg-white rounded border border-2 border-yellow-400  focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
@@ -88,11 +99,16 @@ export const QuizMaker = () => {
         </div>
 
         {/*  */}
+        {quiz.map((q, index) => {
+          return <Preview key={index} {...q} index={index} />;
+        })}
+
+        {/*  */}
 
         {currentQuestion?.type ? (
-          <div className="question-box flex flex-col  md:w-1/2 w-full px-6 md:px-0 lg:px-0">
+          <div className="question-box text-slate-900 flex flex-col  md:w-1/2 w-full px-6 md:px-0 lg:px-0">
             <div className="edit-question my-4 p-4 dark:bg-slate-800 border border-2 border-black rounded-md flex flex-col">
-              <div className="flex flex-col items-center margin-auto">
+              <div className="flex text-slate-900 flex-col items-center margin-auto">
                 <div className="xl:w-96">
                   <label
                     htmlFor="currQuestion"
@@ -136,7 +152,7 @@ export const QuizMaker = () => {
                   <div className="mb-2 xl:w-96">
                     <label
                       htmlFor="Answer1"
-                      className="form-label inline-block mb-2 text-gray-700 dark:text-white"
+                      className="form-label text-slate-900 inline-block mb-2 text-gray-700 dark:text-white"
                     >
                       Answer 1
                     </label>
@@ -317,7 +333,7 @@ export const QuizMaker = () => {
                 <div className="w-1/2">
                   <div className="xl:w-96">
                     <button
-                      onClick={handleAddQuestion}
+                      onClick={() => handleAddQuestion()}
                       className="text-white align-center my-2 bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium"
                     >
                       Save
@@ -341,6 +357,15 @@ export const QuizMaker = () => {
         >
           + Add Question
         </button>
+
+        {quiz.length > 0 && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="dark:text-white text-xl my-2 bg-yellow-500 border-0 py-3 px-10 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:font-medium"
+          >
+            Publish Quiz
+          </button>
+        )}
       </div>
     </>
   );
