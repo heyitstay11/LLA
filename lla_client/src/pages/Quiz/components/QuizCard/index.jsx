@@ -10,12 +10,22 @@ import {
 const QuizCard = ({ data = [], next, currQuestion }) => {
   const quizData = data?.[currQuestion];
   if (quizData.type === "text") {
-    const { options, question, desc } = quizData;
+    const {
+      answer1,
+      answer2,
+      answer3,
+      answer4,
+      question,
+      desc = "",
+    } = quizData;
+    const options = [answer1, answer2, answer3, answer4];
     return <TextTranslate {...{ options, question, desc, next }} />;
   }
   if (quizData.type === "image") {
-    const { options, question, imgsrc } = quizData;
-    return <QuizImage {...{ options, question, imgsrc, next }} />;
+    const { answer1, answer2, answer3, answer4, question, questionFile } =
+      quizData;
+    const options = [answer1, answer2, answer3, answer4];
+    return <QuizImage {...{ options, question, questionFile, next }} />;
   }
   if (quizData.type === "audio") {
     console.log(quizData);

@@ -19,9 +19,9 @@ const Quiz = () => {
     const fetchQuiz = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("/quiz/635d101e95a8d8fbb5c58629");
-        console.log(res.data);
-        setQuestions(res.data.questions);
+        const { data } = await axios.get("/quiz/63a41c4b201e7b17549f83d6");
+        console.log(data);
+        setQuestions(data.quiz.questions);
       } catch (error) {
         console.log(error);
       } finally {

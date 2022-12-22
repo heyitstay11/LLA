@@ -41,10 +41,7 @@ router.get("/:id", async (req, res) => {
   try {
     const quiz = await Quiz.findById(quizId).select("-updatedAt -__v");
     if (!quiz) return res.status(401).json({ message: "No Such Quiz exists" });
-    const questions = await QuizQuestion.find({ createdIn: quizId }).select(
-      "-answer -__v -createdIn"
-    );
-    res.status(200).json({ quiz, questions });
+    res.status(200).json({ quiz });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -52,76 +49,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  // get required data
-  const { title, desc, lang, course, quizs = [] } = req.body;
-  const { _id: userId } = req.user || { _id: "63105e341b0d0089697a124b" };
-
   try {
-    // check if user exists
-    const user = await User.findById(userId);
-    if (!user) return res.status(400).json({ message: "No such user exists" });
-
-    const quiz = await Quiz.create({
-      title,
-      desc,
-      lang,
-      course,
-      createdBy: userId,
-    });
-
-    const quizArr = [];
-
-    for (let i = 0; i < quizs.length; i++) {
-      const quizQuestionObj = quizs[i];
-      const { type, question, desc, options, answer, imgsrc, audio, audios } =
-        quizQuestionObj;
-      if (type === "text") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          options,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "image") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          imgsrc,
-          options,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "audio") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          options,
-          audios,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "audio2text") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          audio,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-    }
-
-    await QuizQuestion.insertMany(quizArr);
-
-    res.status(201).json({ id: quiz._id });
+    const { title, desc, questions } = req.body;
+    const newQuiz = await Quiz.create({ title, desc, questions });
+    res.status(201).json({ _id: newQuiz._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

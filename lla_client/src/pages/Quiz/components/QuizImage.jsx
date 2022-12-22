@@ -8,14 +8,15 @@ const Optcomp = ({ data }) => {
   );
 };
 
-const QuizImage = ({ options, question, imgsrc, next }) => {
+const QuizImage = ({ options, question, questionFile, next }) => {
   return (
     <section className="text-gray-600 body-font h-4/5 dark:bg-slate-900 dark:text-white">
       <div className="container mx-auto flex flex-col px-5 py-12 pb-2 justify-center items-center h-3/5 bg-gray-100 dark:bg-slate-900 dark:text-white">
         <img
           className="lg:w-2/6 md:w-3/6 w-4/6 mb-10 object-cover object-center rounded"
-          alt="hero"
-          src={imgsrc}
+          alt="question"
+          src={questionFile}
+          height="500"
         />
         <div className="w-full flex flex-col mb-16 items-center text-center">
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 dark:text-gray-200">

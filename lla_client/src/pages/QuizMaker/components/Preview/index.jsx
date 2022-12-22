@@ -27,7 +27,6 @@ export const Preview = ({
   correctAnswer,
   index,
 }) => {
-  console.log({ questionFile });
   return (
     <section className="flex flex-col  md:w-1/2 w-full px-6 md:px-0 lg:px-0">
       <div className=" my-4 p-4 dark:bg-slate-800 border border-2 border-black rounded-md flex flex-col">

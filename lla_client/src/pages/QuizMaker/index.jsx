@@ -6,15 +6,28 @@ import { Preview } from "./components/Preview";
 
 export const QuizMaker = () => {
   const selectRef = useRef();
-  const [quizTitle, setQuizTitle] = useState("");
+  const [quizDetails, setQuizDetails] = useState({ title: "", desc: "" });
   const [quiz, setQuiz] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
   const handleAddQuestion = () => {
-    const { answer1, answer2, answer3, answer4, question, type, questionFile } =
-      currentQuestion;
-    if (!answer1 || !answer2 || !answer3 || !answer4 || !question) {
+    const {
+      answer1 = "",
+      answer2 = "",
+      answer3 = "",
+      answer4 = "",
+      question = "",
+      type,
+      questionFile,
+    } = currentQuestion;
+    if (
+      !answer1.trim() ||
+      !answer2.trim() ||
+      !answer3.trim() ||
+      !answer4.trim() ||
+      !question.trim()
+    ) {
       toast.error("Fill Details properly");
       return;
     }
@@ -78,7 +91,23 @@ export const QuizMaker = () => {
     toast.success("File Uploaded Sucessfully");
   };
 
-  const handlePublishQuiz = async () => {};
+  const handlePublishQuiz = async () => {
+    const { title = "", desc = "" } = quizDetails;
+    if (!title.trim() || !desc.trim()) {
+      toast.error("Fill Quiz Details properly");
+      return;
+    }
+    try {
+      const { data } = await axios.post("/quiz/create", {
+        title,
+        desc,
+        questions: quiz,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -90,10 +119,24 @@ export const QuizMaker = () => {
         <h1 className="text-3xl my-4">Create a Quiz</h1>
         <div className="quiz-name">
           <input
-            onChange={(e) => setQuizTitle(e.target.value)}
-            value={quizTitle}
+            onChange={(e) =>
+              setQuizDetails((prev) => ({ ...prev, title: e.target.value }))
+            }
+            value={quizDetails.title}
             type="text"
             placeholder="Enter Quiz Title"
+            className="w-full placeholder-black my-2 bg-white rounded border border-2 border-yellow-400  focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+        <div className="quiz-name">
+          <textarea
+            onChange={(e) =>
+              setQuizDetails((prev) => ({ ...prev, desc: e.target.value }))
+            }
+            value={quizDetails.desc}
+            type="text"
+            placeholder="Enter Quiz Details"
+            cols={25}
             className="w-full placeholder-black my-2 bg-white rounded border border-2 border-yellow-400  focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           />
         </div>
@@ -360,7 +403,7 @@ export const QuizMaker = () => {
 
         {quiz.length > 0 && (
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => handlePublishQuiz()}
             className="dark:text-white text-xl my-2 bg-yellow-500 border-0 py-3 px-10 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:font-medium"
           >
             Publish Quiz
