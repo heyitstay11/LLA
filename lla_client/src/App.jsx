@@ -28,11 +28,11 @@ const App = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/singlecourse" element={<SingleCourse />} />
         <Route path="/singlecourse/:author" element={<SingleCourse />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/result" element={<Result />} />
+        <Route path="/quiz" element={<QuizList />} />
+        <Route path="/quiz/:id" element={<Quiz />} />
+        <Route path="/result/:id" element={<Result />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/meeting/:meetingId" element={<Meeting />} />
-        <Route path="/quizlist" element={<QuizList />} />
         <Route path="/newquiz" element={<NewQuiz />} />
         <Route path="/quizmaker" element={<QuizMaker />} />
       </Routes>

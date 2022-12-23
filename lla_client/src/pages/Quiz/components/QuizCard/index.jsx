@@ -7,7 +7,7 @@ import {
   TextTranslate,
 } from "../../components";
 
-const QuizCard = ({ data = [], next, currQuestion }) => {
+const QuizCard = ({ data = [], next, currQuestion, setAnswers }) => {
   const quizData = data?.[currQuestion];
   if (quizData.type === "text") {
     const {
@@ -19,22 +19,26 @@ const QuizCard = ({ data = [], next, currQuestion }) => {
       desc = "",
     } = quizData;
     const options = [answer1, answer2, answer3, answer4];
-    return <TextTranslate {...{ options, question, desc, next }} />;
+    return <TextTranslate {...{ options, question, desc, next, setAnswers }} />;
   }
   if (quizData.type === "image") {
     const { answer1, answer2, answer3, answer4, question, questionFile } =
       quizData;
     const options = [answer1, answer2, answer3, answer4];
-    return <QuizImage {...{ options, question, questionFile, next }} />;
+    return (
+      <QuizImage {...{ options, question, questionFile, next, setAnswers }} />
+    );
   }
   if (quizData.type === "audio") {
     console.log(quizData);
     const { question, desc, options, audios } = quizData;
-    return <QuizAudio {...{ question, desc, options, next, audios }} />;
+    return (
+      <QuizAudio {...{ question, desc, options, next, audios, setAnswers }} />
+    );
   }
   if (quizData.type === "audio2text") {
     const { question, desc, audio } = quizData;
-    return <Audio2Text {...{ next, question, desc, audio }} />;
+    return <Audio2Text {...{ next, question, desc, audio, setAnswers }} />;
   }
   if (quizData.type === "result") {
     console.log(quizData);

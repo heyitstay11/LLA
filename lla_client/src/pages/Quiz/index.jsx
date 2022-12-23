@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import { QuizCard } from "./components/index";
 import { quizdata } from "./components/QuizCard/data";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Quiz = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [currQuestion, setCurrentQuestion] = useState(0);
   const [questions, setQuestions] = useState(quizdata);
   const [loading, setLoading] = useState(true);
+  const [answers, setAnswers] = useState([]);
 
-  const setCurrentQuestionInBounds = () => {
+  const setCurrentQuestionInBounds = async (resultId = "") => {
     if (currQuestion === questions.length - 1) {
       return;
     }
@@ -19,7 +23,7 @@ const Quiz = () => {
     const fetchQuiz = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/quiz/63a41c4b201e7b17549f83d6");
+        const { data } = await axios.get(`/quiz/${id}`);
         console.log(data);
         setQuestions(data.quiz.questions);
       } catch (error) {
@@ -40,6 +44,7 @@ const Quiz = () => {
       data={questions}
       next={setCurrentQuestionInBounds}
       currQuestion={currQuestion}
+      setAnswers={setAnswers}
     />
   );
 };

@@ -1,6 +1,11 @@
-const AnsComp = ({ data }) => {
+import { useState } from "react";
+
+const AnsComp = ({ data, setAnswer }) => {
   return (
-    <button className="p-2 sm:w-1/2 w-full focus:bg-yellow-400 focus:border-solid focus:border-1 focus:border-orange-700">
+    <button
+      onClick={() => setAnswer(data)}
+      className="p-2 sm:w-1/2 w-full focus:bg-yellow-400 focus:border-solid focus:border-1 focus:border-orange-700"
+    >
       <div className="bg-gray-100 rounded flex p-4 h-full items-center justify-between dark:bg-slate-500 dark:text-white">
         <span className="title-font font-medium">{data}</span>
         <svg
@@ -20,7 +25,8 @@ const AnsComp = ({ data }) => {
   );
 };
 
-const TextTranslate = ({ question, desc, options, next }) => {
+const TextTranslate = ({ question, desc, options, next, setAnswers }) => {
+  const [answer, setAnswer] = useState("");
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-24 mx-auto dark:bg-slate-900 dark:text-white">
@@ -34,11 +40,12 @@ const TextTranslate = ({ question, desc, options, next }) => {
         </div>
         <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2 ">
           {options.map((e, i) => {
-            return <AnsComp key={i} data={e} index={i} />;
+            return <AnsComp key={i} data={e} index={i} setAnswer={setAnswer} />;
           })}
         </div>
         <button
           onClick={() => {
+            setAnswers((prev) => [...prev, answer]);
             next((prev) => prev + 1);
           }}
           className="flex mx-auto mt-16 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg "
