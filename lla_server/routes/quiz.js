@@ -1,6 +1,7 @@
 import { Router } from "express";
 import User from "../models/user.js";
 import Quiz from "../models/quiz.js";
+import Result from "../models/result.js";
 import QuizQuestion from "../models/quizQuestion.js";
 import { utils, config } from "cloudinary";
 import dotenv from "dotenv";
@@ -53,6 +54,47 @@ router.post("/create", async (req, res) => {
     const { title, desc, questions } = req.body;
     const newQuiz = await Quiz.create({ title, desc, questions });
     res.status(201).json({ _id: newQuiz._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.get("/result/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await Result.findById(id).populate("attemptedQuiz");
+    if (!result) {
+      return res.status(404).json({ message: "No such result Found" });
+    }
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.post("/result", async (req, res) => {
+  const { quizId, answers = [] } = req.body;
+  try {
+    const quiz = await Quiz.findById(quizId);
+    if (!quizId) {
+      return res.status(404).json({ message: "No such Quiz Found" });
+    }
+    let score = 0;
+    for (let i = 0; i < answers.length; i++) {
+      const correctAnswer = quiz.questions[i].correctAnswer;
+      if (correctAnswer == answers[i]) {
+        score++;
+      }
+    }
+    const newResult = await Result.create({
+      givenAnswers: answers,
+      total: answers.length,
+      score: score,
+      attemptedQuiz: quiz._id,
+    });
+    res.status(201).json({ resultId: newResult._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

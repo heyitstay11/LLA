@@ -12,7 +12,30 @@ const Quiz = () => {
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState([]);
 
-  const setCurrentQuestionInBounds = async (resultId = "") => {
+  const sendAnswers = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.post("/quiz/result", {
+        quizId: id,
+        answers,
+      });
+      console.log(data);
+      navigate("/result/" + data.resultId);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (answers.length == questions?.length && answers.length > 0) {
+      sendAnswers();
+      console.log("fire");
+    }
+  }, [answers]);
+
+  const setCurrentQuestionInBounds = () => {
     if (currQuestion === questions.length - 1) {
       return;
     }

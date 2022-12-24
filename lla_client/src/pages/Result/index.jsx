@@ -1,16 +1,34 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+
 const Result = () => {
+  const { id } = useParams();
+  const [result, setResult] = useState({});
+  const fetchResult = async () => {
+    try {
+      const { data } = await axios.get("/quiz/result/" + id);
+      setResult(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+  useEffect(() => {
+    fetchResult();
+  }, [id]);
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-24 mx-auto lg:w-4/5">
         <div className="flex flex-col text-center w-full mb-20">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">
-            Master Cleanse Reliac Heirloom
+            {result?.attemptedQuiz?.title || "Master Cleanse Reliac Heirloom"}
           </h1>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-            Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-            gentrify, subway tile poke farm-to-table. Franzen you probably
-            haven't heard of them man bun deep jianbing selfies heirloom prism
-            food truck ugh squid celiac humblebrag.
+            {result?.attemptedQuiz?.desc ||
+              "Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom prism food truck ugh squid celiac humblebrag."}
           </p>
         </div>
         <div className="flex flex-wrap -m-4 text-center">
@@ -29,7 +47,7 @@ const Result = () => {
                 <path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"></path>
               </svg>
               <h2 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
-                8/10
+                {result?.score || 0}/{result?.total || 0}
               </h2>
               <p className="leading-relaxed">Attempted Question</p>
             </div>
