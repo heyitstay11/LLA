@@ -11,13 +11,16 @@ const Quiz = () => {
   const [questions, setQuestions] = useState(quizdata);
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState([]);
+  const [startTime, setStartTime] = useState(Date.now());
 
   const sendAnswers = async () => {
+    let time = Number(((Date.now() - startTime) / 1000).toFixed(0));
     setLoading(true);
     try {
       const { data } = await axios.post("/quiz/result", {
         quizId: id,
         answers,
+        time,
       });
       console.log(data);
       navigate("/result/" + data.resultId);

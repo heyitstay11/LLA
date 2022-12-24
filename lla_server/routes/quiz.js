@@ -75,7 +75,7 @@ router.get("/result/:id", async (req, res) => {
 });
 
 router.post("/result", async (req, res) => {
-  const { quizId, answers = [] } = req.body;
+  const { quizId, answers = [], time } = req.body;
   try {
     const quiz = await Quiz.findById(quizId);
     if (!quizId) {
@@ -93,6 +93,7 @@ router.post("/result", async (req, res) => {
       total: answers.length,
       score: score,
       attemptedQuiz: quiz._id,
+      timeTaken: time,
     });
     res.status(201).json({ resultId: newResult._id });
   } catch (error) {

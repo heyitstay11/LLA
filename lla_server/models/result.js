@@ -16,6 +16,11 @@ const resultSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    timeTaken: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     attemptedQuiz: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Quiz",
