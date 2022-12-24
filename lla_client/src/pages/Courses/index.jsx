@@ -22,12 +22,12 @@ const Courses = () => {
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 mx-auto">
         <div className="py-4 text-lg">
-          <div className="md:w-1/3 mx-auto flex">
+          <div className="md:w-1/2 mx-auto flex">
             Search Course &nbsp;
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm((prev) => e.target.value)}
-              className="border border-2 border-yellow-400 flex-grow  dark:text-black pl-2"
+              className="border border-2 w-1/2 border-yellow-400 flex-grow  dark:text-black pl-2"
             />
           </div>
         </div>

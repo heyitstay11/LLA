@@ -10,8 +10,8 @@ const quizSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    lang: {
-      type: String,
+    questions: {
+      type: [Object],
       required: true,
     },
     createdBy: {
@@ -21,6 +21,7 @@ const quizSchema = new mongoose.Schema(
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
+      default: undefined,
     },
   },
   { timestamps: true }
