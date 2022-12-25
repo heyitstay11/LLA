@@ -10,3 +10,5 @@ export { default as SingleCourse } from "./SingleCourse";
 export { default as QuizList } from "./QuizList";
 export { default as NewQuiz } from "./NewQuiz";
 export { QuizMaker } from "./QuizMaker";
+export { default as Qna } from "./Qna";
+export { default as SingleQna } from "./SingleQna";

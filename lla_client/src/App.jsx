@@ -12,6 +12,8 @@ import {
   QuizList,
   NewQuiz,
   QuizMaker,
+  Qna,
+  SingleQna,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -34,6 +36,8 @@ const App = () => {
         <Route path="/meeting/:meetingId" element={<Meeting />} />
         <Route path="/quizlist" element={<QuizList />} />
         <Route path="/newquiz" element={<NewQuiz />} />
+        <Route path="/qna" element={<Qna />} />
+        <Route path="/qna/:qid" element={<SingleQna />} />
         <Route path="/quizmaker" element={<QuizMaker />} />
       </Routes>
       <Footer />
