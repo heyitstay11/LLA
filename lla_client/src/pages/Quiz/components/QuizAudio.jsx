@@ -2,13 +2,12 @@ import { useRef, useState } from "react";
 
 const Audcomp = ({ data, handleChange, index }) => {
   return (
-    <div className="p-2 sm:w-1/2 w-full">
+    <button
+      onClick={() => handleChange(index)}
+      className="p-2 sm:w-1/2 w-full focus:bg-yellow-400 focus:border-solid focus:border-2 focus:border-orange-700"
+    >
       <div className="bg-gray-100 rounded flex p-4 h-full items-center justify-between dark:bg-slate-500 dark:text-white">
-        <img
-          onClick={() => handleChange(index)}
-          src="./speaker-svgrepo-com.svg"
-          className="w-6 h-6"
-        />
+        <img src="/speaker-svgrepo-com.svg" className="w-6 h-6" />
         <span className="title-font font-medium">{data}</span>
         <svg
           fill="none"
@@ -23,12 +22,11 @@ const Audcomp = ({ data, handleChange, index }) => {
           <path d="M22 4L12 14.01l-3-3"></path>
         </svg>
       </div>
-    </div>
+    </button>
   );
 };
 
-const QuizAudio = ({ question, desc, options, next, audios }) => {
-  console.log(audios);
+const QuizAudio = ({ question, desc, options, next, audios, setAnswers }) => {
   /**
    * @type {React.MutableRefObject<HTMLAudioElement>}
    */
@@ -57,14 +55,20 @@ const QuizAudio = ({ question, desc, options, next, audios }) => {
           </p>
         </div>
         <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2 ">
-          {options.map((e, i) => {
+          {options.map((option, i) => {
             return (
-              <Audcomp key={i} data={e} handleChange={handleChange} index={i} />
+              <Audcomp
+                key={i}
+                data={option}
+                handleChange={handleChange}
+                index={i}
+              />
             );
           })}
         </div>
         <button
           onClick={() => {
+            setAnswers((prev) => [...prev, options[currentAudio]]);
             next((prev) => prev + 1);
           }}
           className="flex mx-auto mt-16 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg "
