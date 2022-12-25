@@ -58,6 +58,13 @@ export const QuizMaker = () => {
       );
       return;
     }
+    if (currentQuestion.type == audio && e.target.id == "questionFile") {
+      toast.warn(
+        "File Uploads for question field not supported for audio based questions"
+      );
+      return;
+    }
+
     let cloudinaryResponse;
     try {
       const { data: sData } = await axios.get("/quiz/get-signature");
@@ -185,7 +192,7 @@ export const QuizMaker = () => {
                       className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="questionFile"
                       type="file"
-                      accept=".jpg, .png"
+                      accept=".jpg, .png, .wav, .mp3"
                     />
                   </div>
                 </div>
@@ -224,7 +231,7 @@ export const QuizMaker = () => {
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="file1"
                           type="file"
-                          accept=".jpg, .png"
+                          accept=".jpg, .png, .wav, .mp3"
                         />
                       </div>
                     </div>
@@ -263,7 +270,7 @@ export const QuizMaker = () => {
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="file2"
                           type="file"
-                          accept=".jpg, .png"
+                          accept=".jpg, .png, .wav, .mp3"
                         />
                       </div>
                     </div>
@@ -304,7 +311,7 @@ export const QuizMaker = () => {
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="file3"
                           type="file"
-                          accept=".jpg, .png"
+                          accept=".jpg, .png, .wav, .mp3"
                         />
                       </div>
                     </div>
@@ -343,7 +350,7 @@ export const QuizMaker = () => {
                           className=" hidden form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="file4"
                           type="file"
-                          accept=".jpg, .png"
+                          accept=".jpg, .png, .wav, .mp3"
                         />
                       </div>
                     </div>

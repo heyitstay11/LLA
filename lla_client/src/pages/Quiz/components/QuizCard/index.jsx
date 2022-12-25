@@ -31,7 +31,20 @@ const QuizCard = ({ data = [], next, currQuestion, setAnswers }) => {
   }
   if (quizData.type === "audio") {
     console.log(quizData);
-    const { question, desc, options, audios } = quizData;
+    const {
+      question,
+      desc,
+      file1,
+      file2,
+      file3,
+      file4,
+      answer1,
+      answer2,
+      answer3,
+      answer4,
+    } = quizData;
+    const audios = [file1, file2, file3, file4];
+    const options = [answer1, answer2, answer3, answer4];
     return (
       <QuizAudio {...{ question, desc, options, next, audios, setAnswers }} />
     );
