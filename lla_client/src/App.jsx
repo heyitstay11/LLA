@@ -14,6 +14,7 @@ import {
   QuizMaker,
   Qna,
   SingleQna,
+  CreateCourse,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/createCourse" element={<CreateCourse />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/singlecourse" element={<SingleCourse />} />
         <Route path="/singlecourse/:author" element={<SingleCourse />} />
@@ -38,7 +40,7 @@ const App = () => {
         {/* <Route path="/newquiz" element={<NewQuiz />} /> */}
         <Route path="/qna" element={<Qna />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
-        <Route path="/quizmaker" element={<QuizMaker />} />       
+        <Route path="/quizmaker" element={<QuizMaker />} />
       </Routes>
       <Footer />
     </>
