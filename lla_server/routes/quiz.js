@@ -1,6 +1,7 @@
 import { Router } from "express";
 import User from "../models/user.js";
 import Quiz from "../models/quiz.js";
+import Result from "../models/result.js";
 import QuizQuestion from "../models/quizQuestion.js";
 import { utils, config } from "cloudinary";
 import dotenv from "dotenv";
@@ -41,10 +42,7 @@ router.get("/:id", async (req, res) => {
   try {
     const quiz = await Quiz.findById(quizId).select("-updatedAt -__v");
     if (!quiz) return res.status(401).json({ message: "No Such Quiz exists" });
-    const questions = await QuizQuestion.find({ createdIn: quizId }).select(
-      "-answer -__v -createdIn"
-    );
-    res.status(200).json({ quiz, questions });
+    res.status(200).json({ quiz });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -52,76 +50,52 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  // get required data
-  const { title, desc, lang, course, quizs = [] } = req.body;
-  const { _id: userId } = req.user || { _id: "63105e341b0d0089697a124b" };
-
   try {
-    // check if user exists
-    const user = await User.findById(userId);
-    if (!user) return res.status(400).json({ message: "No such user exists" });
+    const { title, desc, questions } = req.body;
+    const newQuiz = await Quiz.create({ title, desc, questions });
+    res.status(201).json({ _id: newQuiz._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
-    const quiz = await Quiz.create({
-      title,
-      desc,
-      lang,
-      course,
-      createdBy: userId,
-    });
+router.get("/result/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await Result.findById(id).populate("attemptedQuiz");
+    if (!result) {
+      return res.status(404).json({ message: "No such result Found" });
+    }
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
-    const quizArr = [];
-
-    for (let i = 0; i < quizs.length; i++) {
-      const quizQuestionObj = quizs[i];
-      const { type, question, desc, options, answer, imgsrc, audio, audios } =
-        quizQuestionObj;
-      if (type === "text") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          options,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "image") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          imgsrc,
-          options,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "audio") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          options,
-          audios,
-          answer,
-          createdIn: quiz._id,
-        });
-      }
-      if (type === "audio2text") {
-        quizArr.push({
-          type,
-          question,
-          desc,
-          audio,
-          answer,
-          createdIn: quiz._id,
-        });
+router.post("/result", async (req, res) => {
+  const { quizId, answers = [], time } = req.body;
+  try {
+    const quiz = await Quiz.findById(quizId);
+    if (!quizId) {
+      return res.status(404).json({ message: "No such Quiz Found" });
+    }
+    let score = 0;
+    for (let i = 0; i < answers.length; i++) {
+      const correctAnswer = quiz.questions[i].correctAnswer;
+      if (correctAnswer == answers[i]) {
+        score++;
       }
     }
-
-    await QuizQuestion.insertMany(quizArr);
-
-    res.status(201).json({ id: quiz._id });
+    const newResult = await Result.create({
+      givenAnswers: answers,
+      total: answers.length,
+      score: score,
+      attemptedQuiz: quiz._id,
+      timeTaken: time,
+    });
+    res.status(201).json({ resultId: newResult._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
