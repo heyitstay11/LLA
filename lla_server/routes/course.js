@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Course from "../models/course.js";
+import CourseSection from "../models/courseSection.js";
 
 const router = Router();
 
@@ -19,6 +20,25 @@ router.post("/create", async (req, res) => {
       proficiency,
     });
     res.status(201).json({ id: newCourse._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.post("/createSection", async (req, res) => {
+  const { title, description, courseID, parts } = req.body;
+  try {
+    const course = await Course.findById(courseID).select("_id createdBy");
+    if (!course)
+      return res.status(404).json({ message: "No Such Course Exists" });
+    const newSection = await CourseSection.create({
+      title,
+      description,
+      parts,
+      inCourse: course._id,
+    });
+    res.status(201).json({ id: newSection._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
