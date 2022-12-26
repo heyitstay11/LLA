@@ -3,6 +3,7 @@ import User from "../models/user.js";
 import Quiz from "../models/quiz.js";
 import Result from "../models/result.js";
 import QuizQuestion from "../models/quizQuestion.js";
+import { requireAuth } from "../middlewares/auth.js";
 import { utils, config } from "cloudinary";
 import dotenv from "dotenv";
 dotenv.config();
@@ -26,6 +27,8 @@ router.get("/", (req, res) => {
   res.send("yo");
 });
 
+//
+
 router.get("/get-signature", async (_, res) => {
   const timestamp = Math.round(new Date().getTime() / 1000);
   const signature = await utils.api_sign_request(
@@ -36,6 +39,8 @@ router.get("/get-signature", async (_, res) => {
   );
   res.json({ timestamp, signature });
 });
+
+//
 
 router.get("/:id", async (req, res) => {
   const { id: quizId } = req.params;
@@ -49,16 +54,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+//
+
+router.post("/create", requireAuth, async (req, res) => {
+  const { title, desc, questions } = req.body;
+  const { _id: userId = "" } = req.user || {};
   try {
-    const { title, desc, questions } = req.body;
-    const newQuiz = await Quiz.create({ title, desc, questions });
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "No such user exists" });
+
+    const newQuiz = await Quiz.create({
+      title,
+      desc,
+      questions,
+      createdBy: userId,
+    });
     res.status(201).json({ _id: newQuiz._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
   }
 });
+
+//
 
 router.get("/result/:id", async (req, res) => {
   const { id } = req.params;
@@ -74,13 +92,18 @@ router.get("/result/:id", async (req, res) => {
   }
 });
 
-router.post("/result", async (req, res) => {
+//
+
+router.post("/result", requireAuth, async (req, res) => {
   const { quizId, answers = [], time } = req.body;
+  const { _id: userId = "" } = req.user || {};
   try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "No such user exists" });
+
     const quiz = await Quiz.findById(quizId);
-    if (!quizId) {
-      return res.status(404).json({ message: "No such Quiz Found" });
-    }
+    if (!quizId) return res.status(404).json({ message: "No such Quiz Found" });
+
     let score = 0;
     for (let i = 0; i < answers.length; i++) {
       const correctAnswer = quiz.questions[i].correctAnswer;
@@ -92,8 +115,9 @@ router.post("/result", async (req, res) => {
       givenAnswers: answers,
       total: answers.length,
       score: score,
-      attemptedQuiz: quiz._id,
+      attemptedQuiz: quizId,
       timeTaken: time,
+      attemptedBy: userId,
     });
     res.status(201).json({ resultId: newResult._id });
   } catch (error) {
@@ -101,6 +125,8 @@ router.post("/result", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+//
 
 router.put("/:id", async (req, res) => {
   const { id: quizId } = req.params;
@@ -117,6 +143,8 @@ router.put("/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+//
 
 router.delete("/:id", async (req, res) => {
   const { id: quizId } = req.params;

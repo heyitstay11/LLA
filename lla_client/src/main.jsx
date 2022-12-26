@@ -10,11 +10,11 @@ import { ThemeProvider } from "./context/theme";
 axios.defaults.baseURL = `${import.meta.env.VITE_SERVER_URL}/api`;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ThemeProvider>
-    <AuthProvider>
-      <BrowserRouter>
+  <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
         <App />
-      </BrowserRouter>
-    </AuthProvider>
-  </ThemeProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );

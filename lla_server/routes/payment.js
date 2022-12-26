@@ -1,8 +1,11 @@
 import { Router } from "express";
 import Order from "../models/order.js";
+import User from "../models/user.js";
+import Course from "../models/course.js";
 import crypto from "crypto";
 import Razorpay from "razorpay";
 import dotenv from "dotenv";
+import { requireAuth } from "../middlewares/auth.js";
 dotenv.config();
 const router = Router();
 
@@ -15,13 +18,21 @@ router.get("/", (req, res) => {
   res.send("hello");
 });
 
-router.post("/razorpay", async (req, res) => {
+router.post("/razorpay", requireAuth, async (req, res) => {
   const { price, courseId } = req.body;
+  const { _id: userId = "" } = req.user || {};
   try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "No such user exists" });
+
+    const course = await Course.findById(courseId);
+    if (!course)
+      return res.status(404).json({ message: "No such course exists" });
+
     const order = await Order.create({
       courseId,
-      price,
-      userId: "",
+      price: course.price,
+      userId,
     });
 
     const options = {
@@ -32,8 +43,10 @@ router.post("/razorpay", async (req, res) => {
     };
 
     const razorResponse = await razorpay.orders.create(options);
+
     res.json({ ...razorResponse, orderId: order._id });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error });
   }
 });
