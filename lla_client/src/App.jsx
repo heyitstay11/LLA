@@ -15,6 +15,7 @@ import {
   Qna,
   SingleQna,
   CreateCourse,
+  CourseSection,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -28,7 +29,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/createCourse" element={<CreateCourse />} />
+        <Route path="/course/create" element={<CreateCourse />} />
+        <Route path="/section/create" element={<CourseSection />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/singlecourse" element={<SingleCourse />} />
         <Route path="/singlecourse/:author" element={<SingleCourse />} />
