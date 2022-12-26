@@ -16,6 +16,7 @@ import {
   SingleQna,
   CreateCourse,
   CourseSection,
+  PageNotFound,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -41,6 +42,7 @@ const App = () => {
         <Route path="/meeting/:meetingId" element={<Meeting />} />
         {/* <Route path="/newquiz" element={<NewQuiz />} /> */}
         <Route path="/qna" element={<Qna />} />
+        <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
         <Route path="/quizmaker" element={<QuizMaker />} />
       </Routes>
