@@ -10,7 +10,6 @@ import {
   Courses,
   SingleCourse,
   QuizList,
-  NewQuiz,
   QuizMaker,
   Qna,
   SingleQna,
@@ -40,7 +39,6 @@ const App = () => {
         <Route path="/result/:id" element={<Result />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/meeting/:meetingId" element={<Meeting />} />
-        {/* <Route path="/newquiz" element={<NewQuiz />} /> */}
         <Route path="/qna" element={<Qna />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />

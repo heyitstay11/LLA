@@ -1,6 +1,5 @@
-import { Moda } from "./component";
 import { useState } from "react";
-import { Qdata } from "./data";
+import { Modal } from "./component";
 
 const Qnapromt = ({ data }) => {
   console.log(data);
@@ -20,19 +19,20 @@ const Qnapromt = ({ data }) => {
     </div>
   );
 };
+
 const Qna = () => {
   const [showModal, setShowModal] = useState(false);
   const [question, setQuestion] = useState(Qdata);
   return (
     <>
-      <Moda {...{ showModal, setShowModal }} />
+      <Modal {...{ showModal, setShowModal }} />
       {/* */}
       <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-gray-100">
         <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
           Most Asked Questions
         </h1>
         <div className="flex w-full justify-center">
-          <div className="relative mr-4 lg:w-full xl:w-1/2 w-2/4 md:w-full text-left">
+          <div className="relative mr-4 lg:w-1/2 w-2/4 md:w-2/3 text-left">
             <input
               type="text"
               id="hero-field"

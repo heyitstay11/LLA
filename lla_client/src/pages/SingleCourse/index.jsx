@@ -4,14 +4,21 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../context/auth";
+import { courseData } from "../Courses/data";
+import { nanoid } from "nanoid";
 
 const SingleCourse = () => {
-  const { id } = useParams();
+  const { id, author: pAuthor } = useParams();
   const {
     auth: { token = "" },
   } = useAuthContext();
   const Razorpay = useRazorpay();
-  const [course, setCourse] = useState({});
+  let sCourse = false;
+  if (pAuthor) {
+    sCourse = courseData.find((course) => course.author == pAuthor);
+  }
+  const [course, setCourse] = useState(sCourse || {});
+
   const {
     title,
     details,
@@ -22,9 +29,13 @@ const SingleCourse = () => {
     thumbnail,
     author,
     learnings = [],
+    content = [],
+    level,
+    img,
   } = course;
 
   const loadCourse = async () => {
+    if (!id) return;
     try {
       const { data } = await axios.get("/course/" + id);
       setCourse(data);
@@ -42,7 +53,7 @@ const SingleCourse = () => {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/payment/razorpay`,
-        { price, courseId: id },
+        { price, courseId: id || nanoid() },
         { headers: { "x-auth-token": token } }
       );
       const options = {
@@ -112,7 +123,7 @@ const SingleCourse = () => {
           </div>
           <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
             <h2 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
-              {proficiency || "Beginner"}
+              {proficiency || level || "Beginner"}
             </h2>
             <p className="leading-relaxed">Proficiency</p>
           </div>
@@ -120,7 +131,7 @@ const SingleCourse = () => {
         <div className="lg:w-1/3 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 border border-4 border-yellow-500">
           <img
             className="object-cover object-center w-full h-full"
-            src={thumbnail || "https://dummyimage.com/300x200"}
+            src={thumbnail || img || "https://dummyimage.com/300x200"}
             alt=""
           />
         </div>
@@ -143,6 +154,11 @@ const SingleCourse = () => {
               What you will learn in <q>{title || "Dummy Title"}</q>
             </h1>
             {learnings?.map((point, index) => (
+              <p key={index} className="leading-relaxed dark:text-white">
+                &nbsp; {point}
+              </p>
+            ))}
+            {content?.map((point, index) => (
               <p key={index} className="leading-relaxed dark:text-white">
                 &nbsp; {point}
               </p>
