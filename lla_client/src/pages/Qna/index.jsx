@@ -1,8 +1,28 @@
 import { useState } from "react";
 import { Modal } from "./component";
 
+const Qnapromt = ({ data }) => {
+  console.log(data);
+  return (
+    <div className="py-8 flex flex-wrap md:flex-nowrap">
+      <div className="md:flex-grow">
+        <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400">
+          {data.topic}
+        </h2>
+        <p className="leading-relaxed">
+          Glossier echo park pug, church-key sartorial biodiesel vexillologist
+          pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag
+          selfies, poke vaporware kombucha lumbersexual pork belly polaroid
+          hoodie portland craft beer.
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const Qna = () => {
   const [showModal, setShowModal] = useState(false);
+  const [question, setQuestion] = useState(Qdata);
   return (
     <>
       <Modal {...{ showModal, setShowModal }} />
@@ -34,45 +54,10 @@ const Qna = () => {
         </div>
         <div className="container py-4 content-center mt-2">
           <div className="-my-4 mx-auto py-2 divide-y-2 divide-gray-300 w-4/5">
-            <div className="py-4 flex flex-wrap md:flex-nowrap ">
-              <div className="md:flex-grow">
-                <h2 className="text-2xl font-medium text-gray-900 dark:text-yellow-400 title-font mb-2">
-                  Bitters hashtag waistcoat fashion axe chia unicorn
-                </h2>
-                <p className="leading-relaxed">
-                  Glossier echo park pug, church-key sartorial biodiesel
-                  vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf
-                  moon party messenger bag selfies, poke vaporware kombucha
-                  lumbersexual pork belly polaroid hoodie portland craft beer.
-                </p>
-              </div>
-            </div>
-            <div className="py-8 flex flex-wrap md:flex-nowrap">
-              <div className="md:flex-grow">
-                <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400 ">
-                  Bitters hashtag waistcoat fashion axe chia unicorn
-                </h2>
-                <p className="leading-relaxed">
-                  Glossier echo park pug, church-key sartorial biodiesel
-                  vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf
-                  moon party messenger bag selfies, poke vaporware kombucha
-                  lumbersexual pork belly polaroid hoodie portland craft beer.
-                </p>
-              </div>
-            </div>
-            <div className="py-8 flex flex-wrap md:flex-nowrap">
-              <div className="md:flex-grow">
-                <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400">
-                  Bitters hashtag waistcoat fashion axe chia unicorn
-                </h2>
-                <p className="leading-relaxed">
-                  Glossier echo park pug, church-key sartorial biodiesel
-                  vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf
-                  moon party messenger bag selfies, poke vaporware kombucha
-                  lumbersexual pork belly polaroid hoodie portland craft beer.
-                </p>
-              </div>
-            </div>
+            {question.map((data) => {
+              console.log(data);
+              return <Qnapromt key={data.uid} data={data} />;
+            })}
           </div>
         </div>
       </section>
