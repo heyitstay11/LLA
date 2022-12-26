@@ -10,6 +10,8 @@ export { default as SingleCourse } from "./SingleCourse";
 export { default as QuizList } from "./QuizList";
 export { default as NewQuiz } from "./NewQuiz";
 export { QuizMaker } from "./QuizMaker";
+export { CreateCourse } from "./CreateCourse";
+export { CourseSection } from "./CourseSection";
 export { default as Qna } from "./Qna";
 export { default as SingleQna } from "./SingleQna";
 export { default as PageNotFound } from "./PageNotFound";

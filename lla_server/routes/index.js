@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRouter from "./auth.js";
 import quizRouter from "./quiz.js";
 import paymentRouter from "./payment.js";
+import courseRouter from "./course.js";
 
 const router = Router();
 
@@ -17,5 +18,8 @@ router.use("/quiz", quizRouter);
 
 // forward /payment request to paymentRouter
 router.use("/payment", paymentRouter);
+
+// forward /course request to courseRouter
+router.use("/course", courseRouter);
 
 export default router;

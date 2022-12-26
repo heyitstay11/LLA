@@ -14,6 +14,8 @@ import {
   QuizMaker,
   Qna,
   SingleQna,
+  CreateCourse,
+  CourseSection,
   PageNotFound,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
@@ -28,8 +30,10 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/course/create" element={<CreateCourse />} />
+        <Route path="/section/create" element={<CourseSection />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/singlecourse" element={<SingleCourse />} />
+        <Route path="/course/:id" element={<SingleCourse />} />
         <Route path="/singlecourse/:author" element={<SingleCourse />} />
         <Route path="/quiz" element={<QuizList />} />
         <Route path="/quiz/:id" element={<Quiz />} />

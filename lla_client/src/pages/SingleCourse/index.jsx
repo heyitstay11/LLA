@@ -1,24 +1,49 @@
 import { useParams } from "react-router-dom";
-import { courseData } from "../Courses/data";
 import useRazorpay from "react-razorpay";
-import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "../../context/auth";
 
 const SingleCourse = () => {
-  const { author } = useParams();
+  const { id } = useParams();
+  const {
+    auth: { token = "" },
+  } = useAuthContext();
   const Razorpay = useRazorpay();
-  const courseIndex = courseData.findIndex(
-    (course) => course.author === author
-  );
-  const course = courseIndex !== -1 ? courseData?.[courseIndex] : {};
-  const { level, title, stars, enrolled, price, img, content = [] } = course;
+  const [course, setCourse] = useState({});
+  const {
+    title,
+    details,
+    proficiency,
+    enrolled,
+    ratings = 100,
+    price,
+    thumbnail,
+    author,
+    learnings = [],
+  } = course;
+
+  const loadCourse = async () => {
+    try {
+      const { data } = await axios.get("/course/" + id);
+      setCourse(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadCourse();
+  }, [id]);
 
   const handleBuy = async () => {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/payment/razorpay`,
-        { price, courseId: nanoid(10) }
+        { price, courseId: id },
+        { headers: { "x-auth-token": token } }
       );
       const options = {
         key: import.meta.env.VITE_RAZOR_KEY_ID,
@@ -40,7 +65,7 @@ const SingleCourse = () => {
             const verifyData = await res.json();
             console.log(verifyData);
             if (verifyData.msg) {
-              toast.success("Done");
+              toast.success("Payment Done!");
             }
           } catch (error) {
             console.log(error);
@@ -66,10 +91,12 @@ const SingleCourse = () => {
               {title || "Dummy Title"}
             </h1>
             <div className="leading-relaxed">
-              Pour-over craft beer pug drinking vinegar live-edge gastropub,
-              keytar neutra sustainable fingerstache kickstarter.
+              {details ||
+                "Pour-over craft beer pug drinking vinegar live-edge gastropub, keytar neutra sustainable fingerstache kickstarter."}
             </div>
-            <div className="leading-relaxed">&nbsp; ~ {author}</div>
+            <div className="leading-relaxed">
+              &nbsp; ~ {author || "John Doe"}
+            </div>
           </div>
           <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
             <h2 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
@@ -79,13 +106,13 @@ const SingleCourse = () => {
           </div>
           <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
             <h2 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
-              {stars?.toFixed(1) || "2.9"}
+              {ratings?.toFixed(1) || "2.9"}
             </h2>
             <p className="leading-relaxed">Ratings</p>
           </div>
           <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
             <h2 className="title-font font-medium text-3xl text-gray-900 dark:text-white">
-              {level || "beginner"}
+              {proficiency || "Beginner"}
             </h2>
             <p className="leading-relaxed">Proficiency</p>
           </div>
@@ -93,7 +120,7 @@ const SingleCourse = () => {
         <div className="lg:w-1/3 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 border border-4 border-yellow-500">
           <img
             className="object-cover object-center w-full h-full"
-            src={img || "https://dummyimage.com/300x200"}
+            src={thumbnail || "https://dummyimage.com/300x200"}
             alt=""
           />
         </div>
@@ -115,7 +142,7 @@ const SingleCourse = () => {
             <h1 className="title-font font-medium text-2xl mb-4 text-gray-900 dark:text-white">
               What you will learn in <q>{title || "Dummy Title"}</q>
             </h1>
-            {content.map((point, index) => (
+            {learnings?.map((point, index) => (
               <p key={index} className="leading-relaxed dark:text-white">
                 &nbsp; {point}
               </p>

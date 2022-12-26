@@ -3,9 +3,13 @@ import { QuizCard } from "./components/index";
 import { quizdata } from "./components/QuizCard/data";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuthContext } from "../../context/auth";
 
 const Quiz = () => {
   const { id } = useParams();
+  const {
+    auth: { token = "" },
+  } = useAuthContext();
   const navigate = useNavigate();
   const [currQuestion, setCurrentQuestion] = useState(0);
   const [questions, setQuestions] = useState(quizdata);
@@ -17,11 +21,15 @@ const Quiz = () => {
     let time = Number(((Date.now() - startTime) / 1000).toFixed(0));
     setLoading(true);
     try {
-      const { data } = await axios.post("/quiz/result", {
-        quizId: id,
-        answers,
-        time,
-      });
+      const { data } = await axios.post(
+        "/quiz/result",
+        {
+          quizId: id,
+          answers,
+          time,
+        },
+        { headers: { "x-auth-token": token } }
+      );
       console.log(data);
       navigate("/result/" + data.resultId);
     } catch (error) {
@@ -50,7 +58,6 @@ const Quiz = () => {
       setLoading(true);
       try {
         const { data } = await axios.get(`/quiz/${id}`);
-        console.log(data);
         setQuestions(data.quiz.questions);
       } catch (error) {
         console.log(error);
