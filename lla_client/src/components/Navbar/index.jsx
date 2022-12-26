@@ -48,7 +48,7 @@ const Navbar = () => {
                 <span className="underline">Welcome {auth?.name}</span>
               </NavLink>
               <NavLink
-                to={"/quizlist"}
+                to={"/quiz"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }

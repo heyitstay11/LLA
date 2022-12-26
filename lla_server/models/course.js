@@ -29,6 +29,16 @@ const courseSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  enrolled: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+  ratings: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

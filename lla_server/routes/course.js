@@ -8,6 +8,19 @@ router.get("/", (_, res) => {
   res.send("Course");
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const course = await Course.findById(id);
+    if (!course)
+      return res.send(404).json({ message: "No such course exists" });
+    res.json(course);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 router.post("/create", async (req, res) => {
   const { title, details, price, learnings, thumbnail, proficiency } = req.body;
   try {

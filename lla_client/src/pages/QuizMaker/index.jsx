@@ -6,6 +6,9 @@ import { Preview } from "./components/Preview";
 
 export const QuizMaker = () => {
   const selectRef = useRef();
+  const {
+    auth: { token = "" },
+  } = useAuthContext();
   const [quizDetails, setQuizDetails] = useState({ title: "", desc: "" });
   const [quiz, setQuiz] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -105,11 +108,15 @@ export const QuizMaker = () => {
       return;
     }
     try {
-      const { data } = await axios.post("/quiz/create", {
-        title,
-        desc,
-        questions: quiz,
-      });
+      const { data } = await axios.post(
+        "/quiz/create",
+        {
+          title,
+          desc,
+          questions: quiz,
+        },
+        { headers: { "x-auth-token": token } }
+      );
       console.log(data);
     } catch (error) {
       console.log(error);
