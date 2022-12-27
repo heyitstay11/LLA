@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 const userData = window.localStorage.getItem("lla_user");
 const AuthContext = createContext({});
-const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 100;
+const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();

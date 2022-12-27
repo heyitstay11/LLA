@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { QnaData } from "./data";
 import { CommentForm } from "./CommentForm";
+import { useAuthContext } from "../../../context/auth";
+import axios from "axios";
 
 const ChildComment = () => {
   return (
     <>
-      <article className="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
+      <article className="p-4 mb-4 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
@@ -106,10 +108,9 @@ const ChildComment = () => {
 };
 
 const ParentComment = ({ child }) => {
-  console.log(child);
   return (
     <>
-      <article className="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
+      <article className="p-6 py-4 mb-2 text-base bg-white rounded-lg dark:bg-gray-900">
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
@@ -213,8 +214,28 @@ const ParentComment = ({ child }) => {
   );
 };
 
-const Comments = ({ uid }) => {
-  let [comments, setComments] = useState(QnaData);
+const Comments = ({ qid }) => {
+  const {
+    auth: { token = "" },
+  } = useAuthContext();
+  const [comment, setComment] = useState("");
+
+  const handleSubmit = async (e) => {
+    console.log("ok");
+    e.preventDefault();
+    if (!comment.trim()) return;
+    try {
+      const { data } = await axios.post(
+        "/qna/comment",
+        { comment: comment.trim(), question: qid },
+        { headers: { "x-auth-token": token } }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <section className="bg-white dark:bg-gray-900 py-8 lg:py-8">
@@ -224,22 +245,24 @@ const Comments = ({ uid }) => {
               Discussion (20)
             </h2>
           </div>
-          <form className="mb-6">
-            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <form className="mb-2" onSubmit={handleSubmit}>
+            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-black border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <label htmlFor="comment" className="sr-only">
                 Your comment
               </label>
               <textarea
                 id="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 rows="6"
-                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-yellow-400 dark:placeholder-gray-400 dark:bg-gray-800"
+                className="px-0 w-full text-sm text-gray-900 border  dark:border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                 placeholder="Write a comment..."
                 required
               ></textarea>
             </div>
             <button
               type="submit"
-              className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+              className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center dark:text-white bg-primary-700 rounded-lg border border-black dark:border-gray-500  focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-400"
             >
               Post comment
             </button>
