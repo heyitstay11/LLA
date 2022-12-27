@@ -1,6 +1,12 @@
 import { useReducer } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useAuthContext } from "../../../context/auth";
 
 export const Modal = ({ setShowModal, showModal }) => {
+  const {
+    auth: { token = "" },
+  } = useAuthContext();
   const initialState = { question: "", tags: "", description: "" };
   const [state, dispatch] = useReducer(
     (state, payload) => ({ ...state, ...payload }),
@@ -13,12 +19,35 @@ export const Modal = ({ setShowModal, showModal }) => {
     dispatch({ [name]: value });
   };
 
-  const handleClear = () => dispatch(initialState);
+  const handleClear = () => {
+    dispatch(initialState);
+    setShowModal(false);
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // validate
-    // submit
+    let q = question.trim();
+    let d = description.trim();
+    let t = tags.trim().split(" ");
+    if (!q || !d) {
+      toast.warn("Fill the details properly");
+      return;
+    }
+    try {
+      const { data } = await axios.post(
+        "/qna/create",
+        {
+          question: q,
+          description: d,
+          tags: t,
+        },
+        { headers: { "x-auth-token": token } }
+      );
+      console.log(data);
+      handleClear();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -62,7 +91,7 @@ export const Modal = ({ setShowModal, showModal }) => {
               type="text"
               id="tags"
               name="tags"
-              placeholder="#english, #food"
+              placeholder="#english #food"
               className="w-full bg-gray-100 dark:bg-white bg-opacity-50 rounded focus:ring-2 focus:ring-indigo-200 focus:bg-transparent border border-gray-300 dark:border-yellow-400 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
             <label htmlFor="description">Description</label>

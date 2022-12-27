@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Modal } from "./component";
+import { Qdata } from "./data";
 
 const Qnapromt = ({ data }) => {
-  console.log(data);
   return (
     <div className="py-8 flex flex-wrap md:flex-nowrap">
       <div className="md:flex-grow">
