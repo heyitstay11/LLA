@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal } from "./component";
+import { Modal } from "./component/Modal";
 import { Qdata } from "./data";
 
 const Qnapromt = ({ data }) => {
