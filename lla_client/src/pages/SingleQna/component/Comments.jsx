@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { QnaData } from "./data";
-import { CommentForm } from "./CommentForm";
 import { useAuthContext } from "../../../context/auth";
 import axios from "axios";
 
-const ChildComment = () => {
+const ChildComment = ({ comment, createdAt, postedBy }) => {
   return (
     <>
-      <article className="p-4 mb-4 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
+      <article className="p-4 mb-2 py-2 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
@@ -16,11 +14,13 @@ const ChildComment = () => {
                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="Jese Leos"
               />
-              Jese Leos
+              {postedBy?.name || "Michael Gough"}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               <time dateTime="2022-02-12" title="February 12th, 2022">
-                Feb. 12, 2022
+                {createdAt
+                  ? new Date(createdAt).toDateString()
+                  : null || "Feb. 8, 2022"}
               </time>
             </p>
           </div>
@@ -77,37 +77,22 @@ const ChildComment = () => {
           </div>
         </footer>
         <p className="text-gray-500 dark:text-gray-400">
-          Much appreciated! Glad you liked it ☺️
+          {comment ||
+            "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy."}
         </p>
-        <div className="flex items-center mt-4 space-x-4">
-          <button
-            type="button"
-            className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400"
-          >
-            <svg
-              aria-hidden="true"
-              className="mr-1 w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              ></path>
-            </svg>
-            Reply
-          </button>
-        </div>
       </article>
     </>
   );
 };
 
-const ParentComment = ({ child }) => {
+const ParentComment = ({
+  comment,
+  createdAt,
+  postedBy,
+  setShowModal,
+  replies = [],
+  _id,
+}) => {
   return (
     <>
       <article className="p-6 py-4 mb-2 text-base bg-white rounded-lg dark:bg-gray-900">
@@ -119,11 +104,13 @@ const ParentComment = ({ child }) => {
                 src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
                 alt="Michael Gough"
               />
-              Michael Gough
+              {postedBy?.name || "Michael Gough"}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               <time dateTime="2022-02-08" title="February 8th, 2022">
-                Feb. 8, 2022
+                {createdAt
+                  ? new Date(createdAt).toDateString()
+                  : null || "Feb. 8, 2022"}
               </time>
             </p>
           </div>
@@ -180,13 +167,14 @@ const ParentComment = ({ child }) => {
           </div>
         </footer>
         <p className="text-gray-500 dark:text-gray-400">
-          Very straight-to-point article. Really worth time reading. Thank you!
-          But tools are just the instruments for the UX designers. The knowledge
-          of the design tools are as important as the creation of the design
-          strategy.
+          {comment ||
+            "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy."}
         </p>
         <div className="flex items-center mt-4 space-x-4">
           <button
+            onClick={() => {
+              setShowModal(_id);
+            }}
             type="button"
             className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400"
           >
@@ -209,12 +197,15 @@ const ParentComment = ({ child }) => {
           </button>
         </div>
       </article>
-      {child && <ChildComment />}
+      {/* {childComment &&} */}
+      {replies?.map((reply) => {
+        return <ChildComment key={reply._id} {...reply} />;
+      })}
     </>
   );
 };
 
-const Comments = ({ qid }) => {
+const Comments = ({ qid, comments = [], setShowModal }) => {
   const {
     auth: { token = "" },
   } = useAuthContext();
@@ -242,7 +233,7 @@ const Comments = ({ qid }) => {
         <div className="w-4/5 mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-yellow-400">
-              Discussion (20)
+              Discussion ({comments.length})
             </h2>
           </div>
           <form className="mb-2" onSubmit={handleSubmit}>
@@ -267,9 +258,16 @@ const Comments = ({ qid }) => {
               Post comment
             </button>
           </form>
-          <ParentComment child={true} />
-          <ParentComment child={false} />
-          <ParentComment child={false} />
+          {comments?.length == 0 && (
+            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-yellow-400">
+              No Comments available
+            </h2>
+          )}
+          {comments?.map((c) => {
+            return (
+              <ParentComment key={c._id} {...c} setShowModal={setShowModal} />
+            );
+          })}
         </div>
       </section>
     </>

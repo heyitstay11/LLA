@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthContext } from "../../../context/auth";
@@ -7,44 +7,26 @@ export const Modal = ({ setShowModal, showModal }) => {
   const {
     auth: { token = "" },
   } = useAuthContext();
-  const initialState = { question: "", tags: "", description: "" };
-  const [state, dispatch] = useReducer(
-    (state, payload) => ({ ...state, ...payload }),
-    initialState
-  );
-  const { question, tags, description } = state;
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    dispatch({ [name]: value });
-  };
-
-  const handleClear = () => {
-    dispatch(initialState);
-    setShowModal(false);
-  };
+  const [comment, setComment] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let q = question.trim();
-    let d = description.trim();
-    let t = tags.trim().split(" ");
-    if (!q || !d) {
+    if (!comment.trim()) {
       toast.warn("Fill the details properly");
       return;
     }
     try {
       const { data } = await axios.post(
-        "/qna/create",
+        "/qna/comment",
         {
-          question: q,
-          description: d,
-          tags: t,
+          comment,
+          parent: showModal,
         },
         { headers: { "x-auth-token": token } }
       );
       console.log(data);
-      handleClear();
+      setComment("");
+      setShowModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -71,33 +53,14 @@ export const Modal = ({ setShowModal, showModal }) => {
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
+          {/* <h2 className="text-2xl my-1 font-medium text-center text-gray-900 title-font mb-2 ">
+            Reply to {showModal}
+          </h2> */}
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <label htmlFor="question">Enter your Question</label>
-            <input
-              value={question}
-              onChange={handleInput}
-              type="text"
-              id="question"
-              name="question"
-              minLength={5}
-              required={true}
-              placeholder="Greetings in spanish"
-              className="w-full bg-gray-100 dark:bg-white bg-opacity-50 rounded focus:ring-2 focus:ring-indigo-200 focus:bg-transparent border border-gray-300 dark:border-yellow-400 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-            />
-            <label htmlFor="tags">Enter Tags</label>
-            <input
-              value={tags}
-              onChange={handleInput}
-              type="text"
-              id="tags"
-              name="tags"
-              placeholder="#english #food"
-              className="w-full bg-gray-100 dark:bg-white bg-opacity-50 rounded focus:ring-2 focus:ring-indigo-200 focus:bg-transparent border border-gray-300 dark:border-yellow-400 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-            />
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Write a Reply</label>
             <textarea
-              value={description}
-              onChange={handleInput}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               minLength={10}
               required={true}
               id="description"
@@ -111,11 +74,11 @@ export const Modal = ({ setShowModal, showModal }) => {
               type="submit"
               className="py-2 px-4 bg-yellow-500 text-white rounded hover:bg-yellow-700 mr-2"
             >
-              <i className="fas fa-times"></i> Create
+              <i className="fas fa-times"></i> Reply
             </button>
             <button
               onClick={() => {
-                handleClear();
+                setComment("");
                 setShowModal(false);
               }}
               type="button"

@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Comments from "./component/Comments";
+import Modal from "./component/Modal";
 import axios from "axios";
 
 const SingleQna = () => {
   const { qid } = useParams();
   const [qna, setQna] = useState({});
+  const [comments, setComments] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
   const loadQna = async () => {
     if (!qid) return;
     try {
-      const { data } = await axios.get("/qna/" + qid);
-      setQna(data);
+      const {
+        data: { qna, comments = [] },
+      } = await axios.get("/qna/" + qid);
+      setQna(qna);
+      setComments(comments);
+      console.log(comments);
     } catch (error) {
       console.log(error);
     }
@@ -20,6 +28,7 @@ const SingleQna = () => {
   }, [qid]);
   return (
     <>
+      <Modal {...{ setShowModal, showModal }} />
       <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-gray-100">
         <div className="flex w-full justify-center">
           <div className="py-8 flex flex-wrap md:flex-nowrap">
@@ -34,7 +43,7 @@ const SingleQna = () => {
             </div>
           </div>
         </div>
-        <Comments qid={qid} />
+        <Comments qid={qid} comments={comments} setShowModal={setShowModal} />
       </section>
     </>
   );
