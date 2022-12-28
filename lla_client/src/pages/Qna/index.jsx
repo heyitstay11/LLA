@@ -1,19 +1,20 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Modal } from "./component/Modal";
-import { Qdata } from "./data";
-
+import { Link } from "react-router-dom";
 const Qnapromt = ({ data }) => {
   return (
     <div className="py-8 flex flex-wrap md:flex-nowrap">
       <div className="md:flex-grow">
-        <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400">
-          {data.topic}
-        </h2>
+        <Link to={"/qna/" + data._id}>
+          <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400">
+            {data.question}
+          </h2>
+        </Link>
+
         <p className="leading-relaxed">
-          Glossier echo park pug, church-key sartorial biodiesel vexillologist
-          pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag
-          selfies, poke vaporware kombucha lumbersexual pork belly polaroid
-          hoodie portland craft beer.
+          {data.description ||
+            "Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer."}
         </p>
       </div>
     </div>
@@ -22,7 +23,19 @@ const Qnapromt = ({ data }) => {
 
 const Qna = () => {
   const [showModal, setShowModal] = useState(false);
-  const [question, setQuestion] = useState(Qdata);
+  const [question, setQuestion] = useState([]);
+
+  const loadRecentQuestions = async () => {
+    try {
+      const { data } = await axios.get("/qna/");
+      setQuestion(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    loadRecentQuestions();
+  }, []);
   return (
     <>
       <Modal {...{ showModal, setShowModal }} />
@@ -54,9 +67,13 @@ const Qna = () => {
         </div>
         <div className="container py-4 content-center mt-2">
           <div className="-my-4 mx-auto py-2 divide-y-2 divide-gray-300 w-4/5">
+            {question?.length == 0 && (
+              <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
+                No Questions Posted
+              </h1>
+            )}
             {question.map((data) => {
-              console.log(data);
-              return <Qnapromt key={data.uid} data={data} />;
+              return <Qnapromt key={data._id} data={data} />;
             })}
           </div>
         </div>

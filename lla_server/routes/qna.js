@@ -5,8 +5,16 @@ import Comment from "../models/comment.js";
 import { requireAuth } from "../middlewares/auth.js";
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("QNA");
+router.get("/", async (req, res) => {
+  try {
+    const questions = await Question.find()
+      .select("question tags description _id")
+      .limit(10);
+    res.json(questions);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get("/:id", async (req, res) => {

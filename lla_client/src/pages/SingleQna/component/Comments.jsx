@@ -222,6 +222,7 @@ const Comments = ({ qid, comments = [], setShowModal }) => {
         { headers: { "x-auth-token": token } }
       );
       console.log(data);
+      setComment("");
     } catch (error) {
       console.log(error);
     }
