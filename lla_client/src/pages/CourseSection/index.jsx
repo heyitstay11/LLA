@@ -2,8 +2,24 @@ import { useReducer } from "react";
 import { ACTION_TYPES, initialState, reducer } from "./reducer";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function YouTubeGetID(url) {
+  var ID = "";
+  url = url
+    .replace(/(>|<)/gi, "")
+    .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  if (url[2] !== undefined) {
+    ID = url[2].split(/[^0-9a-z_\-]/i);
+    ID = ID[0];
+  } else {
+    ID = url;
+  }
+  return ID;
+}
 
 export const CourseSection = () => {
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     title,
@@ -27,16 +43,23 @@ export const CourseSection = () => {
     let link = "";
     try {
       link = new URL(partValue);
-      console.log(link);
+      link = link.href;
     } catch (error) {
       toast.error("Invalid URL");
       return;
+    }
+    if (partType == "Video") {
+      link = YouTubeGetID(link);
+      if (!link) {
+        toast.error("Invalid Youtube URL");
+        return;
+      }
     }
     dispatch({
       type: ACTION_TYPES.ADD_PART,
       payload: {
         type: partType,
-        value: link.href,
+        value: link,
         description: partDescription,
       },
     });
@@ -46,6 +69,7 @@ export const CourseSection = () => {
     try {
       const { data } = await axios.post("/course/createSection", { ...state });
       console.log(data);
+      navigate("/courseboard/" + courseID);
     } catch (error) {
       console.log(error);
       toast.error("An error occured, try again");
@@ -119,7 +143,11 @@ export const CourseSection = () => {
                       >
                         {index + 1}.&nbsp;
                         <a
-                          href={l.value}
+                          href={
+                            l.type == "Video"
+                              ? "https://www.youtube.com/watch?v=" + l.value
+                              : l.value
+                          }
                           target="_blank"
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >

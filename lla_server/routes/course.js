@@ -10,10 +10,15 @@ router.get("/", (_, res) => {
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
+  const { section = false } = req.query;
   try {
     const course = await Course.findById(id);
     if (!course)
       return res.send(404).json({ message: "No such course exists" });
+    if (section) {
+      let sections = await CourseSection.find({ inCourse: id });
+      course._doc.sections = sections;
+    }
     res.json(course);
   } catch (error) {
     console.log(error);
