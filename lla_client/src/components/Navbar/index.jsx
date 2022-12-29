@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../context/auth";
 import { useThemeContext } from "../../context/theme";
+
 const Navbar = () => {
   const { auth = {}, setAuth } = useAuthContext();
   const { theme, updateTheme } = useThemeContext();
@@ -45,7 +46,7 @@ const Navbar = () => {
                 }
               >
                 {/* Courses */}
-                <span className="underline">Welcome {auth?.name}</span>
+                <span className="underline">Courses</span>
               </NavLink>
               <NavLink
                 to={"/quiz"}

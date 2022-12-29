@@ -42,6 +42,7 @@ const App = () => {
         <Route path="/meeting/:meetingId" element={<Meeting />} />
         <Route path="/qna" element={<Qna />} />
         <Route path="/courseboard" element={<Dashboard />} />
+        <Route path="/courseboard/:id" element={<Dashboard />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
         <Route path="/quizmaker" element={<QuizMaker />} />
