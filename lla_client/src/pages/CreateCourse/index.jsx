@@ -1,10 +1,16 @@
 import axios from "axios";
 import { useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { uploadFile } from "../../api/uploadFile";
+import { useAuthContext } from "../../context/auth";
 import { ACTION_TYPES, initialState, reducer } from "./reducers";
 
 export const CreateCourse = () => {
+  const {
+    auth: { token },
+  } = useAuthContext();
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { learnings, title, details, proficiency, price, currentLearning } =
     state;
@@ -48,8 +54,13 @@ export const CreateCourse = () => {
 
   const handleSubmitCourse = async () => {
     try {
-      const { data } = await axios.post("/course/create", { ...state });
+      const { data } = await axios.post(
+        "/course/create",
+        { ...state },
+        { headers: { "x-auth-token": token } }
+      );
       console.log(data);
+      navigate("/course/" + data.id);
     } catch (error) {
       toast.error("An error occured, try again");
     }
@@ -58,9 +69,9 @@ export const CreateCourse = () => {
   return (
     <div className="w-full dark:bg-slate-900 dark:text-white flex flex-col items-center">
       <h1 className="text-2xl mt-6">Create New Course</h1>
-      <div className="block w-full md:w-2/3 m-8 p-6 rounded-lg border border-gray-600 dark:border-white bg-white max-w-sm dark:bg-slate-900 dark:text-white">
-        <form>
-          <div className="form-group mb-6 ">
+      <div className="container w-full md:w-full my-8 p-6 rounded-lg border border-gray-600 dark:border-white bg-white max-w-xl dark:bg-slate-900 dark:text-white">
+        <form className="w-full flex-grow">
+          <div className="form-group mb-6 flex-grow">
             <label
               htmlFor="title"
               className="form-label inline-block mb-2 text-gray-700 dark:text-white"
@@ -77,10 +88,10 @@ export const CreateCourse = () => {
               placeholder="Enter Title"
             />
           </div>
-          <div className="form-group mb-6">
+          <div className="form-group mb-6 flex-grow">
             <label
               htmlFor="details"
-              className="form-label inline-block mb-2 text-gray-700 dark:text-white"
+              className="form-label inline-block mb-2 text-gray-700 dark:text-white "
             >
               Course Details
             </label>
@@ -124,7 +135,7 @@ export const CreateCourse = () => {
               type="number"
               value={price}
               onChange={handleInputChange}
-              className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control block text-lg w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               id="price"
               name="price"
               min={0}
@@ -132,7 +143,7 @@ export const CreateCourse = () => {
             />
           </div>
           <div className="form-group mb-6 ">
-            <div className="flex justify-center mb-2">
+            <div className="flex justify-start mb-2">
               {learnings.length > 0 && (
                 <ul className="bg-white rounded-lg border border-gray-200 w-96 text-gray-900 dark:bg-slate-900 dark:text-white">
                   {learnings.map((l, index) => {
@@ -174,8 +185,8 @@ export const CreateCourse = () => {
             </div>
           </div>
           <div className="form-group mb-6 ">
-            <div className="flex justify-center">
-              <div className="mb-3 w-96">
+            <div className="flex">
+              <div className="mb-3">
                 <label
                   htmlFor="thumbnail"
                   className="form-label inline-block mb-2 text-gray-700 dark:text-white"

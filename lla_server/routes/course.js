@@ -1,11 +1,20 @@
 import { Router } from "express";
 import Course from "../models/course.js";
 import CourseSection from "../models/courseSection.js";
+import { requireAuth } from "../middlewares/auth.js";
 
 const router = Router();
 
-router.get("/", (_, res) => {
-  res.send("Course");
+router.get("/", async (_, res) => {
+  try {
+    const courses = await Course.find()
+      .limit(20)
+      .populate("createdBy", "_id name email");
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get("/:id", async (req, res) => {
@@ -26,8 +35,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", requireAuth, async (req, res) => {
   const { title, details, price, learnings, thumbnail, proficiency } = req.body;
+  const { _id: userId } = req.user || {};
   try {
     const newCourse = await Course.create({
       title,
@@ -36,6 +46,7 @@ router.post("/create", async (req, res) => {
       learnings,
       thumbnail,
       proficiency,
+      createdBy: userId,
     });
     res.status(201).json({ id: newCourse._id });
   } catch (error) {

@@ -28,7 +28,7 @@ const SingleQna = () => {
   }, [qid]);
   return (
     <>
-      <Modal {...{ setShowModal, showModal }} />
+      <Modal {...{ setShowModal, showModal, loadQna }} />
       <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-gray-100">
         <div className="flex w-full justify-center">
           <div className="py-8 flex flex-wrap md:flex-nowrap">
@@ -45,7 +45,12 @@ const SingleQna = () => {
             </div>
           </div>
         </div>
-        <Comments qid={qid} comments={comments} setShowModal={setShowModal} />
+        <Comments
+          qid={qid}
+          comments={comments}
+          setShowModal={setShowModal}
+          loadQna={loadQna}
+        />
       </section>
     </>
   );
