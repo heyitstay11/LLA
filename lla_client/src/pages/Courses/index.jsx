@@ -1,12 +1,24 @@
 import { courseData } from "./data";
-import { useState } from "react";
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Card from "./components/Card";
+import axios from "axios";
+
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [courses, setCourses] = useState([]);
+
+  const loadCourses = async () => {
+    try {
+      const { data } = await axios.get("/course");
+      console.log(data);
+      setCourses(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const filteredCourseData = useMemo(() => {
-    let filteredData = courseData.slice();
+    let filteredData = courses.slice();
 
     if (!searchTerm) return [];
     if (searchTerm.trim()) {
@@ -16,7 +28,11 @@ const Courses = () => {
     }
 
     return filteredData;
-  }, [searchTerm, courseData]);
+  }, [searchTerm, courses]);
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
 
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
@@ -47,9 +63,12 @@ const Courses = () => {
           Featured Courses
         </h1>
         <div className="flex flex-wrap -m-4">
-          {courseData?.map((course) => {
+          {/* {courseData?.map((course) => {
             const { author } = course;
             return <Card key={author} {...course} />;
+          })} */}
+          {courses?.map((course) => {
+            return <Card key={course._id} {...course} />;
           })}
         </div>
       </div>

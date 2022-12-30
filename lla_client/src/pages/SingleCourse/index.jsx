@@ -154,13 +154,19 @@ const SingleCourse = () => {
               What you will learn in <q>{title || "Dummy Title"}</q>
             </h1>
             {learnings?.map((point, index) => (
-              <p key={index} className="leading-relaxed dark:text-white">
-                &nbsp; {point}
+              <p
+                key={index}
+                className="leading-relaxed my-2 px-2 dark:text-white"
+              >
+                {index + 1}&nbsp; {point}
               </p>
             ))}
             {content?.map((point, index) => (
-              <p key={index} className="leading-relaxed dark:text-white">
-                &nbsp; {point}
+              <p
+                key={index}
+                className="leading-relaxed dark:text-white my-2 px-2"
+              >
+                {index + 1}&nbsp; {point}
               </p>
             ))}
           </div>
