@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthContext } from "../../../context/auth";
 
-export const Modal = ({ setShowModal, showModal }) => {
+export const Modal = ({ setShowModal, showModal, loadQna }) => {
   const {
     auth: { token = "" },
   } = useAuthContext();
@@ -26,6 +26,7 @@ export const Modal = ({ setShowModal, showModal }) => {
       );
       console.log(data);
       setComment("");
+      loadQna();
       setShowModal(false);
     } catch (error) {
       console.log(error);

@@ -24,7 +24,7 @@ const ChildComment = ({ comment, createdAt, postedBy }) => {
               </time>
             </p>
           </div>
-          <button
+          {/* <button
             id="dropdownComment2Button"
             data-dropdown-toggle="dropdownComment2"
             className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -74,7 +74,7 @@ const ChildComment = ({ comment, createdAt, postedBy }) => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </footer>
         <p className="text-gray-500 dark:text-gray-400">
           {comment ||
@@ -92,7 +92,25 @@ const ParentComment = ({
   setShowModal,
   replies = [],
   _id,
+  loadQna,
 }) => {
+  const {
+    auth: { _id: userId, token },
+  } = useAuthContext();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCommentDelete = async () => {
+    try {
+      const { data } = await axios.delete("/qna/comment/" + _id, {
+        headers: { "x-auth-token": token },
+      });
+      console.log(data);
+      loadQna();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <article className="p-6 py-4 mb-2 text-base bg-white rounded-lg dark:bg-gray-900">
@@ -114,57 +132,54 @@ const ParentComment = ({
               </time>
             </p>
           </div>
-          <button
-            id="dropdownComment1Button"
-            data-dropdown-toggle="dropdownComment1"
-            className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            type="button"
-          >
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-            </svg>
-            <span className="sr-only">Comment settings</span>
-          </button>
-          <div
-            id="dropdownComment1"
-            className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-          >
-            <ul
-              className="py-1 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="dropdownMenuIconHorizontalButton"
-            >
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          {userId === postedBy?._id && (
+            <>
+              <button
+                onClick={() => setIsOpen((prev) => !prev)}
+                id="dropdownComment1Button"
+                data-dropdown-toggle="dropdownComment1"
+                className="inline-flex flex-col items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                type="button"
+              >
+                <svg
+                  className="w-5 h-5"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Edit
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                </svg>
+                {isOpen && <span>Close</span>}
+                <span className="sr-only">Comment settings</span>
+              </button>
+              <div
+                id="dropdownComment1"
+                className={`${
+                  isOpen ? "" : "hidden"
+                } z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+              >
+                <ul
+                  className="py-1 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownMenuIconHorizontalButton"
                 >
-                  Remove
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Report
-                </a>
-              </li>
-            </ul>
-          </div>
+                  <li>
+                    <button className="block w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      Edit
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleCommentDelete}
+                      className="block  w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         </footer>
         <p className="text-gray-500 dark:text-gray-400">
           {comment ||
@@ -205,7 +220,7 @@ const ParentComment = ({
   );
 };
 
-const Comments = ({ qid, comments = [], setShowModal }) => {
+const Comments = ({ qid, comments = [], setShowModal, loadQna }) => {
   const {
     auth: { token = "" },
   } = useAuthContext();
@@ -223,6 +238,7 @@ const Comments = ({ qid, comments = [], setShowModal }) => {
       );
       console.log(data);
       setComment("");
+      loadQna();
     } catch (error) {
       console.log(error);
     }
@@ -266,7 +282,12 @@ const Comments = ({ qid, comments = [], setShowModal }) => {
           )}
           {comments?.map((c) => {
             return (
-              <ParentComment key={c._id} {...c} setShowModal={setShowModal} />
+              <ParentComment
+                key={c._id}
+                {...c}
+                setShowModal={setShowModal}
+                loadQna={loadQna}
+              />
             );
           })}
         </div>

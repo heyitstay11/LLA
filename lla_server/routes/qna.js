@@ -81,4 +81,31 @@ router.post("/comment", requireAuth, async (req, res) => {
   }
 });
 
+router.delete("/comment/:id", requireAuth, async (req, res) => {
+  const { id: commentId } = req.params;
+  const { _id: userId } = req.user || {};
+  try {
+    const user = await User.findById(userId).select("_id");
+    if (!user) return res.status(404).json({ message: "No such User Found" });
+
+    const comment = await Comment.findById(commentId)
+      .select("_id")
+      .populate("postedBy", "_id");
+    if (!comment)
+      return res.status(404).json({ message: "No such Comment Exists" });
+
+    if (comment.postedBy._id.toString() !== userId)
+      return res.status(401).json({ message: "Unauthorized" });
+
+    // delete the replies
+    await Comment.deleteMany({ parent: comment._id });
+    await comment.deleteOne();
+
+    res.json({ id: commentId });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 export default router;
