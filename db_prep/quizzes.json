@@ -31,4 +31,300 @@
     }
   },
   "__v": 0
+},{
+  "_id": {
+    "$oid": "63b05b1249ee6695984bca07"
+  },
+  "title": "English Grammar Quiz on Tenses",
+  "desc": "English Grammar Quiz on Tenses",
+  "questions": [
+    {
+      "type": "text",
+      "question": "Guess The Tense. Why do you live in France?",
+      "answer1": "present perfect",
+      "answer2": "present continuous",
+      "answer3": "present simple",
+      "answer4": "past simple",
+      "correctAnswer": "present simple"
+    },
+    {
+      "type": "text",
+      "question": "Guess the Tense. You are visiting EnglishClub.",
+      "answer1": "present perfect",
+      "answer2": "present continuous",
+      "answer3": "present simple",
+      "answer4": "future perfect",
+      "correctAnswer": "present continuous"
+    },
+    {
+      "type": "text",
+      "question": "I haven't had breakfast yet.",
+      "answer1": "present perfect",
+      "answer2": "present continuous",
+      "answer3": "present simple",
+      "answer4": "past simple",
+      "correctAnswer": "present perfect"
+    },
+    {
+      "type": "text",
+      "question": "Would you like a coffee?",
+      "answer1": "conditional",
+      "answer2": "present simple",
+      "answer3": "future simple",
+      "answer4": "past simple",
+      "correctAnswer": "conditional"
+    },
+    {
+      "type": "text",
+      "question": "Were you working at 9 o'clock?",
+      "answer1": "past simple",
+      "answer2": "past continuous",
+      "answer3": "past perfect",
+      "answer4": "present simple",
+      "correctAnswer": "past continuous"
+    },
+    {
+      "type": "text",
+      "question": "Did Tara phone you yesterday?",
+      "answer1": "past simple",
+      "answer2": "past continuous",
+      "answer3": "past perfect",
+      "answer4": "present continuous",
+      "correctAnswer": "past simple"
+    },
+    {
+      "type": "text",
+      "question": "The train had already left.",
+      "answer1": "past simple",
+      "answer2": "past continuous",
+      "answer3": "past perfect",
+      "answer4": "future simple",
+      "correctAnswer": "past perfect"
+    },
+    {
+      "type": "text",
+      "question": "We'll have finished by 6pm.",
+      "answer1": "future perfect",
+      "answer2": "future continuous",
+      "answer3": "future simple",
+      "answer4": "present continuous",
+      "correctAnswer": "future perfect"
+    },
+    {
+      "type": "text",
+      "question": "Will he still be travelling this evening?",
+      "answer1": "future perfect",
+      "answer2": "future continuous",
+      "answer3": "future simple",
+      "answer4": "present simple",
+      "correctAnswer": "future continuous"
+    },
+    {
+      "type": "text",
+      "question": "Will you be in Bangkok tomorrow?",
+      "answer1": "past simple",
+      "answer2": "future perfect",
+      "answer3": "future continuous",
+      "answer4": "future simple",
+      "correctAnswer": "future simple"
+    }
+  ],
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672502034531"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672502034531"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b05f4f8e137de2f310907c"
+  },
+  "title": "Conjunctions Quiz",
+  "desc": "English Grammar Conjunctions",
+  "questions": [
+    {
+      "type": "text",
+      "question": "The main job of a conjunction is to _____ two parts of a sentence.",
+      "answer1": "invert ",
+      "answer2": "compare",
+      "answer3": "join",
+      "answer4": "remove",
+      "correctAnswer": "invert "
+    },
+    {
+      "type": "text",
+      "question": "Which of the following is a \"compound\" conjunction?",
+      "answer1": "it is it",
+      "answer2": "so big that",
+      "answer3": "although",
+      "answer4": "as long as",
+      "correctAnswer": "as long as"
+    },
+    {
+      "type": "text",
+      "question": "Which type of conjunction joins two parts of a sentence that are grammatically equal?",
+      "answer1": "balancing",
+      "answer2": "subordinating",
+      "answer3": "coordinating",
+      "answer4": "using",
+      "correctAnswer": "coordinating"
+    },
+    {
+      "type": "text",
+      "question": "The word \"although\" can be used to join a dependent clause to",
+      "answer1": "dependent clause",
+      "answer2": "conjuction",
+      "answer3": "main clause",
+      "answer4": "minor clause",
+      "correctAnswer": "main clause"
+    },
+    {
+      "type": "text",
+      "question": "Coordinating conjunctions always come _____ the words or clauses that they join.",
+      "answer1": "after",
+      "answer2": "between",
+      "answer3": "before",
+      "answer4": "after",
+      "correctAnswer": "between"
+    },
+    {
+      "type": "text",
+      "question": "The words \"and\", \"but\" and \"so\" are often classified as _____ conjunctions.",
+      "answer1": "coordinating",
+      "answer2": "subordinating",
+      "answer3": "dependant",
+      "answer4": "diffusing",
+      "correctAnswer": "coordinating"
+    },
+    {
+      "type": "text",
+      "question": "A subordinating conjunction comes ________ of a dependent clause.",
+      "answer1": "at the start",
+      "answer2": "in the middle",
+      "answer3": "at the end",
+      "answer4": "can be present anywhere",
+      "correctAnswer": "at the start"
+    },
+    {
+      "type": "text",
+      "question": "The words \"although\", \"since\" and \"unless\" are examples of common _____ conjunctions.",
+      "answer1": "subordinating",
+      "answer2": "coordinating",
+      "answer3": "dependent",
+      "answer4": "independant",
+      "correctAnswer": "subordinating"
+    },
+    {
+      "type": "text",
+      "question": "Another word for an independent clause is a",
+      "answer1": "unique clause",
+      "answer2": "main clause",
+      "answer3": "singular",
+      "answer4": "plural",
+      "correctAnswer": "main clause"
+    },
+    {
+      "type": "text",
+      "question": "When \"and\" is used with the last word of a list, a comma is",
+      "answer1": "optional",
+      "answer2": "never used",
+      "answer3": "required",
+      "answer4": "none of the above",
+      "correctAnswer": "optional"
+    }
+  ],
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672503119123"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672503119123"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b065e0e55a0d099a6ec5b4"
+  },
+  "title": "Guess the Things",
+  "desc": "German Image Identification Quiz for German lannguage learner ",
+  "questions": [
+    {
+      "type": "image",
+      "question": "Guess the vegetable",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672504268/vfpstgrutkqgp1csdlx1.jpg",
+      "answer1": "Kartoeeln",
+      "answer2": "Batata",
+      "answer3": "potato",
+      "answer4": "Patate",
+      "correctAnswer": "Kartoeeln"
+    },
+    {
+      "type": "image",
+      "question": "Name the thing",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672504410/vpoayqc8tw3bjcogqhlr.jpg",
+      "answer1": "Table",
+      "answer2": "Tisch",
+      "answer3": "mesa",
+      "answer4": "chaise",
+      "correctAnswer": "Tisch"
+    },
+    {
+      "type": "image",
+      "question": "German name for ",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672504505/q97oeajmpjg6us88ox6u.jpg",
+      "answer1": "chien",
+      "answer2": "perro",
+      "answer3": "hund",
+      "answer4": "inu",
+      "correctAnswer": "hund"
+    },
+    {
+      "type": "image",
+      "question": "German name for",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672504618/brrbrvtani4ob2d6gdko.png",
+      "answer1": "kuruma",
+      "answer2": "wagen",
+      "answer3": "taudo",
+      "answer4": "wagen",
+      "correctAnswer": "wagen"
+    },
+    {
+      "type": "image",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672504757/osyawsmk2pl3oos1ifaf.jpg",
+      "question": "Name this",
+      "answer1": "Tournevis",
+      "answer2": "destornillador",
+      "answer3": "Schraubenzieher",
+      "answer4": "Doraiba",
+      "correctAnswer": "Schraubenzieher"
+    }
+  ],
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672504800308"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672504800308"
+    }
+  },
+  "__v": 0
 }]

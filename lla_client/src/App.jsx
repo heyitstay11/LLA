@@ -35,6 +35,7 @@ const App = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/course/:id" element={<SingleCourse />} />
         <Route path="/singlecourse/:author" element={<SingleCourse />} />
+        <Route path="/quizmaker" element={<QuizMaker />} />
         <Route path="/quiz" element={<QuizList />} />
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route path="/result/:id" element={<Result />} />
@@ -45,7 +46,6 @@ const App = () => {
         <Route path="/courseboard/:id" element={<Dashboard />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
-        <Route path="/quizmaker" element={<QuizMaker />} />
       </Routes>
       <Footer />
     </>
