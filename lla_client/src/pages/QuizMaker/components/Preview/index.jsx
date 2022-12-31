@@ -35,21 +35,21 @@ export const Preview = ({
         </div>
         <div className="flex items-center justify-between my-2">
           <div className="pl-4">
-            Ans 1. {answer1}
+            Opt 1. {answer1}
             <FileLink fileURL={file1} />
           </div>
           <div className="pr-4">
-            Ans 2. {answer2}
+            Opt 2. {answer2}
             <FileLink fileURL={file2} />
           </div>
         </div>
         <div className="flex items-center justify-between my-2">
           <div className="pl-4">
-            Ans 3. {answer3}
+            Opt 3. {answer3}
             <FileLink fileURL={file3} />
           </div>
           <div className="pr-4">
-            Ans 4. {answer4}
+            Opt 4. {answer4}
             <FileLink fileURL={file4} />
           </div>
         </div>

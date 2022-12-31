@@ -3,9 +3,12 @@ import { Modal } from "./components/Modal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Preview } from "./components/Preview";
+import { useAuthContext } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export const QuizMaker = () => {
   const selectRef = useRef();
+  const navigate = useNavigate();
   const {
     auth: { token = "" },
   } = useAuthContext();
@@ -43,7 +46,6 @@ export const QuizMaker = () => {
       ...currentQuestion,
       correctAnswer: currentQuestion[selectRef.current.value],
     };
-    console.log(newQuestion);
     setQuiz((prev) => [...prev, newQuestion]);
     toast.success("Question Added Successfully");
     setCurrentQuestion({});
@@ -61,7 +63,7 @@ export const QuizMaker = () => {
       );
       return;
     }
-    if (currentQuestion.type == audio && e.target.id == "questionFile") {
+    if (currentQuestion.type == "audio" && e.target.id == "questionFile") {
       toast.warn(
         "File Uploads for question field not supported for audio based questions"
       );
@@ -118,6 +120,7 @@ export const QuizMaker = () => {
         { headers: { "x-auth-token": token } }
       );
       console.log(data);
+      navigate("/quiz/" + data.id);
     } catch (error) {
       console.log(error);
     }
@@ -131,7 +134,7 @@ export const QuizMaker = () => {
 
       <div className="wrapper text-slate-900 min-h-screen flex flex-col items-center justify-center text-gray-600 body-font dark:bg-slate-900 dark:text-white">
         <h1 className="text-3xl my-4">Create a Quiz</h1>
-        <div className="quiz-name">
+        <div className="quiz-name py-1">
           <input
             onChange={(e) =>
               setQuizDetails((prev) => ({ ...prev, title: e.target.value }))
@@ -150,7 +153,7 @@ export const QuizMaker = () => {
             value={quizDetails.desc}
             type="text"
             placeholder="Enter Quiz Details"
-            cols={25}
+            cols={35}
             className="w-full placeholder-black my-2 bg-white rounded border border-2 border-yellow-400  focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           />
         </div>
@@ -181,7 +184,7 @@ export const QuizMaker = () => {
                       }))
                     }
                     type="text"
-                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+                    className="form-control text-lg block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
                     id="currQuestion"
                     placeholder="Example label"
                   />
@@ -215,7 +218,7 @@ export const QuizMaker = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+                      className="form-control  text-lg  block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
                       id="Answer1"
                       placeholder="New Answer"
                       onChange={(e) =>
@@ -254,7 +257,7 @@ export const QuizMaker = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control block  px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+                      className="form-control block  text-lg   px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
                       id="Answer2"
                       placeholder="New Answer"
                       onChange={(e) =>
@@ -295,7 +298,7 @@ export const QuizMaker = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control block  px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+                      className="form-control block  text-lg   px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
                       id="Answer3"
                       placeholder="New Answer"
                       onChange={(e) =>
@@ -334,7 +337,7 @@ export const QuizMaker = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control block  px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
+                      className="form-control block  text-lg   px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-400 focus:outline-none"
                       id="Answer4"
                       placeholder="New Answer"
                       onChange={(e) =>
