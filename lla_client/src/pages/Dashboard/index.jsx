@@ -36,22 +36,20 @@ const Rightboard = ({ course = {}, currPart }) => {
     <div className="w-4/5 h-full dark:bg-slate-900 dark:text-white">
       {currPart ? (
         <div className="relative mb-4 ">
-          <h2 className="p-4 text-lg my-2">
-            {currPart.description || "Demo Description"}
-          </h2>
+          <h2 className="p-4 text-lg my-2">{currPart?.description}</h2>
           {currPart.type == "File" && (
             <>
-              <img
-                src={course.thumbnail || "https://dummyimage.com/600x400"}
-                className="mt-4 player h-1/2 w-1/2 border-2"
-              />
               <a
                 target={"_blank"}
                 className="font-medium p-4 text-yellow-600 dark:text-yellow-500 hover:underline"
                 href={currPart.value}
               >
-                Resources
+                Resource Link
               </a>
+              <img
+                src={course.thumbnail || "https://dummyimage.com/600x400"}
+                className="mt-4 player h-1/2 w-1/2 border-2"
+              />
             </>
           )}
           {currPart.type == "Video" && (
@@ -74,15 +72,14 @@ const Rightboard = ({ course = {}, currPart }) => {
           )}
         </div>
       ) : (
-        <div className="relative mb-4 ">
+        <div className="relative mb-4 py-2">
           <img
             src={course.thumbnail || "https://dummyimage.com/600x400"}
             className="mt-4 player h-3/5 w-3/5 border-2"
           />
-          <h2 className="p-4">{course.details || "Demo Description"}</h2>
-          <Link className="p-4" to={"/course/" + course._id}>
-            More Info
-          </Link>
+          <h2 className="px-4 py-6 max-w-2xl text-lg">
+            {course.details || "Demo Description"}
+          </h2>
         </div>
       )}
     </div>
@@ -118,7 +115,7 @@ const Dashboard = () => {
           />
         </div>
         <div className="lg:w-4/5 pb-10 md:w-4/5 bg-white flex flex-col md:ml-auto w-full ml-4 mt-8 md:mt-0 dark:bg-slate-900 dark:text-white">
-          <h1 className="sm:text-3xl text-2xl text-center py-4 font-medium title-font text-gray-900 dark:bg-slate-900 dark:text-white">
+          <h1 className="sm:text-3xl max-w-2xl mx-auto text-2xl text-center py-6 font-medium title-font text-gray-900 dark:bg-slate-900 dark:text-white">
             {course.title || "Test Course"}
           </h1>
           {currSection?.parts?.length > 0 ? (

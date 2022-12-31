@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "63a80638544850fc80ff5134"
+  },
+  "title": "Audio Quiz",
+  "desc": "Test for audios",
+  "questions": [
+    {
+      "type": "audio",
+      "questionFile": "https://res.cloudinary.com/dtrzqfnui/video/upload/v1671955907/rj6vzsgq3skwmgyxlmef.wav",
+      "question": "hear the audio",
+      "answer1": "a",
+      "answer2": "b",
+      "answer3": "c",
+      "answer4": "d",
+      "file1": "https://res.cloudinary.com/dtrzqfnui/video/upload/v1671955946/z234gttbhqtzqwgr3s7a.wav",
+      "file2": "https://res.cloudinary.com/dtrzqfnui/video/upload/v1671955960/sk6a5e6lu7v3ts9j9jke.wav",
+      "file3": "https://res.cloudinary.com/dtrzqfnui/video/upload/v1671955982/j1qmm9kgoi7pspb6mdos.wav",
+      "file4": "https://res.cloudinary.com/dtrzqfnui/video/upload/v1671956001/jobh8fpn5okshgvtoq1p.wav",
+      "correctAnswer": "a"
+    }
+  ],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1671956024481"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1671956024481"
+    }
+  },
+  "__v": 0
+}]

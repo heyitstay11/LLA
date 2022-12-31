@@ -79,7 +79,7 @@ export const CourseSection = () => {
   return (
     <div className="w-full dark:bg-slate-900 dark:text-white flex flex-col items-center">
       <h1 className="text-2xl mt-6">Create New Section</h1>
-      <div className="block w-full md:w-2/3 m-8 p-6 rounded-lg border border-gray-600 dark:border-white bg-white max-w-sm dark:bg-slate-900 dark:text-white">
+      <div className="block w-full md:w-2/3 m-8 p-6 rounded-lg border border-gray-600 dark:border-white bg-white max-w-md dark:bg-slate-900 dark:text-white">
         <form>
           <div className="form-group mb-6 ">
             <label
@@ -149,7 +149,7 @@ export const CourseSection = () => {
                               : l.value
                           }
                           target="_blank"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          className="font-medium break-all text-blue-600 dark:text-blue-500 hover:underline"
                         >
                           {l.value}
                         </a>{" "}

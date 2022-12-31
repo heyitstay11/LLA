@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "63a86b9284a1c7ce94711eb6"
+  },
+  "title": "First Course",
+  "details": "Lorem ipsum dolor sit amet",
+  "proficiency": "Intermediate",
+  "price": "400",
+  "thumbnail": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1671981028/dgdkyf8b3kcku4suhqg8.png",
+  "learnings": [
+    ";lw;w",
+    "\\d'\\"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63af0ac1c95971b329a1656d"
+  },
+  "title": "The English Master Course: English Grammar, English Speaking",
+  "details": "The Complete English Language Course: English grammar, English speaking, and writing. British and American English.",
+  "proficiency": "Beginner",
+  "price": "399",
+  "thumbnail": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672415937/gjxvokr1d0nckk4qeru1.jpg",
+  "learnings": [
+    "Learn everything about English grammar, English speaking, and English writing.",
+    "Get high scores for English grammar exams like A1, A2, B1, B2, C1, TOEFL, IELTS, and TOEIC.",
+    "Accent Training: Build an American or British accent.",
+    "Use perfect English grammar in real conversations."
+  ],
+  "enrolled": 1,
+  "ratings": 1,
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63af0ec1c95971b329a16578"
+  },
+  "title": "Chinese language for beginners : Mandarin Chinese HSK1-HSK3",
+  "details": "Learn Chinese language : Focus on active learning and practical Mandarin Chinese : Chinese for beginners : HSK1 to HSK3",
+  "proficiency": "Beginner",
+  "price": "489",
+  "thumbnail": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672416920/tbltjhzktt4opks8f0m2.jpg",
+  "learnings": [
+    "Learn common used Chinese language words and sentences",
+    "Speak Chinese language around your home and at work",
+    "Read Mandarin Chinese characters (Simplified characters)",
+    "Carry on a conversation in Mandarin Chinese"
+  ],
+  "enrolled": 1,
+  "ratings": 1,
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63af0f6ac95971b329a1657b"
+  },
+  "title": "Mastering Spanish from Beginner to Advanced: Ultimate Course",
+  "details": "35+ hour Complete Spanish Language Course: Learn Spanish from the most Basic to an Advanced level.",
+  "proficiency": "Beginner",
+  "price": "699",
+  "thumbnail": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672417127/he17ahtey4qynfycwksp.jpg",
+  "learnings": [
+    "Improve your Spanish from a Basic to an Advanced level",
+    "Over 4000+ Spanish phrases and useful words with flashcards for extra practice",
+    "Increase your personal, professional, and business opportunities",
+    "Master Spanish reading, writing and pronunciation with a native speaker",
+    "Be able to have daily life Spanish conversations and understand what people are talking about"
+  ],
+  "enrolled": 1,
+  "ratings": 1,
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63af1011c95971b329a1657e"
+  },
+  "title": "The Complete French Course : Learn French - Beginners",
+  "details": "French Language for Beginners (A0 > A2). French speaking, listening, grammar, reading, vocabulary with a native teacher.",
+  "proficiency": "Beginner",
+  "price": "799",
+  "thumbnail": "https://res.cloudinary.com/dtrzqfnui/image/upload/v1672417297/ni0hnii4dcspgwph5zrg.jpg",
+  "learnings": [
+    "Master the basics of French for good !",
+    "Express yourself with ease on familiar topics.",
+    "Start to speak real French confidently. (A2 level)"
+  ],
+  "enrolled": 1,
+  "ratings": 1,
+  "createdBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "__v": 0
+}]

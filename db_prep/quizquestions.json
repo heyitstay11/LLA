@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "635d101e95a8d8fbb5c5862b"
+  },
+  "type": "text",
+  "question": "capital of india",
+  "options": [
+    "mum",
+    "del",
+    "kol",
+    "chn"
+  ],
+  "answer": "del",
+  "createdIn": {
+    "$oid": "635d101e95a8d8fbb5c58629"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d101e95a8d8fbb5c5862c"
+  },
+  "type": "image",
+  "question": "Name the person",
+  "options": [
+    "john doe",
+    "van rossum",
+    "scott",
+    "stephen"
+  ],
+  "answer": "van rossum",
+  "imgsrc": "https://i.imgur.com/kQbx35z.jpg",
+  "createdIn": {
+    "$oid": "635d101e95a8d8fbb5c58629"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d101e95a8d8fbb5c5862d"
+  },
+  "type": "audio",
+  "question": "Guess the Explosion sound",
+  "desc": "Test your hearing",
+  "options": [
+    "one",
+    "two",
+    "three",
+    "four"
+  ],
+  "answer": "two",
+  "audios": [
+    "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3",
+    "http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/explosion.mp3",
+    "http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/start.ogg",
+    "https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg"
+  ],
+  "createdIn": {
+    "$oid": "635d101e95a8d8fbb5c58629"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d101e95a8d8fbb5c5862e"
+  },
+  "type": "audio2text",
+  "question": "Write what you hear",
+  "desc": "Test your hearing",
+  "answer": "hello",
+  "audio": "https://cdn.pixabay.com/audio/2022/03/10/audio_d3d522e1aa.mp3",
+  "createdIn": {
+    "$oid": "635d101e95a8d8fbb5c58629"
+  },
+  "__v": 0
+}]
