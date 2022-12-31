@@ -16,3 +16,4 @@ export { default as SingleQna } from "./SingleQna";
 export { default as PageNotFound } from "./PageNotFound";
 export { CourseSection } from "./CourseSection";
 export { CreateCourse } from "./CreateCourse";
+export { default as MyCourse } from "./MyCourse";
