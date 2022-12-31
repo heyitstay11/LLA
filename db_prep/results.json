@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "63a98dbe394f34a04f299bca"
+  },
+  "givenAnswers": [
+    "a"
+  ],
+  "total": 1,
+  "score": 1,
+  "timeTaken": 7,
+  "attemptedQuiz": {
+    "$oid": "63a80638544850fc80ff5134"
+  },
+  "attemptedBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672056254804"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672056254804"
+    }
+  },
+  "__v": 0
+}]

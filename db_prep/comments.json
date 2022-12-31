@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "63abf23024e109c5c666882c"
+  },
+  "comment": "In internos omnis ut autem praesentium et autem asperiores ut Quis commodi est dicta perferendis hic Quis quia. Et laboriosam nostrum vel quod odio est laborum rerum. Ut deleniti dicta ut corporis necessitatibus ut consequatur minus est quia beatae est temporibus rerum quo libero rerum sit voluptatem voluptatem. Qui natus asperiores sed quos inventore est voluptatibus consequatur ab natus veritatis ab beatae fugit ad amet saepe. A consequuntur inventore sed velit voluptatibus cum veniam molestias vel enim nobis est illum possimus.",
+  "question": {
+    "$oid": "63aabd0d247c7a9ceab6d5e0"
+  },
+  "postedBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672213040784"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672213040784"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63adbd4aa42b49d789c346aa"
+  },
+  "comment": "Lorem Ipsum Dilor sit aet",
+  "question": {
+    "$oid": "63abeebd289d9bb149ec8904"
+  },
+  "postedBy": {
+    "$oid": "63105e341b0d0089697a124b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1672330570329"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1672330570329"
+    }
+  },
+  "__v": 0
+}]

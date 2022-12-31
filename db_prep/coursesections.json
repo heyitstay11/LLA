@@ -1,0 +1,146 @@
+[{
+  "_id": {
+    "$oid": "63a95f282a156d900870ef91"
+  },
+  "title": "Section 1",
+  "description": "This is the first section ",
+  "parts": [
+    {
+      "type": "File",
+      "value": "http://ok.com/",
+      "description": "we;lkwqk wke;qlwq qwkelkqw"
+    },
+    {
+      "type": "Video",
+      "value": "http://youtube.com/",
+      "description": "wekl ewq\newq'wqlewjk weqkewq"
+    },
+    {
+      "type": "Video",
+      "value": "https://youtu.be/gIhxUb45Dic",
+      "description": "This is a part of a section with youtube video"
+    }
+  ],
+  "inCourse": {
+    "$oid": "63a86b9284a1c7ce94711eb6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63ac3b5b83168885f921a199"
+  },
+  "title": "Section 2",
+  "description": "Ex consequatur odit sit quibusdam asperiores quo expedita officia. Aut doloribus labore est nobis quidem et debitis sequi sed fugit odit. Cum exercitationem internos qui commodi modi hic beatae assumenda. Ut voluptatem quisquam qui aspernatur autem quo minus illum eum nostrum illum in sunt vero.\n\nEt sint molestias est suscipit porro aut voluptatibus accusamus nam internos sunt eum deleniti exercitationem ea dolorum quia. Eos voluptatum unde At enim magni et galisum consequuntur in voluptas suscipit qui blanditiis rerum? Aut aspernatur repellat qui blanditiis excepturi et architecto similique aut necessitatibus mollitia. Ut unde expedita aut repellendus deleniti sit quae doloribus et voluptas quae.",
+  "parts": [
+    {
+      "type": "Video",
+      "value": "3Z96uuV_bkI",
+      "description": "Ab blanditiis dolor est distinctio aspernatur et possimus corrupti qui ipsam omnis. Qui totam optio aut quod aperiam in provident cumque qui internos provident aut porro iusto id doloribus eaque! Qui adipisci unde aut tempora sunt eum reiciendis consequatur non deserunt dicta."
+    },
+    {
+      "type": "File",
+      "value": "https://www.loremipzum.com/en/text-generator",
+      "description": "Lorem ipsum dolor sit amet. Id dolor voluptatem est mollitia magni eos laudantium illum ad itaque voluptas vel maxime maxime. Ex atque quisquam hic tempora molestiae et rerum aliquid!"
+    }
+  ],
+  "inCourse": {
+    "$oid": "63a86b9284a1c7ce94711eb6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63aff9a4fc96327370ad0559"
+  },
+  "title": "Grammar Basics",
+  "description": "This section will focus on building the basics of english grammar",
+  "parts": [
+    {
+      "type": "File",
+      "value": "https://repository.dinus.ac.id/docs/bkd/Modul-Basic_English_Grammar.pdf",
+      "description": " Provided book is organised as student handout learning materials of Basic English\nGrammar. Competency of this level is that students are able to use the following\nsentence structure patterns containing grammatical forms covered in this term such\nas English Verbs, Nouns, Adjectives, Adverbs, Pronouns, Prepositions, Articles,\nConjunctions, Interjections, and Verbals."
+    },
+    {
+      "type": "Video",
+      "value": "bobPMUfr_c0",
+      "description": ""
+    },
+    {
+      "type": "Video",
+      "value": "iJt12OE3c7k",
+      "description": ""
+    },
+    {
+      "type": "Video",
+      "value": "ne2AXok2bl4",
+      "description": ""
+    },
+    {
+      "type": "File",
+      "value": "https://www.proprofs.com/quiz-school/quizshow.php?title=english-test-7th-class&q=1",
+      "description": "A quiz for testing your basic grammar skills"
+    }
+  ],
+  "inCourse": {
+    "$oid": "63af0ac1c95971b329a1656d"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63affc38fc96327370ad057f"
+  },
+  "title": "Pronunciation",
+  "description": "This section will focus on building pronunciation skills",
+  "parts": [
+    {
+      "type": "File",
+      "value": "https://www.uts.edu.au/sites/default/files/Pronunciation%20e-Booklet.pdf",
+      "description": "A book to read and learn pronunciation"
+    },
+    {
+      "type": "Video",
+      "value": "Vu6UVwkUgzc",
+      "description": ""
+    },
+    {
+      "type": "Video",
+      "value": "nbnRm_3_QKU",
+      "description": "How to Link Words"
+    },
+    {
+      "type": "Video",
+      "value": "A6aE4nceJt8",
+      "description": "Intonation in English"
+    }
+  ],
+  "inCourse": {
+    "$oid": "63af0ac1c95971b329a1656d"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63affcf7fc96327370ad0587"
+  },
+  "title": "Basics",
+  "description": "Learn the basics of french language",
+  "parts": [
+    {
+      "type": "Video",
+      "value": "hd0_GZHHWeE",
+      "description": "French Greetings"
+    },
+    {
+      "type": "Video",
+      "value": "H2-REbL2OU0",
+      "description": "French numbers"
+    },
+    {
+      "type": "Video",
+      "value": "PaOVHdpRAK8",
+      "description": "The French Alphabet "
+    }
+  ],
+  "inCourse": {
+    "$oid": "63af1011c95971b329a1657e"
+  },
+  "__v": 0
+}]
