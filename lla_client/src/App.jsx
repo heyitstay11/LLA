@@ -18,6 +18,7 @@ import {
   PageNotFound,
   Dashboard,
   MyCourse,
+  Loading,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
         <Route path="/mycourse" element={<MyCourse />} />
+        <Route path="/loading" element={<Loading />} />
       </Routes>
       <Footer />
     </>

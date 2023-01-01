@@ -2,7 +2,7 @@ const PageNotFound = () => {
   return (
     <section className="flex items-center h-100 p-16 dark:bg-gray-900 dark:text-gray-100">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-        <img src="/pagenotfound.svg" />
+        <img src="/pagenotfound.svg" className="motion-safe:animate-bounce" />
         <div className="max-w-md text-center">
           <h2 className="mb-8 font-extrabold text-9xl dark:text-yellow-400">
             <span className="sr-only dark:bg-yellow-400">Error</span>404
