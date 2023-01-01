@@ -5,7 +5,7 @@ import { requireAuth } from "../middlewares/auth.js";
 
 const router = Router();
 
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   try {
     const courses = await Course.find()
       .limit(20)

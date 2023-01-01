@@ -23,8 +23,18 @@ const cloudinaryConfig = (req, res, next) => {
 
 router.use(cloudinaryConfig);
 
-router.get("/", (req, res) => {
-  res.send("yo");
+router.get("/", async (req, res) => {
+  try {
+    const quizzes = await Quiz.find()
+      .limit(20)
+      .populate("createdBy", "_id name")
+      .select("-__v -updatedAt")
+      .sort({ createdAt: -1 });
+    res.json(quizzes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 //
@@ -69,7 +79,7 @@ router.post("/create", requireAuth, async (req, res) => {
       questions,
       createdBy: userId,
     });
-    res.status(201).json({ _id: newQuiz._id });
+    res.status(201).json({ id: newQuiz._id });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
