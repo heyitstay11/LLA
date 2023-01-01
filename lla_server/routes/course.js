@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Course from "../models/course.js";
 import CourseSection from "../models/courseSection.js";
+import Order from "../models/order.js";
 import { requireAuth } from "../middlewares/auth.js";
 
 const router = Router();
@@ -10,6 +11,20 @@ router.get("/", async (req, res) => {
     const courses = await Course.find()
       .limit(20)
       .populate("createdBy", "_id name email");
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.get("/mycourses", requireAuth, async (req, res) => {
+  const { _id: userId } = req.user || {};
+  try {
+    const courses = await Order.find({ userId: userId })
+      .limit(20)
+      .populate("courseId")
+      .select("-updatedAt -__v -price -payment");
     res.json(courses);
   } catch (error) {
     console.log(error);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -44,7 +44,7 @@ const QuizList = () => {
                   </h2>
                   <p className="leading-relaxed">{desc}</p>
                   <div className="text-yellow-500 inline-flex items-center mt-2">
-                    <NavLink to={"/quiz" + _id}> Start </NavLink>
+                    <Link to={"/quiz/" + _id}> Start </Link>
                   </div>
                 </div>
               </div>
