@@ -32,7 +32,7 @@ const Navbar = () => {
           {auth?.token ? (
             <>
               <NavLink
-                to={"/"}
+                to={"/mycourse"}
                 className={({ isActive }) =>
                   isActive ? activeClass : normalClass
                 }

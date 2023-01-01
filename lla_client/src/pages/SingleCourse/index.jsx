@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useRazorpay from "react-razorpay";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { courseData } from "../Courses/data";
 import { nanoid } from "nanoid";
 
 const SingleCourse = () => {
+  const navigate = useNavigate();
   const { id, author: pAuthor } = useParams();
   const {
     auth: { token = "" },
@@ -76,7 +77,8 @@ const SingleCourse = () => {
             const verifyData = await res.json();
             console.log(verifyData);
             if (verifyData.msg) {
-              toast.success("Payment Done!");
+              navigate("/mycourse");
+              toast.success("Payment Done!, Check Dashboard");
             }
           } catch (error) {
             console.log(error);

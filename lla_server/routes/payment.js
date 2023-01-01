@@ -15,7 +15,7 @@ const razorpay = new Razorpay({
 });
 
 router.get("/", (req, res) => {
-  res.send("hello");
+  res.send("payments, hello");
 });
 
 router.post("/razorpay", requireAuth, async (req, res) => {
