@@ -1,24 +1,21 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useRazorpay from "react-razorpay";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../context/auth";
-import { courseData } from "../Courses/data";
+import { toast } from "react-toastify";
 import { nanoid } from "nanoid";
+import Loading from "../Loading";
 
 const SingleCourse = () => {
   const navigate = useNavigate();
-  const { id, author: pAuthor } = useParams();
+  const { id } = useParams();
   const {
     auth: { token = "" },
   } = useAuthContext();
   const Razorpay = useRazorpay();
-  let sCourse = false;
-  if (pAuthor) {
-    sCourse = courseData.find((course) => course.author == pAuthor);
-  }
-  const [course, setCourse] = useState(sCourse || {});
+  const [course, setCourse] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     title,
@@ -37,12 +34,14 @@ const SingleCourse = () => {
 
   const loadCourse = async () => {
     if (!id) return;
+    setIsLoading(true);
     try {
       const { data } = await axios.get("/course/" + id);
       setCourse(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,6 +50,7 @@ const SingleCourse = () => {
   }, [id]);
 
   const handleBuy = async () => {
+    if (isLoading) return;
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/payment/razorpay`,
@@ -92,8 +92,14 @@ const SingleCourse = () => {
       };
       const razorpay = new Razorpay(options);
       razorpay.open();
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "An error occured");
+    }
   };
+
+  if (isLoading) {
+    return <Loading msg={"Fetching latest data ..."} />;
+  }
 
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">

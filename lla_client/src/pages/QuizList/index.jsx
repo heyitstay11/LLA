@@ -1,31 +1,40 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../Loading";
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const loadQuizzes = async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get("/quiz");
       console.log(data);
       setQuizzes(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
     loadQuizzes();
   }, []);
+  if (isLoading) {
+    return <Loading msg={"Fetching Top Quizzes for you ..."} />;
+  }
   return (
     <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-white">
       <div className="container md:w-5/6 w-8/10 px-5 py-12 mx-auto ">
-        <div className="p-4 mb-6">
+        <div className="p-4">
           <div className="md:w-1/3 mx-auto flex">
             Search
             <input className="border border-2 border-yellow-400 flex-grow ml-2 dark:text-black pl-2" />
           </div>
         </div>
-        <div className="-my-8 divide-y-2 divide-gray-100">
+        <div className="-my-4 divide-y-2 divide-gray-100">
           {quizzes?.map((quiz) => {
             const { createdAt, _id, title, desc } = quiz;
             return (

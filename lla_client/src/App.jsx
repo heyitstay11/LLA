@@ -36,7 +36,6 @@ const App = () => {
         <Route path="/section/create" element={<CourseSection />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/course/:id" element={<SingleCourse />} />
-        <Route path="/singlecourse/:author" element={<SingleCourse />} />
         <Route path="/quizmaker" element={<QuizMaker />} />
         <Route path="/quiz" element={<QuizList />} />
         <Route path="/quiz/:id" element={<Quiz />} />
@@ -46,10 +45,10 @@ const App = () => {
         <Route path="/qna" element={<Qna />} />
         <Route path="/courseboard" element={<Dashboard />} />
         <Route path="/courseboard/:id" element={<Dashboard />} />
-        <Route path="*" element={<PageNotFound />} />
         <Route path="/qna/:qid" element={<SingleQna />} />
         <Route path="/mycourse" element={<MyCourse />} />
         <Route path="/loading" element={<Loading />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
     </>
