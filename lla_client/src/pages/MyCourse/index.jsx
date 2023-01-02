@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuthContext } from "../../context/auth";
 import { Link } from "react-router-dom";
+import { Loading } from "../";
 
 const CardGrid = ({ title, details, proficiency, price, thumbnail, _id }) => {
   return (
@@ -42,7 +43,10 @@ const MyCourse = () => {
     auth: { token },
   } = useAuthContext();
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const loadMyCourses = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get("/course/mycourses", {
         headers: { "x-auth-token": token },
@@ -50,11 +54,17 @@ const MyCourse = () => {
       setCourses(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     loadMyCourses();
   }, []);
+
+  if (loading) {
+    return <Loading msg={"Fetching Your courses please Wait"} />;
+  }
   return (
     <section className="text-gray-600 body-font relative dark:bg-slate-900 dark:text-white">
       <div className="mx-auto ">
@@ -79,14 +89,14 @@ const MyCourse = () => {
             </header>
           </div>
           <div className="w-4/5 px-4">
-            <div className="py-4 text-lg">
+            <div className="pt-4 text-lg">
               <div className="md:w-1/2 mx-auto flex">
                 Search &nbsp;
                 <input className="border border-2 w-1/2 border-yellow-400 flex-grow  dark:text-black pl-2" />
               </div>
             </div>
-            <div className="grid md:grid-cols-3 2xl:grid-cols-4 gap-6 my-4">
-              {courses.length == 0 && (
+            <div className="grid md:grid-cols-3 2xl:grid-cols-4 gap-6 my-4 mt-6">
+              {!loading && courses.length == 0 && (
                 <div className="flex flex-col">
                   <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
                     Enrolled in no courses{" "}

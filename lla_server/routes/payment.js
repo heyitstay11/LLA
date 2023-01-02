@@ -29,6 +29,13 @@ router.post("/razorpay", requireAuth, async (req, res) => {
     if (!course)
       return res.status(404).json({ message: "No such course exists" });
 
+    const orderExists = await Order.find({ courseId, userId });
+    console.log(orderExists);
+    if (orderExists)
+      return res
+        .status(404)
+        .json({ message: "You have already bought this course" });
+
     const order = await Order.create({
       courseId,
       price: course.price,

@@ -1,19 +1,23 @@
-import { courseData } from "./data";
 import { useState, useEffect, useMemo } from "react";
 import Card from "./components/Card";
 import axios from "axios";
+import Loading from "../Loading";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadCourses = async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get("/course");
       console.log(data);
       setCourses(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -34,10 +38,14 @@ const Courses = () => {
     loadCourses();
   }, []);
 
+  if (isLoading) {
+    return <Loading msg={"Fetching Top courses ..."} />;
+  }
+
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 mx-auto">
-        <div className="py-4 text-lg">
+        <div className="pt-4 text-lg">
           <div className="md:w-1/2 mx-auto flex">
             Search Course &nbsp;
             <input
@@ -53,7 +61,7 @@ const Courses = () => {
             term <q>{searchTerm}</q>
           </p>
         )}
-        <div className="flex flex-wrap -m-4">
+        <div className="flex flex-wrap -m-2">
           {filteredCourseData?.map((course) => {
             const { author } = course;
             return <Card key={author} {...course} />;
@@ -63,10 +71,6 @@ const Courses = () => {
           Featured Courses
         </h1>
         <div className="flex flex-wrap -m-4">
-          {/* {courseData?.map((course) => {
-            const { author } = course;
-            return <Card key={author} {...course} />;
-          })} */}
           {courses?.map((course) => {
             return <Card key={course._id} {...course} />;
           })}
