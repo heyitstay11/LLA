@@ -12,7 +12,6 @@ const Courses = () => {
     setIsLoading(true);
     try {
       const { data } = await axios.get("/course");
-      console.log(data);
       setCourses(data);
     } catch (error) {
       console.log(error);
@@ -63,8 +62,7 @@ const Courses = () => {
         )}
         <div className="flex flex-wrap -m-2">
           {filteredCourseData?.map((course) => {
-            const { author } = course;
-            return <Card key={author} {...course} />;
+            return <Card key={course._id} {...course} />;
           })}
         </div>
         <h1 className="title-font font-medium text-3xl my-8 text-gray-900 dark:text-white text-center">

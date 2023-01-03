@@ -21,7 +21,7 @@ const Login = () => {
       if (response?.data) {
         setAuth(response?.data);
         toast.success("Log in successful");
-        navigate("/");
+        navigate("/mycourse");
       }
     } catch (error) {
       console.log(error);
