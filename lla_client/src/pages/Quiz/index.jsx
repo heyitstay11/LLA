@@ -4,6 +4,7 @@ import { quizdata } from "./components/QuizCard/data";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../context/auth";
+import Loading from "../Loading";
 
 const Quiz = () => {
   const { id } = useParams();
@@ -69,7 +70,7 @@ const Quiz = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading Please Wait ......</h1>;
+    return <Loading msg={"Setting up your Quiz ..."} />;
   }
 
   return (

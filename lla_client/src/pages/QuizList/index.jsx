@@ -11,7 +11,6 @@ const QuizList = () => {
     setIsLoading(true);
     try {
       const { data } = await axios.get("/quiz");
-      console.log(data);
       setQuizzes(data);
     } catch (error) {
       console.log(error);
