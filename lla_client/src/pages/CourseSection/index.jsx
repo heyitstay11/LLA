@@ -240,3 +240,5 @@ export const CourseSection = () => {
     </div>
   );
 };
+
+export default CourseSection;

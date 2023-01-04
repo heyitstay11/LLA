@@ -43,6 +43,8 @@ const MyCourse = () => {
     auth: { token },
   } = useAuthContext();
   const [courses, setCourses] = useState([]);
+  const [quizRes, setQuizRes] = useState([]);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const loadMyCourses = async () => {
@@ -62,6 +64,24 @@ const MyCourse = () => {
     loadMyCourses();
   }, []);
 
+  const loadMyResults = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get("/quiz/result", {
+        headers: { "x-auth-token": token },
+      });
+      console.log(data);
+      setQuizRes(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadMyResults();
+  }, []);
+
   if (loading) {
     return <Loading msg={"Fetching Your courses please Wait"} />;
   }
@@ -70,7 +90,7 @@ const MyCourse = () => {
       <div className="mx-auto ">
         <div className="flex flex-col text-center w-full bg-gray-200 py-2 dark:bg-slate-900 dark:text-white">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
-            My Courses
+            {isQuizOpen ? "My Quizzes" : "My Courses"}
           </h1>
         </div>
         <div className="h-full flex flex-col items-center justify-center">
@@ -78,12 +98,18 @@ const MyCourse = () => {
             <header className="text-gray-800 body-font dark:bg-slate-900 dark:text-white">
               <div className="mx-auto flex flex-wrap  flex-col md:flex-row justify-centeritems-center">
                 <nav className="flex flex-wrap items-center text-base justify-center font-bold ">
-                  <a className="px-5 text-lg cursor-pointer hover:text-gray-900 dark:hover:text-gray-300 ">
+                  <button
+                    onClick={() => setIsQuizOpen(false)}
+                    className="px-5 text-lg cursor-pointer hover:text-gray-900 dark:hover:text-gray-300 "
+                  >
                     Course
-                  </a>
-                  <a className="px-5 text-lg cursor-pointer hover:text-gray-900 dark:hover:text-gray-300 ">
+                  </button>
+                  <button
+                    onClick={() => setIsQuizOpen(true)}
+                    className="px-5 text-lg cursor-pointer hover:text-gray-900 dark:hover:text-gray-300 "
+                  >
                     Quiz
-                  </a>
+                  </button>
                 </nav>
               </div>
             </header>
@@ -95,25 +121,63 @@ const MyCourse = () => {
                 <input className="border border-2 w-1/2 border-yellow-400 flex-grow  dark:text-black pl-2" />
               </div>
             </div>
-            <div className="grid md:grid-cols-3 2xl:grid-cols-4 gap-6 my-4 mt-6">
-              {!loading && courses.length == 0 && (
-                <div className="flex flex-col">
-                  <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
-                    Enrolled in no courses{" "}
-                  </h1>
-                  <Link
-                    className="font-medium text-yellow-600 dark:text-yelllow-500 hover:underline"
-                    to={"/courses"}
-                  >
-                    Check Courses
-                  </Link>
-                </div>
-              )}
-              {courses?.map((course) => {
-                const { _id, courseId: courseData = {} } = course;
-                return <CardGrid key={_id} {...courseData} />;
-              })}
-            </div>
+            {isQuizOpen ? (
+              <div className="grid md:grid-cols-1 gap-6 md:ml-32 my-20 mt-6">
+                {!loading && quizRes.length == 0 && (
+                  <div className="flex flex-col">
+                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
+                      No Previous Quiz Attempted{" "}
+                    </h1>
+                    <Link
+                      className="font-medium text-yellow-600 dark:text-yelllow-500 hover:underline"
+                      to={"/quiz"}
+                    >
+                      Check Quiz
+                    </Link>
+                  </div>
+                )}
+                {quizRes?.map((quiz) => {
+                  const {
+                    _id,
+                    attemptedQuiz: quizData = {},
+                    score,
+                    total,
+                  } = quiz;
+                  return (
+                    <div className="">
+                      <Link
+                        to={"/quiz/" + _id}
+                        key={_id}
+                        className="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
+                      >
+                        {quizData.title}
+                      </Link>{" "}
+                      &nbsp; Score: {score} / {total}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-3 2xl:grid-cols-4 gap-6 my-4 mt-6">
+                {!loading && courses.length == 0 && (
+                  <div className="flex flex-col">
+                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
+                      Enrolled in no courses{" "}
+                    </h1>
+                    <Link
+                      className="font-medium text-yellow-600 dark:text-yelllow-500 hover:underline"
+                      to={"/courses"}
+                    >
+                      Check Courses
+                    </Link>
+                  </div>
+                )}
+                {courses?.map((course) => {
+                  const { _id, courseId: courseData = {} } = course;
+                  return <CardGrid key={_id} {...courseData} />;
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>

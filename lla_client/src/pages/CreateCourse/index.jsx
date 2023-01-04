@@ -216,3 +216,5 @@ export const CreateCourse = () => {
     </div>
   );
 };
+
+export default CreateCourse;

@@ -45,7 +45,6 @@ const Navbar = () => {
                   isActive ? activeClass : normalClass
                 }
               >
-                {/* Courses */}
                 <span className="underline">Courses</span>
               </NavLink>
               <NavLink
@@ -54,8 +53,15 @@ const Navbar = () => {
                   isActive ? activeClass : normalClass
                 }
               >
-                {/* Courses */}
                 <span className="underline">Quiz</span>
+              </NavLink>
+              <NavLink
+                to={"/qna"}
+                className={({ isActive }) =>
+                  isActive ? activeClass : normalClass
+                }
+              >
+                <span className="underline">QNA</span>
               </NavLink>
               <button className={normalClass} onClick={() => setAuth({})}>
                 Log Out
