@@ -430,3 +430,5 @@ export const QuizMaker = () => {
     </>
   );
 };
+
+export default QuizMaker;

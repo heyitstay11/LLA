@@ -3,6 +3,7 @@ import { useAuthContext } from "../../../context/auth";
 import axios from "axios";
 
 const ChildComment = ({ comment, createdAt, postedBy }) => {
+  const randomImgId = 1 + Math.floor(Math.random() * 100);
   return (
     <>
       <article className="p-4 mb-2 py-2 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
@@ -11,7 +12,7 @@ const ChildComment = ({ comment, createdAt, postedBy }) => {
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
               <img
                 className="mr-2 w-6 h-6 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                src={`https://picsum.photos/${randomImgId}`}
                 alt="Jese Leos"
               />
               {postedBy?.name || "Michael Gough"}
@@ -98,6 +99,7 @@ const ParentComment = ({
     auth: { _id: userId, token },
   } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
+  const randomImgId = 1 + Math.floor(Math.random() * 100);
 
   const handleCommentDelete = async () => {
     try {
@@ -119,7 +121,7 @@ const ParentComment = ({
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
               <img
                 className="mr-2 w-6 h-6 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                src={`https://picsum.photos/${randomImgId}`}
                 alt="Michael Gough"
               />
               {postedBy?.name || "Michael Gough"}

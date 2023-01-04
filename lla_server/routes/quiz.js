@@ -52,6 +52,22 @@ router.get("/get-signature", async (_, res) => {
 
 //
 
+router.get("/result", requireAuth, async (req, res) => {
+  const { _id: userId = "" } = req.user || {};
+  try {
+    const results = await Result.find({ userId }).populate("attemptedQuiz");
+    if (!results) {
+      return res.status(404).json({ message: "No such result Found" });
+    }
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+//
+
 router.get("/:id", async (req, res) => {
   const { id: quizId } = req.params;
   try {

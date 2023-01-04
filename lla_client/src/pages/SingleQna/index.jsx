@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import Comments from "./component/Comments";
 import Modal from "./component/Modal";
 import axios from "axios";
+import Loading from "../Loading";
 
 const SingleQna = () => {
   const { qid } = useParams();
   const [qna, setQna] = useState({});
   const [comments, setComments] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadQna = async () => {
     if (!qid) return;
+    setIsLoading(true);
     try {
       const {
         data: { qna, comments = [] },
@@ -21,11 +24,16 @@ const SingleQna = () => {
       console.log(comments);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
     loadQna();
   }, [qid]);
+  if (isLoading) {
+    return <Loading msg={"Loading most recent QNAs"} />;
+  }
   return (
     <>
       <Modal {...{ setShowModal, showModal, loadQna }} />
@@ -34,12 +42,12 @@ const SingleQna = () => {
           <div className="py-8 flex flex-wrap md:flex-nowrap">
             <div className="md:flex-grow">
               <h2 className="text-2xl font-medium text-center text-gray-900 title-font mb-2 dark:text-yellow-400 ">
-                {qna.question || qid}
+                {qna?.question}
               </h2>
               <div className="">
                 <p className="leading-relaxed md:px-10">
-                  {qna.description ||
-                    "Description {qid} park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf."}
+                  {qna?.description ||
+                    "Description park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf."}
                 </p>
               </div>
             </div>

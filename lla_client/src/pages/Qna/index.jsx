@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Modal } from "./component/Modal";
 import { Link } from "react-router-dom";
+import Loading from "../Loading";
 const Qnapromt = ({ data }) => {
   return (
     <div className="py-8 flex flex-wrap md:flex-nowrap">
@@ -23,25 +24,33 @@ const Qnapromt = ({ data }) => {
 
 const Qna = () => {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [question, setQuestion] = useState([]);
 
   const loadRecentQuestions = async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get("/qna/");
       setQuestion(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
     loadRecentQuestions();
   }, []);
+
+  if (isLoading) {
+    return <Loading msg={"Loading most recent QNAs"} />;
+  }
   return (
     <>
       <Modal {...{ showModal, setShowModal }} />
       {/* */}
       <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-gray-100">
-        <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
+        <h1 className="sm:text-3xl text-center mt-4 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
           Most Asked Questions
         </h1>
         <div className="flex w-full justify-center">
@@ -67,9 +76,9 @@ const Qna = () => {
         </div>
         <div className="container py-4 content-center mt-2">
           <div className="-my-4 mx-auto py-2 divide-y-2 divide-gray-300 w-4/5">
-            {question?.length == 0 && (
+            {!isLoading && question?.length == 0 && (
               <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
-                No Questions Posted
+                No Questions Found
               </h1>
             )}
             {question.map((data) => {
