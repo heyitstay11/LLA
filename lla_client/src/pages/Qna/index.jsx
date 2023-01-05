@@ -1,19 +1,29 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Modal } from "./component/Modal";
 import { Link } from "react-router-dom";
 import Loading from "../Loading";
+
 const Qnapromt = ({ data }) => {
+  console.log(data);
   return (
-    <div className="py-8 flex flex-wrap md:flex-nowrap">
+    <div className="py-5 flex flex-wrap md:flex-nowrap">
       <div className="md:flex-grow">
         <Link to={"/qna/" + data._id}>
           <h2 className="text-2xl font-medium text-gray-900 title-font mb-2 dark:text-yellow-400">
             {data.question}
           </h2>
         </Link>
-
-        <p className="leading-relaxed">
+        <h2 className="text-md flex font-medium text-gray-600 title-font mb-2 dark:text-yellow-200">
+          {data.tags.map((tag) => {
+            return (
+              <div key={tag} className="ml-2">
+                {tag}
+              </div>
+            );
+          })}
+        </h2>
+        <p className="leading-relaxed text-gray-800 dark:text-white">
           {data.description ||
             "Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer."}
         </p>
@@ -26,6 +36,17 @@ const Qna = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [question, setQuestion] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredQuestions = useMemo(() => {
+    const sanitizedTerm = searchTerm.trim().toLowerCase();
+    if (!sanitizedTerm) return question;
+    return question.filter(
+      (q) =>
+        q?.question.toLowerCase().includes(sanitizedTerm) ||
+        q?.tags.join("").toLowerCase().includes(sanitizedTerm)
+    );
+  }, [searchTerm, question]);
 
   const loadRecentQuestions = async () => {
     setIsLoading(true);
@@ -56,6 +77,8 @@ const Qna = () => {
         <div className="flex w-full justify-center">
           <div className="relative mr-4 lg:w-1/2 w-2/4 md:w-2/3 text-left">
             <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               id="hero-field"
               name="hero-field"
@@ -75,13 +98,23 @@ const Qna = () => {
           </button>
         </div>
         <div className="container py-4 content-center mt-2">
-          <div className="-my-4 mx-auto py-2 divide-y-2 divide-gray-300 w-4/5">
-            {!isLoading && question?.length == 0 && (
-              <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
-                No Questions Found
-              </h1>
-            )}
-            {question.map((data) => {
+          {!isLoading && question?.length == 0 && (
+            <h1 className="sm:text-3xl text-center mt-2 text-2xl font-medium title-font mb-4 text-yellow-500 dark:text-yellow-400">
+              No Questions Found
+            </h1>
+          )}
+          {searchTerm.trim() && (
+            <h1 className="sm:text-xl text-center mt-2 text-xl font-medium title-font mb-2 text-yellow-500 dark:text-yellow-400">
+              Search Results for "{searchTerm}"
+            </h1>
+          )}
+          {!isLoading && filteredQuestions.length == 0 && (
+            <h1 className="sm:text-2xl text-center mt-2 text-2xl font-medium title-font mb-2 text-yellow-500 dark:text-yellow-400">
+              Found Nothing :/
+            </h1>
+          )}
+          <div className="-my-4 mx-auto py-1 divide-y-2 divide-gray-300 w-4/5">
+            {filteredQuestions.map((data) => {
               return <Qnapromt key={data._id} data={data} />;
             })}
           </div>

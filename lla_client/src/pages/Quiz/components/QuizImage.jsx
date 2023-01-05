@@ -33,7 +33,7 @@ const QuizImage = ({ options, question, questionFile, next, setAnswers }) => {
               return <Optcomp key={i} data={e} setAnswer={setAnswer} />;
             })}
           </div>
-          <div className="flex my-3">
+          <div className="flex my-6">
             <button
               onClick={() => {
                 setAnswers((prev) => [...prev, answer]);

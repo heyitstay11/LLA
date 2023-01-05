@@ -21,7 +21,10 @@ router.get("/", async (req, res) => {
 router.get("/mycourses", requireAuth, async (req, res) => {
   const { _id: userId } = req.user || {};
   try {
-    const courses = await Order.find({ userId: userId })
+    const courses = await Order.find({
+      userId: userId,
+      payment: "done",
+    })
       .limit(20)
       .populate("courseId")
       .select("-updatedAt -__v -price -payment");

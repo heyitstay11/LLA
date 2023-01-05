@@ -69,7 +69,7 @@ const Meeting = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      ?.getUserMedia({ video: true })
+      ?.getUserMedia({ video: true, audio: true })
       .then((myStream) => {
         localVideo.current.srcObject = myStream;
         localStream.current = myStream;
