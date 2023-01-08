@@ -18,3 +18,5 @@ export { CourseSection } from "./CourseSection";
 export { CreateCourse } from "./CreateCourse";
 export { default as MyCourse } from "./MyCourse";
 export { default as Loading } from "./Loading";
+export { default as TeacherDashboard } from "./TeacherDashboard";
+export { default as Profile } from "./Profile";
