@@ -13,6 +13,21 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+    default: "",
+  },
+  about: {
+    type: String,
+    required: true,
+    default: "",
+  },
+  isMentor: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 export default mongoose.model("User", userSchema);

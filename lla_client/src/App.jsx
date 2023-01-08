@@ -53,9 +53,9 @@ const App = () => {
           <Route path="/qna/:qid" element={<SingleQna />} />
           <Route path="/mycourse" element={<MyCourse />} />
           <Route path="/loading" element={<Loading />} />
-          <Route path="*" element={<PageNotFound />} />
           <Route path="/teacherboard" element={<TeacherDashboard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/myprofile" element={<Profile />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
       <Footer />
