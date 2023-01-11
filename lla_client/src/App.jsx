@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Navbar, Footer } from "./components";
 import {
   Home,
@@ -17,7 +18,6 @@ import {
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Suspense, lazy } from "react";
 
 const CreateCourse = lazy(() => import("./pages/CreateCourse"));
 const CourseSection = lazy(() => import("./pages/CourseSection"));
@@ -53,9 +53,9 @@ const App = () => {
           <Route path="/qna/:qid" element={<SingleQna />} />
           <Route path="/mycourse" element={<MyCourse />} />
           <Route path="/loading" element={<Loading />} />
-          <Route path="*" element={<PageNotFound />} />
           <Route path="/teacherboard" element={<TeacherDashboard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/myprofile" element={<Profile />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
       <Footer />

@@ -90,8 +90,11 @@ const MyCourse = () => {
       <div className="mx-auto ">
         <div className="flex flex-col text-center w-full bg-gray-200 py-2 dark:bg-slate-900 dark:text-white">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-slate-900  dark:text-white">
-            {isQuizOpen ? "My Quizzes" : "My Courses"}
+            {isQuizOpen ? "My Quizzes" : "My Courses"}{" "}
           </h1>
+          <Link to={"/myprofile"} className="my-2 font-bold text-yellow-600">
+            Check Profile
+          </Link>
         </div>
         <div className="h-full flex flex-col items-center justify-center">
           <div className="w-full px-4 py-4 text-center bg-gray-200 flex flex-col items-center justify-center dark:bg-slate-900 dark:text-white dark:hover:text-gray-300">

@@ -47,6 +47,9 @@ export const loginUser = async (req, res) => {
     res.json({
       name: user.name,
       email: user.email,
+      isMentor: user.isMentor,
+      description: user.description,
+      about: user.about,
       _id: user._id,
       token: jwtToken,
     });
