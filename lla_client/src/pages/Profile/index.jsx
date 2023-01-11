@@ -5,9 +5,7 @@ import axios from "axios";
 const Profile = () => {
   const { auth } = useAuthContext();
   const [state, dispatch] = useReducer(
-    (state, payload) => {
-      return { ...state, ...payload };
-    },
+    (state, payload) => ({ ...state, ...payload }),
     { ...auth }
   );
   const { name, email, _id, about, description, token } = state;

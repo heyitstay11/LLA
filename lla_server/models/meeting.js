@@ -2,20 +2,30 @@ import mongoose from "mongoose";
 
 const meetingSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: true,
+    },
     host: {
       type: mongoose.Types.ObjectId,
       required: true,
+      ref: "User",
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
     },
     attendee: {
-      type: [mongoose.Types.ObjectId],
-      required: true,
+      type: mongoose.Types.ObjectId,
+      ref: "User",
     },
     startTime: {
-      type: String,
+      type: Date,
       required: true,
     },
-    endTime: {
-      type: String,
+    duration: {
+      type: Number,
       required: true,
     },
   },

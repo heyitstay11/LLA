@@ -4,6 +4,7 @@ import quizRouter from "./quiz.js";
 import paymentRouter from "./payment.js";
 import courseRouter from "./course.js";
 import qnaRouter from "./qna.js";
+import meetingRouter from "./meeting.js";
 
 const router = Router();
 
@@ -21,5 +22,7 @@ router.use("/payment", paymentRouter);
 router.use("/course", courseRouter);
 
 router.use("/qna", qnaRouter);
+
+router.use("/meeting", meetingRouter);
 
 export default router;

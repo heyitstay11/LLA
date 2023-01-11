@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Navbar, Footer } from "./components";
 import {
   Home,
@@ -17,7 +18,6 @@ import {
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Suspense, lazy } from "react";
 
 const CreateCourse = lazy(() => import("./pages/CreateCourse"));
 const CourseSection = lazy(() => import("./pages/CourseSection"));

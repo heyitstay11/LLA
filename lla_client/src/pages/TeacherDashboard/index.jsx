@@ -1,3 +1,8 @@
+import axios from "axios";
+import { useReducer } from "react";
+import { useAuthContext } from "../../context/auth";
+import { toast } from "react-toastify";
+
 const Leftboard = () => {
   return (
     <div className="h-full w-full py-8 gap-2 flex flex-col items-center bg-white border-r-2 border-yellow-400 dark:bg-slate-900 dark:text-white">
@@ -15,6 +20,44 @@ const Leftboard = () => {
 };
 
 const Rightboard = () => {
+  const {
+    auth: { token },
+  } = useAuthContext();
+  const [state, dispatch] = useReducer(
+    (state, payload) => {
+      return { ...state, ...payload };
+    },
+    {
+      title: "",
+      price: 0,
+      date: new Date().toISOString().slice(0, 16),
+      duration: 15,
+    }
+  );
+  const { title, date, duration, price } = state;
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    dispatch({ [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "/meeting/create",
+        {
+          ...state,
+          date: new Date(date).toISOString(),
+        },
+        { headers: { "x-auth-token": token } }
+      );
+      console.log(data);
+      toast.success("New Class Created");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className=" w-full h-full text-gray-600 body-font">
       <div className="w-full h-full px-5 py-8 mx-auto flex flex-wrap">
@@ -114,34 +157,62 @@ const Rightboard = () => {
           </div>
           <div className="p-4 lg:w-1/2 md:w-full">
             <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
-              <form className="flex-grow">
+              <form onSubmit={handleSubmit} className="flex-grow">
                 <h2 className="text-gray-900 dark:text-yellow-400  text-lg title-font font-medium mb-3">
                   Create New Meeting Schedule
                 </h2>
                 <div className="py-3">
-                  <label className="dark:text-white mx-3" htmlFor="">
+                  <label className="dark:text-white mx-3" htmlFor="title">
                     Title:
                   </label>
-                  <input className="px-1" type="text" required={true} />
-                </div>
-                <div className="">
-                  <label className="dark:text-white mx-3" htmlFor="">
-                    Enter Date:
-                  </label>
                   <input
-                    type="date"
-                    required={true}
+                    value={title}
+                    onChange={handleInput}
+                    name="title"
                     className="px-1"
-                    min={new Date().toISOString().split("T")[0]}
+                    type="text"
+                    required={true}
                   />
                 </div>
                 <div className="py-3">
-                  <label className="dark:text-white mx-3" htmlFor="">
-                    Enter Time (in mins):
+                  <label className="dark:text-white mx-3" htmlFor="price">
+                    Price :
                   </label>
                   <input
+                    value={price}
+                    onChange={handleInput}
+                    className="px-1 text-lg"
+                    type="number"
+                    name="price"
+                    min={0}
+                    max={9999}
+                    required={true}
+                  />
+                </div>
+                <div className="">
+                  <label className="dark:text-white mx-3" htmlFor="date">
+                    Date:
+                  </label>
+                  <input
+                    value={date}
+                    onChange={handleInput}
+                    type="datetime-local"
+                    name="date"
+                    required={true}
+                    className="px-1"
+                    min={new Date().toISOString().slice(0, 16)}
+                  />
+                </div>
+                <div className="py-3">
+                  <label className="dark:text-white mx-3" htmlFor="duration">
+                    Session Duration (in mins):
+                  </label>
+                  <input
+                    value={duration}
+                    onChange={handleInput}
                     className="px-1"
                     type="number"
+                    name="duration"
                     required={true}
                     step={15}
                     min={15}
