@@ -51,6 +51,10 @@ const SingleCourse = () => {
 
   const handleBuy = async () => {
     if (isLoading) return;
+    if (!token) {
+      toast("Login before buying a course");
+      return;
+    }
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/payment/razorpay`,
