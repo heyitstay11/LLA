@@ -39,13 +39,13 @@ const SingleQna = () => {
       <Modal {...{ setShowModal, showModal, loadQna }} />
       <section className="text-gray-600 body-font overflow-hidden dark:bg-slate-900 dark:text-gray-100">
         <div className="flex w-full justify-center">
-          <div className="py-8 flex flex-wrap md:flex-nowrap">
+          <div className="py-2 md:py-8 flex flex-wrap md:flex-nowrap">
             <div className="md:flex-grow">
-              <h2 className="text-2xl font-medium text-center text-gray-900 title-font mb-2 dark:text-yellow-400 ">
+              <h2 className="text-lg md:text-2xl font-medium text-center text-gray-900 title-font mb-2 dark:text-yellow-400 ">
                 {qna?.question}
               </h2>
               <div className="">
-                <p className="leading-relaxed md:px-10">
+                <p className=" px-2 md:px-20">
                   {qna?.description ||
                     "Description park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf."}
                 </p>

@@ -54,7 +54,6 @@ const Rightboard = ({ course = {}, currPart }) => {
           )}
           {currPart.type == "Video" && (
             <>
-              {/* <Youtube opts={player_opts} videoId={"ekka-DlnnNs"} /> */}
               <LiteYouTubeEmbed
                 id={currPart?.value || "ekka-DlnnNs"}
                 params="modestbranding=true"
@@ -72,12 +71,12 @@ const Rightboard = ({ course = {}, currPart }) => {
           )}
         </div>
       ) : (
-        <div className="relative mb-4 py-2">
+        <div className="relative md:mb-4 py-2">
           <img
             src={course.thumbnail || "https://dummyimage.com/600x400"}
-            className="mt-4 player h-3/5 w-3/5 border-2"
+            className="md:mt-4  border-2"
           />
-          <h2 className="px-4 py-6 max-w-2xl text-lg">
+          <h2 className="md:px-4 py-2 md:py-6 max-w-2xl md:text-lg">
             {course.details || "Demo Description"}
           </h2>
         </div>
@@ -114,8 +113,8 @@ const Dashboard = () => {
             setCurrSection={setCurrSection}
           />
         </div>
-        <div className="lg:w-4/5 pb-10 md:w-4/5 bg-white flex flex-col md:ml-auto w-full ml-4 mt-8 md:mt-0 dark:bg-slate-900 dark:text-white">
-          <h1 className="sm:text-3xl max-w-2xl mx-auto text-2xl text-center py-6 font-medium title-font text-gray-900 dark:bg-slate-900 dark:text-white">
+        <div className="lg:w-4/5 sm:pb-10 md:w-4/5 bg-white flex flex-col md:ml-auto w-full sm:ml-4 mt-8 md:mt-0 dark:bg-slate-900 dark:text-white">
+          <h1 className="md:text-3xl max-w-2xl mx-auto text-lg text-center py-6 font-medium title-font text-gray-900 dark:bg-slate-900 dark:text-white">
             {course.title || "Test Course"}
           </h1>
           {currSection?.parts?.length > 0 ? (

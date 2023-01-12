@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import Card from "./components/Card";
 import axios from "axios";
 import Loading from "../Loading";
+import { Link } from "react-router-dom";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,9 +45,14 @@ const Courses = () => {
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-12 pt-4 mx-auto">
-        <h1 className=" font-medium text-xl my-2 text-gray-900 dark:text-white text-center">
-          Book Sessions
-        </h1>
+        <div className="text-center">
+          <Link
+            to={"/sessions"}
+            className="font-medium text-center text-yellow-600 dark:text-yelllow-500 hover:underline"
+          >
+            Book Sessions
+          </Link>
+        </div>
         <div className="pt-4 text-lg">
           <div className="md:w-1/2 mx-auto flex">
             Search Course &nbsp;
