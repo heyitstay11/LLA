@@ -24,7 +24,7 @@ const Testimonial = () => {
                 found that I had to have some kind of support or help to get the
                 most out of LingoMax.
               </p>
-              <a className="inline-flex items-center">
+              <div className="inline-flex items-center">
                 <img
                   alt="testimonial"
                   src="./person1.jpg"
@@ -36,7 +36,7 @@ const Testimonial = () => {
                   </span>
                   <span className="text-gray-500 text-sm">UI DEVELOPER</span>
                 </span>
-              </a>
+              </div>
             </div>
           </div>
           <div className="p-4 md:w-1/2 w-full">
@@ -57,7 +57,7 @@ const Testimonial = () => {
                 correct structures. I would recommend this to all teachers and
                 students of English.
               </p>
-              <a className="inline-flex items-center">
+              <div className="inline-flex items-center">
                 <img
                   alt="testimonial"
                   src="./person2.jpg"
@@ -71,7 +71,7 @@ const Testimonial = () => {
                     Course Instructor
                   </span>
                 </span>
-              </a>
+              </div>
             </div>
           </div>
         </div>

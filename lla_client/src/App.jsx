@@ -15,7 +15,6 @@ import {
   Loading,
   TeacherDashboard,
   Profile,
-  Sessions,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -27,13 +26,15 @@ const Result = lazy(() => import("./pages/Result"));
 const Quiz = lazy(() => import("./pages/Quiz"));
 const SingleQna = lazy(() => import("./pages/SingleQna"));
 const SingleCourse = lazy(() => import("./pages/SingleCourse"));
+const Sessions = lazy(() => import("./pages/Sessions"));
+const TOS = lazy(() => import("./pages/TOS"));
 
 const App = () => {
   return (
     <>
       <ToastContainer position="top-center" />
       <Navbar />
-      <Suspense fallback={<Loading msg={"Loading page please wait ..."} />}>
+      <Suspense fallback={<Loading msg={"Loading pages please wait ..."} />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/loading" element={<Loading />} />
           <Route path="/teacherboard" element={<TeacherDashboard />} />
           <Route path="/myprofile" element={<Profile />} />
+          <Route path="/privacy" element={<TOS />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
