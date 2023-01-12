@@ -115,7 +115,7 @@ const ParentComment = ({
 
   return (
     <>
-      <article className="p-6 py-4 mb-2 text-base bg-white rounded-lg dark:bg-gray-900">
+      <article className="px-1 md:px-6 py-4 mb-2 text-base bg-white rounded-lg dark:bg-gray-900">
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-yellow-400">
@@ -248,8 +248,8 @@ const Comments = ({ qid, comments = [], setShowModal, loadQna }) => {
 
   return (
     <>
-      <section className="bg-white dark:bg-gray-900 py-8 lg:py-8">
-        <div className="w-4/5 mx-auto px-4">
+      <section className="bg-white dark:bg-gray-900 py-2 md:py-8 lg:py-8">
+        <div className="md:w-4/5 mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-yellow-400">
               Discussion ({comments.length})

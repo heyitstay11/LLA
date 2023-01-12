@@ -15,6 +15,7 @@ import {
   Loading,
   TeacherDashboard,
   Profile,
+  Sessions,
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/course/create" element={<CreateCourse />} />
           <Route path="/section/create" element={<CourseSection />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/sessions" element={<Sessions />} />
           <Route path="/course/:id" element={<SingleCourse />} />
           <Route path="/quizmaker" element={<QuizMaker />} />
           <Route path="/quiz" element={<QuizList />} />

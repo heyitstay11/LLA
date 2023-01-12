@@ -181,7 +181,6 @@ const Meeting = () => {
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-6 mx-auto flex flex-col">
         <div className="lg:w-5/6 mx-auto">
-          <h1 className="font-medium text-center mb-2">{meetingId}</h1>
           <div className="rounded-lg h- overflow-hidden max-w-xl mx-auto">
             {!callRunnning && (
               <img

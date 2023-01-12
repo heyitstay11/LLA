@@ -28,6 +28,10 @@ const meetingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    booked: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
