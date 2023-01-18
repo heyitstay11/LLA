@@ -63,7 +63,13 @@ const Navbar = () => {
               >
                 <span className="underline">QNA</span>
               </NavLink>
-              <button className={normalClass} onClick={() => setAuth({})}>
+              <button
+                className={normalClass}
+                onClick={() => {
+                  setAuth({});
+                  window.location.href = "/";
+                }}
+              >
                 Log Out
               </button>
             </>

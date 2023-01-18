@@ -14,7 +14,7 @@ const Optcomp = ({ data, setAnswer }) => {
 };
 
 const QuizImage = ({ options, question, questionFile, next, setAnswers }) => {
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState(options[0]);
   return (
     <section className="text-gray-600 body-font h-4/5 dark:bg-slate-900 dark:text-white">
       <div className="container mx-auto flex flex-col px-5 py-12 pb-2 justify-center items-center h-3/5 bg-gray-100 dark:bg-slate-900 dark:text-white">

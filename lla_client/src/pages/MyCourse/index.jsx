@@ -213,7 +213,7 @@ const MyCourse = () => {
                   return (
                     <div className="">
                       <Link
-                        to={"/quiz/" + _id}
+                        to={"/quiz/" + quizData._id}
                         key={_id}
                         className="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
                       >
