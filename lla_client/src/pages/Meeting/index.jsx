@@ -205,6 +205,7 @@ const Meeting = () => {
                   ref={localVideo}
                   playsInline
                   autoPlay
+                  muted={true}
                   className="w-50 h-40"
                 ></video>
               </div>

@@ -55,7 +55,9 @@ router.get("/get-signature", async (_, res) => {
 router.get("/result", requireAuth, async (req, res) => {
   const { _id: userId = "" } = req.user || {};
   try {
-    const results = await Result.find({ userId }).populate("attemptedQuiz");
+    const results = await Result.find({ attemptedBy: userId }).populate(
+      "attemptedQuiz"
+    );
     if (!results) {
       return res.status(404).json({ message: "No such result Found" });
     }
@@ -72,7 +74,7 @@ router.get("/:id", async (req, res) => {
   const { id: quizId } = req.params;
   try {
     const quiz = await Quiz.findById(quizId).select("-updatedAt -__v");
-    if (!quiz) return res.status(401).json({ message: "No Such Quiz exists" });
+    if (!quiz) return res.status(404).json({ message: "No Such Quiz exists" });
     res.status(200).json({ quiz });
   } catch (error) {
     console.log(error);
