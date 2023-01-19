@@ -32,6 +32,7 @@ router.get("/my", requireAuth, async (req, res) => {
   try {
     const sessions = await Meeting.find({
       booked: true,
+      startTime: { $gt: new Date().toISOString() },
       $or: [{ host: userId }, { attendee: userId }],
     })
       .populate("host", "name")

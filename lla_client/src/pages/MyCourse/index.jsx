@@ -180,12 +180,16 @@ const MyCourse = () => {
               </div>
             </div>
             <div className="mt-2">
-              <h1 className="text-lg font-bold">Upcoming Sessions</h1>
-              <div className="flex flex-wrap">
-                {sessionRes?.map((session) => {
-                  return <SessionCard key={session._id} {...session} />;
-                })}
-              </div>
+              {sessionRes.length > 0 && (
+                <>
+                  <h1 className="text-lg font-bold">Upcoming Sessions</h1>
+                  <div className="flex flex-wrap">
+                    {sessionRes?.map((session) => {
+                      return <SessionCard key={session._id} {...session} />;
+                    })}
+                  </div>
+                </>
+              )}
             </div>
 
             {isQuizOpen ? (
