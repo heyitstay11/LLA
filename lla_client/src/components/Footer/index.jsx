@@ -24,6 +24,7 @@ const Footer = () => {
           © 2022 LingoMax —
           <a
             href="https://twitter.com/"
+            title="Twitter"
             className="text-gray-600 ml-1 dark:text-white"
             rel="noopener noreferrer"
             target="_blank"
@@ -38,6 +39,7 @@ const Footer = () => {
           <a
             href="https://www.twitter.com"
             target={"_blank"}
+            title="Instagram"
             rel={"noopener noreferer"}
             className="ml-3 text-gray-500 hover:text-blue-600 dark:hover:text-blue-600 dark:text-white"
           >
@@ -74,6 +76,7 @@ const Footer = () => {
           <a
             href="https://www.linkedin.com"
             target={"_blank"}
+            title="LinkedIn"
             rel={"noopener noreferer"}
             className="ml-3 text-gray-500 dark:text-white dark:hover:text-blue-400 hover:text-blue-400 "
           >
