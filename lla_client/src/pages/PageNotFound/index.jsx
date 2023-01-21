@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const PageNotFound = () => {
   return (
     <section className="flex items-center h-100 p-16 dark:bg-gray-900 dark:text-gray-100">
@@ -13,13 +15,13 @@ const PageNotFound = () => {
           <p className="mt-4 mb-8 dark:text-gray-400">
             But dont worry, you can find plenty of other things on our homepage.
           </p>
-          <a
+          <Link
             rel="noopener noreferrer"
-            href="/"
+            to="/"
             className="px-8 py-3 font-semibold bg-gray-300 rounded dark:bg-yellow-400 dark:text-gray-900"
           >
             Back to homepage
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,11 +1,30 @@
-import { it, describe, expect } from "vitest";
+import { it, describe, expect, vi } from "vitest";
 import { BrowserRouter } from "react-router-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
-
+import axios from "axios";
+vi.mock("axios");
+axios.get = vi.fn();
 describe("Navbar Suite", () => {
   const user = userEvent.setup();
+  axios.get.mockResolvedValue({
+    data: [
+      {
+        _id: {
+          $oid: "63a86b9284a1c7ce94711eb6",
+        },
+        title: "First Course",
+        details: "Lorem ipsum dolor sit amet",
+        proficiency: "Intermediate",
+        price: "400",
+        thumbnail:
+          "https://res.cloudinary.com/dtrzqfnui/image/upload/v1671981028/dgdkyf8b3kcku4suhqg8.png",
+        learnings: [";lw;w", "\\d'\\"],
+        __v: 0,
+      },
+    ],
+  });
 
   it("Check Home Navigation", async () => {
     render(<App />, { wrapper: BrowserRouter });
@@ -38,7 +57,19 @@ describe("Navbar Suite", () => {
   it("Check Courses Navigation", async () => {
     render(<App />, { wrapper: BrowserRouter });
 
-    await user.click(screen.getByText(/Courses/i));
+    await user.click(screen.getByText("Courses"));
+    expect(axios.get).toBeCalledTimes(1);
     expect(await screen.findByText(/Featured Courses/i)).toBeDefined();
+    expect(await screen.findByText(/First Course/i)).toBeDefined();
+  });
+
+  it("Check Courses Card", async () => {
+    render(<App />, { wrapper: BrowserRouter });
+
+    await user.click(screen.getByText("Courses"));
+    expect(axios.get).toBeCalledTimes(2);
+    await waitFor(() => {
+      expect(screen.findByText(/First Course/i)).toBeDefined();
+    });
   });
 });
