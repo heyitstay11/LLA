@@ -1,7 +1,7 @@
 import { useMemo, useContext, useState, createContext } from "react";
 
 const userData = window.localStorage.getItem("lla_user");
-const AuthContext = createContext({});
+export const AuthContext = createContext({});
 // const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 
 export const AuthProvider = ({ children }) => {

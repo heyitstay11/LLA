@@ -103,7 +103,7 @@ const Login = () => {
             </button>
           )}
           <p className="text-s text-gray-500 mt-3">
-            Don't have an acount &nbsp;
+            Don't have an account &nbsp;
             <NavLink to={"/signup"} className="text-yellow-600">
               Signup
             </NavLink>
