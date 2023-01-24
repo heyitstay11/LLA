@@ -3,9 +3,12 @@ import { BrowserRouter } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
+import { Navbar } from "../components";
+import { AuthContext } from "../context/auth";
 import axios from "axios";
 vi.mock("axios");
 axios.get = vi.fn();
+
 describe("Navbar Suite", () => {
   const user = userEvent.setup();
   axios.get.mockResolvedValue({
@@ -71,5 +74,25 @@ describe("Navbar Suite", () => {
     await waitFor(() => {
       expect(screen.findByText(/First Course/i)).toBeDefined();
     });
+  });
+});
+
+describe("Authenticated Navbar", () => {
+  it("Dashboard Link", () => {
+    render(
+      <AuthContext.Provider
+        value={{
+          auth: {
+            token: "1234",
+            email: "a@mail.com",
+            name: "A_tester",
+          },
+        }}
+      >
+        <Navbar />
+      </AuthContext.Provider>,
+      { wrapper: BrowserRouter }
+    );
+    expect(screen.getByText(/Dashboard/)).toBeDefined();
   });
 });

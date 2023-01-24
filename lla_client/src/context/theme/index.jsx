@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useContext, createContext, useState } from "react";
 
-const ThemeContext = createContext({});
+export const ThemeContext = createContext({});
 
 export const ThemeProvider = ({ children }) => {
   let defaultTheme = window.localStorage.getItem("theme");
