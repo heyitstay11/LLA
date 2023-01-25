@@ -36,6 +36,7 @@ router.get("/my", requireAuth, async (req, res) => {
       $or: [{ host: userId }, { attendee: userId }],
     })
       .populate("host", "name")
+      .populate("attendee", "name")
       .select("-createdAt -updatedAt -__v");
     res.json(sessions);
   } catch (error) {
@@ -87,7 +88,8 @@ router.post("/book", requireAuth, async (req, res) => {
   }
 });
 
-router.post("/verify", async (req, res) => {
+router.post("/verify", requireAuth, async (req, res) => {
+  const { _id: userId = "" } = req.user || {};
   const {
     razorpay_payment_id,
     razorpay_order_id,
@@ -103,6 +105,7 @@ router.post("/verify", async (req, res) => {
     if (razorpay_signature === expectedSign) {
       const order = await Meeting.findById(orderId);
       order.booked = true;
+      order.attendee = userId;
       await order.save();
       return res.json({ msg: "Payment Verified" });
     }

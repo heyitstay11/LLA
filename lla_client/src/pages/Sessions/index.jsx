@@ -51,6 +51,7 @@ const Sessions = () => {
                 body: JSON.stringify({ ...response, orderId: data.orderId }),
                 headers: {
                   "Content-Type": "application/json",
+                  "x-auth-token": token,
                 },
               }
             );
