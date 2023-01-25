@@ -1,7 +1,9 @@
 import axios from "axios";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useAuthContext } from "../../context/auth";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import Loading from "../Loading";
 
 const Leftboard = () => {
   return (
@@ -19,7 +21,7 @@ const Leftboard = () => {
   );
 };
 
-const Rightboard = () => {
+const Rightboard = ({ sessions }) => {
   const {
     auth: { token },
   } = useAuthContext();
@@ -62,99 +64,50 @@ const Rightboard = () => {
     <div className=" w-full h-full text-gray-600 body-font">
       <div className="w-full h-full px-5 py-8 mx-auto flex flex-wrap">
         <div className="w-full h-full flex flex-wrap -m-4">
-          <div className="p-4 lg:w-1/2 md:w-full">
-            <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
-              <div className="flex-grow">
-                <h2 className="text-gray-900 dark:text-yellow-400  text-lg title-font font-medium mb-3">
-                  Mock interview
-                </h2>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Date - 1/2/2022 5:30 pm
-                </p>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Booked ✔
-                </p>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Student : John Doe
-                </p>
-                <a className="mt-3 text-indigo-600 dark:text-yellow-500 inline-flex items-center">
-                  meeting link
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    className="w-4 h-4 ml-2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </a>
+          {sessions?.map((session) => {
+            const { title, attendee, startTime, booked } = session;
+            return (
+              <div key={session._id} className="p-4 lg:w-1/2 md:w-full">
+                <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
+                  <div className="flex-grow">
+                    <h2 className="text-gray-900 dark:text-yellow-400  text-lg title-font font-medium mb-3">
+                      {title}
+                    </h2>
+                    <p className="leading-relaxed text-base dark:text-gray-200 ">
+                      Date - {new Date(startTime).toLocaleString()}
+                    </p>
+                    {booked && (
+                      <>
+                        <p className="leading-relaxed text-base dark:text-gray-200 ">
+                          Booked ✔
+                        </p>
+                        <p className="leading-relaxed text-base dark:text-gray-200 ">
+                          Student : {attendee?.name}
+                        </p>
+                      </>
+                    )}
+
+                    <a className="mt-3 text-indigo-600 dark:text-yellow-500 inline-flex items-center">
+                      meeting link
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        className="w-4 h-4 ml-2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="p-4 lg:w-1/2 md:w-full">
-            <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
-              <div className="flex-grow">
-                <h2 className="text-gray-900 dark:text-yellow-400  text-lg title-font font-medium mb-3">
-                  Language Class 60 min
-                </h2>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Date - 1/2/2022 7:30 pm
-                </p>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Booked ✔
-                </p>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Student : John Doe
-                </p>
-                <a className="mt-3 text-indigo-600 dark:text-yellow-500 inline-flex items-center">
-                  meeting link
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    className="w-4 h-4 ml-2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 lg:w-1/2 md:w-full">
-            <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
-              <div className="flex-grow">
-                <h2 className="text-gray-900 dark:text-yellow-400  text-lg title-font font-medium mb-3">
-                  Language Class 30 min
-                </h2>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Date - 1/2/2022 9:30 pm
-                </p>
-                <p className="leading-relaxed text-base dark:text-gray-200 ">
-                  Not Booked ❌
-                </p>
-                <a className="mt-3 text-indigo-600 dark:text-yellow-500 inline-flex items-center">
-                  meeting link
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    className="w-4 h-4 ml-2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
+            );
+          })}
+
+          {/*  */}
           <div className="p-4 lg:w-1/2 md:w-full">
             <div className="flex border-2 rounded-lg border-gray-200 dark:bg-slate-800 border-opacity-50 p-8 sm:flex-row flex-col">
               <form onSubmit={handleSubmit} className="flex-grow">
@@ -232,6 +185,31 @@ const Rightboard = () => {
 };
 
 const TeacherDashboard = () => {
+  const {
+    auth: { token },
+  } = useAuthContext();
+  const [sessions, setSessionRes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadMySessions = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get("/meeting/my", {
+        headers: { "x-auth-token": token },
+      });
+      setSessionRes(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadMySessions();
+  }, []);
+  if (loading) {
+    return <Loading msg={"Fetching Your Sessions please Wait"} />;
+  }
   return (
     <section className="h-5/6 text-gray-600 body-font relative h-full dark:bg-slate-900 dark:text-white">
       <div className="flex flex-col md:flex-row flex-wrap mr-0 dark:bg-slate-900 dark:text-white">
@@ -243,7 +221,7 @@ const TeacherDashboard = () => {
             Upcoming Meetings
           </h1>
           <div className="flex flex-col items-center justify-center">
-            <Rightboard />
+            <Rightboard sessions={sessions} />
           </div>
         </div>
       </div>
