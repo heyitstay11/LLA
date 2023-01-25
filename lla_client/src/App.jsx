@@ -28,6 +28,7 @@ const SingleQna = lazy(() => import("./pages/SingleQna"));
 const SingleCourse = lazy(() => import("./pages/SingleCourse"));
 const Sessions = lazy(() => import("./pages/Sessions"));
 const TOS = lazy(() => import("./pages/TOS"));
+const JoinMentor = lazy(() => import("./pages/JoinMentor"));
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/join_mentor" element={<JoinMentor />} />
           <Route path="/course/create" element={<CreateCourse />} />
           <Route path="/section/create" element={<CourseSection />} />
           <Route path="/courses" element={<Courses />} />

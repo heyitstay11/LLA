@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { useAuthContext } from "../../context/auth";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { auth } = useAuthContext();
@@ -34,6 +35,21 @@ const Profile = () => {
       <div className="container px-0 md:px-5 py-2 mx-auto flex sm:flex-nowrap flex-wrap">
         <div className="w-full flex flex-row justify-center">
           <div className="w-5/6 md:w-4/6 flex flex-col  w-full md:py-8 mt-8 md:mt-0">
+            {!auth.isMentor ? (
+              <Link
+                to={"/join_mentor"}
+                className="w-5/6 text-white text-lg italic underline mb-2 text-yellow-400 font-medium title-font"
+              >
+                Join as teacher
+              </Link>
+            ) : (
+              <Link
+                to={"/teacherboard"}
+                className="w-5/6 text-white text-lg italic underline mb-2 text-yellow-400 font-medium title-font"
+              >
+                Teacher Dashboard
+              </Link>
+            )}
             <h1 className="w-5/6 text-white text-3xl mb-1 font-medium title-font">
               Profile
             </h1>
