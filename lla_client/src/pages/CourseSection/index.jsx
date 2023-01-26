@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { ACTION_TYPES, initialState, reducer } from "./reducer";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function YouTubeGetID(url) {
   var ID = "";
@@ -20,7 +20,13 @@ function YouTubeGetID(url) {
 
 export const CourseSection = () => {
   const navigate = useNavigate();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [searchParams] = useSearchParams();
+  const courseId = searchParams.get("courseId") || "";
+  console.log(courseId);
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    courseID: courseId,
+  });
   const {
     title,
     description,
