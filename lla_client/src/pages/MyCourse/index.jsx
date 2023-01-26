@@ -4,7 +4,7 @@ import { useAuthContext } from "../../context/auth";
 import { Link } from "react-router-dom";
 import { Loading } from "../";
 
-const CardGrid = ({ title, details, proficiency, price, thumbnail, _id }) => {
+const CardGrid = ({ title, details, thumbnail, _id }) => {
   return (
     <div className="max-w-xs md:mx-4 mb-2 rounded-lg pb-2 shadow-lg bg-gray-200 rounded-md shadow-lg">
       <Link to={"/courseboard/" + _id}>

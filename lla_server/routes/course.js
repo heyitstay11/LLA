@@ -35,6 +35,17 @@ router.get("/mycourses", requireAuth, async (req, res) => {
   }
 });
 
+router.get("/made_by_me", requireAuth, async (req, res) => {
+  const { _id: userId } = req.user || {};
+  try {
+    const courses = await Course.find({ createdBy: userId });
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const { section = false } = req.query;
