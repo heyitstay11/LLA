@@ -8,7 +8,7 @@ const Meeting = () => {
   /**
    * @type {[React.MutableRefObject<HTMLVideoElement>, React.MutableRefObject<HTMLVideoElement>]}
    */
-  const [localVideo, remoteVideo] = [useRef(), useRef()];
+  const [localVideo, remoteVideo, screenVideo] = [useRef(), useRef(), useRef()];
   /**
    * @typedef {import('socket.io-client').Socket} Socket
    */
@@ -97,9 +97,9 @@ const Meeting = () => {
   };
 
   const handleTrackEvent = (e) => {
-    console.log(e.streams);
+    // console.log(e.streams);
     setCallRunning(() => true);
-    console.log("handle track");
+    // console.log("handle track");
     remoteVideo.current.srcObject = e.streams[0];
   };
 
@@ -127,7 +127,7 @@ const Meeting = () => {
   };
 
   const handleIncomingCall = (payload) => {
-    console.log("incoming call");
+    // console.log("incoming call");
     peerConnection.current = createPeer(payload.caller);
     peerConnection.current
       .setRemoteDescription(new RTCSessionDescription(payload.sdp))
@@ -154,7 +154,7 @@ const Meeting = () => {
   };
 
   const handleAnswer = (payload) => {
-    console.log("incoming answer");
+    // console.log("incoming answer");
     toast.success("Peer has joined, if video is not visible click allow in");
     setCallRunning(() => true);
 
@@ -177,6 +177,27 @@ const Meeting = () => {
     socket.current.emit("join-meet", meetingId);
   };
 
+  const startScreenShare = async () => {
+    if (!peerConnection.current) return;
+    try {
+      let screenstream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          cursor: "always",
+        },
+        audio: false,
+      });
+      screenVideo.current = screenstream;
+      const newTrack = screenstream.getVideoTracks()[0];
+      const sender = peerConnection.current
+        .getSenders()
+        .find((sender) => sender.track.kind === newTrack.kind);
+      sender.replaceTrack(newTrack);
+      console.log("Screen Share here", sender);
+    } catch (error) {
+      console.log("Screen share Error occurred", error);
+    }
+  };
+
   return (
     <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
       <div className="container px-5 py-6 mx-auto flex flex-col">
@@ -192,6 +213,7 @@ const Meeting = () => {
             )}
             <video
               ref={remoteVideo}
+              muted
               className={`object-cover object-center h-full w-full mx-auto ${
                 callRunnning ? "ok" : "w-0"
               }`}
@@ -215,6 +237,12 @@ const Meeting = () => {
                 className="border b-2 border-black py-1 px-4"
               >
                 {callRunnning ? "Allow In" : "Join Meeting"}
+              </button>
+              <button
+                onClick={startScreenShare}
+                className="border b-2 border-black py-1 px-4"
+              >
+                Share Screen
               </button>
             </div>
             <div className="sm:w-1/2 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 px-8 sm:mt-0 text-center sm:text-left bg-slate-100 dark:bg-slate-700">
