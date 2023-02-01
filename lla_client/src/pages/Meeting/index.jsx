@@ -5,80 +5,64 @@ import { toast } from "react-toastify";
 
 const Meeting = () => {
   const { meetingId = "" } = useParams();
-  /**
-   * @type {[React.MutableRefObject<HTMLVideoElement>, React.MutableRefObject<HTMLVideoElement>]}
-   */
-  const [localVideo, remoteVideo, screenVideo] = [useRef(), useRef(), useRef()];
-  /**
-   * @typedef {import('socket.io-client').Socket} Socket
-   */
-  /**
-   * @type {React.MutableRefObject<Socket>}
-   */
-  const socket = useRef();
-  /**
-   * @type {React.MutableRefObject<RTCPeerConnection>}
-   */
-  const peerConnection = useRef();
-  /**
-   * @type {React.MutableRefObject<MediaStream>}
-   */
-  const localStream = useRef();
+  const userVideo = useRef();
+  const partnerVideo = useRef();
+  const peerRef = useRef();
+  const socketRef = useRef();
+  const otherUser = useRef();
+  const userStream = useRef();
+  const senders = useRef([]);
   const [callRunnning, setCallRunning] = useState(false);
-  const [messages, setMessages] = useState([]);
-
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    const message = e?.currentTarget?.["message-input"]?.value;
-    if (!message) return;
-    socket.current.emit("send-message", {
-      user: socket.current.id,
-      meetingId,
-      message,
-    });
-  };
-
-  const handleMessage = ({ user, message }) => {
-    setMessages((prev) => [{ user, message }, ...prev]);
-  };
-
-  useEffect(() => {
-    socket.current = io(import.meta.env.VITE_SERVER_URL);
-
-    socket.current.on("message", handleMessage);
-    socket.current.on("user-joined", callUser);
-    socket.current.on("offer", handleIncomingCall);
-    socket.current.on("answer", handleAnswer);
-    socket.current.on("ice-candidate", (candidate) => {
-      peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-    socket.current.on("user-left", () => {
-      toast.warn("Peer just left the meeting");
-      setCallRunning(false);
-    });
-
-    return () => {
-      if (peerConnection.current) {
-        peerConnection.current.close();
-      }
-      socket.current.disconnect(); //! read more
-      socket.current.off("connect");
-      socket.current.off("disconnect");
-    };
-  }, []);
 
   useEffect(() => {
     navigator.mediaDevices
-      ?.getUserMedia({ video: true, audio: true })
-      .then((myStream) => {
-        localVideo.current.srcObject = myStream;
-        localStream.current = myStream;
-      })
-      .catch((err) => alert(err));
+      .getUserMedia({ audio: true, video: true })
+      .then((stream) => {
+        userVideo.current.srcObject = stream;
+        userStream.current = stream;
+
+        socketRef.current = io.connect(import.meta.env.VITE_SERVER_URL);
+        socketRef.current.emit("join room", meetingId);
+
+        socketRef.current.on("other user", (userID) => {
+          callUser(userID);
+          otherUser.current = userID;
+        });
+
+        socketRef.current.on("user joined", (userID) => {
+          otherUser.current = userID;
+        });
+
+        socketRef.current.on("offer", handleRecieveCall);
+
+        socketRef.current.on("answer", handleAnswer);
+
+        socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
+      });
+
+    return () => {
+      if (peerRef.current) {
+        peerRef.current.close();
+      }
+      socketRef.current.disconnect(); //! read more
+      socketRef.current.off("connect");
+      socketRef.current.off("disconnect");
+    };
   }, []);
 
-  const createPeer = (userId) => {
-    const peerConnection = new RTCPeerConnection({
+  function callUser(userID) {
+    peerRef.current = createPeer(userID);
+    userStream.current
+      .getTracks()
+      .forEach((track) =>
+        senders.current.push(
+          peerRef.current.addTrack(track, userStream.current)
+        )
+      );
+  }
+
+  function createPeer(userID) {
+    const peer = new RTCPeerConnection({
       iceServers: [
         {
           urls: "stun:stun.stunprotocol.org",
@@ -90,198 +74,136 @@ const Meeting = () => {
         },
       ],
     });
-    peerConnection.onicecandidate = (e) => handleIceCandidateEvent(e, userId);
-    peerConnection.ontrack = (e) => handleTrackEvent(e);
 
-    return peerConnection;
-  };
+    peer.onicecandidate = handleICECandidateEvent;
+    peer.ontrack = handleTrackEvent;
+    peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
 
-  const handleTrackEvent = (e) => {
-    // console.log(e.streams);
-    setCallRunning(() => true);
-    // console.log("handle track");
-    remoteVideo.current.srcObject = e.streams[0];
-  };
+    return peer;
+  }
 
-  const callUser = (userId) => {
-    console.log("calling");
-    peerConnection.current = createPeer(userId);
-
-    localStream.current
-      ?.getTracks()
-      .forEach((track) =>
-        peerConnection.current.addTrack(track, localStream.current)
-      );
-
-    peerConnection.current
+  function handleNegotiationNeededEvent(userID) {
+    peerRef.current
       .createOffer()
       .then((offer) => {
-        peerConnection.current.setLocalDescription(offer);
-        socket.current.emit("offer", {
-          target: userId,
-          caller: socket.current.id,
-          sdp: offer,
-        });
+        return peerRef.current.setLocalDescription(offer);
       })
-      .catch((err) => console.log(err));
-  };
-
-  const handleIncomingCall = (payload) => {
-    // console.log("incoming call");
-    peerConnection.current = createPeer(payload.caller);
-    peerConnection.current
-      .setRemoteDescription(new RTCSessionDescription(payload.sdp))
       .then(() => {
-        localStream.current
-          ?.getTracks()
+        const payload = {
+          target: userID,
+          caller: socketRef.current.id,
+          sdp: peerRef.current.localDescription,
+        };
+        socketRef.current.emit("offer", payload);
+      })
+      .catch((e) => console.log(e));
+  }
+
+  function handleRecieveCall(incoming) {
+    peerRef.current = createPeer();
+    const desc = new RTCSessionDescription(incoming.sdp);
+    peerRef.current
+      .setRemoteDescription(desc)
+      .then(() => {
+        userStream.current
+          .getTracks()
           .forEach((track) =>
-            peerConnection.current.addTrack(track, localStream.current)
+            peerRef.current.addTrack(track, userStream.current)
           );
       })
-      .catch((err) => console.log(err));
-
-    peerConnection.current
-      .createAnswer()
-      .then((answer) => {
-        peerConnection.current.setLocalDescription(answer);
-        socket.current.emit("answer", {
-          target: payload.caller,
-          caller: socket.current.id,
-          sdp: answer,
-        });
+      .then(() => {
+        return peerRef.current.createAnswer();
       })
-      .catch((err) => console.log(err));
-  };
+      .then((answer) => {
+        return peerRef.current.setLocalDescription(answer);
+      })
+      .then(() => {
+        const payload = {
+          target: incoming.caller,
+          caller: socketRef.current.id,
+          sdp: peerRef.current.localDescription,
+        };
+        socketRef.current.emit("answer", payload);
+      });
+  }
 
-  const handleAnswer = (payload) => {
-    // console.log("incoming answer");
-    toast.success("Peer has joined, if video is not visible click allow in");
-    setCallRunning(() => true);
+  function handleAnswer(message) {
+    const desc = new RTCSessionDescription(message.sdp);
+    peerRef.current.setRemoteDescription(desc).catch((e) => console.log(e));
+    setCallRunning(true);
+  }
 
-    peerConnection.current
-      .setRemoteDescription(new RTCSessionDescription(payload.sdp))
-      .catch((err) => console.log(err));
-  };
-
-  const handleIceCandidateEvent = (e, target) => {
+  function handleICECandidateEvent(e) {
     if (e.candidate) {
       const payload = {
-        target,
+        target: otherUser.current,
         candidate: e.candidate,
       };
-      socket.current.emit("ice-candidate", payload);
+      socketRef.current.emit("ice-candidate", payload);
     }
-  };
+  }
 
-  const joinMeet = () => {
-    socket.current.emit("join-meet", meetingId);
-  };
+  function handleNewICECandidateMsg(incoming) {
+    const candidate = new RTCIceCandidate(incoming);
 
-  const startScreenShare = async () => {
-    if (!peerConnection.current) return;
-    try {
-      let screenstream = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          cursor: "always",
-        },
-        audio: false,
-      });
-      screenVideo.current = screenstream;
-      const newTrack = screenstream.getVideoTracks()[0];
-      const sender = peerConnection.current
-        .getSenders()
-        .find((sender) => sender.track.kind === newTrack.kind);
-      sender.replaceTrack(newTrack);
-      console.log("Screen Share here", sender);
-    } catch (error) {
-      console.log("Screen share Error occurred", error);
-    }
-  };
+    peerRef.current.addIceCandidate(candidate).catch((e) => console.log(e));
+  }
+
+  function handleTrackEvent(e) {
+    setCallRunning(true);
+    partnerVideo.current.srcObject = e.streams[0];
+  }
+
+  function shareScreen() {
+    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then((stream) => {
+      const screenTrack = stream.getTracks()[0];
+      console.log(senders);
+      senders.current
+        ?.find((sender) => sender.track.kind === "video")
+        ?.replaceTrack(screenTrack);
+      screenTrack.onended = function () {
+        senders.current
+          ?.find((sender) => sender.track.kind === "video")
+          ?.replaceTrack(userStream.current.getTracks()[1]);
+      };
+    });
+  }
 
   return (
-    <section className="text-gray-600 body-font dark:bg-slate-900 dark:text-white">
-      <div className="container px-5 py-6 mx-auto flex flex-col">
-        <div className="lg:w-5/6 mx-auto">
-          <div className="rounded-lg h- overflow-hidden max-w-xl mx-auto">
-            {!callRunnning && (
-              <img
-                alt=""
-                src="https://dummyimage.com/400x400?text=waiting+for+user"
-                className="object-cover object-center h-60 w-full mx-auto"
-                autoPlay
-              />
-            )}
-            <video
-              ref={remoteVideo}
-              muted
-              className={`object-cover object-center h-full w-full mx-auto ${
-                callRunnning ? "ok" : "w-0"
-              }`}
-              autoPlay
-            />
-          </div>
-          <div className="flex flex-col sm:flex-row mt-10">
-            <div className="sm:w-1/2 text-center sm:pr-2 sm:py-8">
-              <div className="w-50 h-60 rounded-full inline-flex items-center justify-center">
-                <video
-                  ref={localVideo}
-                  playsInline
-                  autoPlay
-                  muted={true}
-                  className="w-50 h-40"
-                ></video>
-              </div>
-              <br />
-              <button
-                onClick={joinMeet}
-                className="border b-2 border-black py-1 px-4"
-              >
-                {callRunnning ? "Allow In" : "Join Meeting"}
-              </button>
-              <button
-                onClick={startScreenShare}
-                className="border b-2 border-black py-1 px-4"
-              >
-                Share Screen
-              </button>
-            </div>
-            <div className="sm:w-1/2 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 px-8 sm:mt-0 text-center sm:text-left bg-slate-100 dark:bg-slate-700">
-              <form className="flex" onSubmit={handleSendMessage}>
-                <input
-                  name="message-input"
-                  type="text"
-                  className="w-full text-black pt-auto pl-4 border border-black b-2"
-                />
-                <button className="dark:text-white text-black bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium">
-                  Send
-                </button>
-              </form>
-              <div className="mt-2 leading-relaxed text-lg mb-4 min-h-32 max-h-60 overflow-y-auto flex flex-col">
-                {messages?.length === 0 && (
-                  <span className="mr-auto mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full">
-                    No Messages{" "}
-                  </span>
-                )}
-                {messages?.map((msg, index) => {
-                  const { user, message } = msg;
-                  const isMine = user === socket.current.id;
-                  return (
-                    <span
-                      key={index}
-                      className={`${
-                        isMine ? "ml-auto" : "mr-auto"
-                      } mt-2 p-2 px-4 bg-yellow-500 text-slate-900 rounded-full`}
-                    >
-                      {message}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="flex container my-6 mx-auto">
+      <div className="">
+        <video
+          className={`${callRunnning ? "mx-4 h-60" : "sr-only"}`}
+          controls
+          style={{ height: 500, width: 500 }}
+          autoPlay
+          ref={partnerVideo}
+        />
+        {!callRunnning && (
+          <img
+            alt=""
+            src="https://dummyimage.com/400x400?text=waiting+for+user"
+            className="object-cover object-center h-80 w-full m-4"
+            autoPlay
+          />
+        )}
       </div>
-    </section>
+      <div className="">
+        <video
+          style={{ height: 400, width: 400 }}
+          autoPlay
+          muted
+          ref={userVideo}
+        />
+
+        <button
+          className="text-white m-2 bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg dark:text-yellow-900 dark:font-medium"
+          onClick={shareScreen}
+        >
+          Share screen
+        </button>
+      </div>
+    </div>
   );
 };
 
