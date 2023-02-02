@@ -1,59 +1,53 @@
-const meetings = {};
+const rooms = {};
 
 /**
  *
  * @param {import('socket.io').Server} io
  */
 export const setupSocket = (io) => {
+  let room = "";
   io.on("connection", (socket) => {
-    const socketId = socket.id;
-    let meeting = "";
-    console.log(socketId, "conn");
+    socket.on("join room", (roomID) => {
+      // console.log(socket.id, roomID);
+      if (rooms[roomID]) {
+        rooms[roomID].push(socket.id);
+      } else {
+        rooms[roomID] = [socket.id];
+      }
+      const otherUser = rooms[roomID].find((id) => id !== socket.id);
+      if (otherUser) {
+        socket.emit("other user", otherUser);
+        socket.to(otherUser).emit("user joined", socket.id);
+      }
+      socket.join(roomID);
+      room = roomID;
+    });
+
+    socket.on("offer", (payload) => {
+      io.to(payload.target).emit("offer", payload);
+    });
+
+    socket.on("answer", (payload) => {
+      io.to(payload.target).emit("answer", payload);
+    });
+
+    socket.on("ice-candidate", (incoming) => {
+      io.to(incoming.target).emit("ice-candidate", incoming.candidate);
+    });
 
     socket.on("send-message", ({ user = "", meetingId = "", message = "" }) => {
       io.to(meetingId).emit("message", { user, message });
     });
 
-    socket.on("join-meet", (meetingId = "") => {
-      if (meetingId && meetings[meetingId]) {
-        meetings[meetingId].push(socketId);
-        meetings[meetingId] = [...new Set(meetings[meetingId])];
-      } else {
-        meetings[meetingId] = [socketId];
-      }
-      socket.join(meetingId);
-      meeting = meetingId;
-      socket.broadcast.to(meetingId).emit("user-joined", socketId);
-      console.log(meetingId, "hello", meetings);
-    });
-
-    socket.on("offer", (payload = {}) => {
-      console.log("offer", meeting, "meet");
-      io.to(payload.target).emit("offer", payload);
-    });
-
-    socket.on("answer", (payload = {}) => {
-      console.log("ans", meeting, "meet");
-      io.to(payload.target).emit("answer", payload);
-    });
-
-    socket.on("ice-candidate", (incoming = {}) => {
-      console.log(incoming.target, "ice");
-      io.to(incoming.target).emit("ice-candidate", incoming.candidate);
-    });
-
     socket.on("disconnect", () => {
-      console.log(socketId, "disconn", meeting);
+      // console.log(socket.id, "disconn", room);
       // clean up
-      if (!meeting) return;
-      meetings[meeting] = meetings[meeting]?.filter(
-        (user) => user !== socketId
-      );
-      if (meetings[meeting]?.length === 0) {
-        delete meetings[meeting];
+      if (!room) return;
+      rooms[room] = rooms[room]?.filter((user) => user !== socket.id);
+      if (rooms[room]?.length === 0) {
+        delete rooms[room];
       }
-      socket.broadcast.to(meeting).emit("user-left", socketId);
-      console.log(meetings);
+      socket.broadcast.to(room).emit("user-left", socket.id);
     });
   });
 };
