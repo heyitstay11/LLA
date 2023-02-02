@@ -8,7 +8,7 @@ export const setupSocket = (io) => {
   let room = "";
   io.on("connection", (socket) => {
     socket.on("join room", (roomID) => {
-      console.log(socket.id, roomID);
+      // console.log(socket.id, roomID);
       if (rooms[roomID]) {
         rooms[roomID].push(socket.id);
       } else {
@@ -19,6 +19,7 @@ export const setupSocket = (io) => {
         socket.emit("other user", otherUser);
         socket.to(otherUser).emit("user joined", socket.id);
       }
+      socket.join(roomID);
       room = roomID;
     });
 
@@ -33,8 +34,13 @@ export const setupSocket = (io) => {
     socket.on("ice-candidate", (incoming) => {
       io.to(incoming.target).emit("ice-candidate", incoming.candidate);
     });
+
+    socket.on("send-message", ({ user = "", meetingId = "", message = "" }) => {
+      io.to(meetingId).emit("message", { user, message });
+    });
+
     socket.on("disconnect", () => {
-      console.log(socket.id, "disconn", room);
+      // console.log(socket.id, "disconn", room);
       // clean up
       if (!room) return;
       rooms[room] = rooms[room]?.filter((user) => user !== socket.id);
@@ -42,7 +48,6 @@ export const setupSocket = (io) => {
         delete rooms[room];
       }
       socket.broadcast.to(room).emit("user-left", socket.id);
-      console.log(rooms);
     });
   });
 };
