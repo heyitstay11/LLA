@@ -45,6 +45,10 @@ const Meeting = () => {
           toast.warn("Peer just left the meeting");
           setCallRunning(false);
         });
+      })
+      .catch((err) => {
+        toast.warn("Camera not found");
+        console.log(err);
       });
 
     return () => {
@@ -219,6 +223,22 @@ const Meeting = () => {
               }`}
               autoPlay
             />
+            {callRunnning && (
+              <button
+                onClick={() => {
+                  if (!document.fullscreenElement) {
+                    remoteVideo.current.requestFullscreen().catch((err) => {
+                      alert(
+                        `Error attempting to enable fullscreen mode:(${err.name})`
+                      );
+                    });
+                  }
+                }}
+                className="border b-2 my-4 border-black py-1 px-4 mx-auto"
+              >
+                Full Screen
+              </button>
+            )}
           </div>
           <div className="flex flex-col sm:flex-row mt-10">
             <div className="sm:w-1/2 text-center sm:pr-2 sm:py-8">
@@ -232,12 +252,15 @@ const Meeting = () => {
                 ></video>
               </div>
               <br />
-              <button
-                onClick={joinRoom}
-                className="border b-2 border-black py-1 px-4"
-              >
-                Join Meeting
-              </button>
+              {!callRunnning && (
+                <button
+                  onClick={joinRoom}
+                  className="border b-2 border-black py-1 px-4"
+                >
+                  Join Meeting
+                </button>
+              )}
+
               {callRunnning && (
                 <button
                   onClick={shareScreen}
