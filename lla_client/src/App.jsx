@@ -5,7 +5,6 @@ import {
   Login,
   Signup,
   Contact,
-  Meeting,
   Courses,
   QuizList,
   Qna,
@@ -18,6 +17,7 @@ import {
 } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 const CreateCourse = lazy(() => import("./pages/CreateCourse"));
 const CourseSection = lazy(() => import("./pages/CourseSection"));
@@ -29,6 +29,7 @@ const SingleCourse = lazy(() => import("./pages/SingleCourse"));
 const Sessions = lazy(() => import("./pages/Sessions"));
 const TOS = lazy(() => import("./pages/TOS"));
 const JoinMentor = lazy(() => import("./pages/JoinMentor"));
+const Meeting = lazy(() => import("./pages/Meeting"));
 
 const App = () => {
   return (
@@ -46,9 +47,30 @@ const App = () => {
           <Route path="/courses" element={<Courses />} />
           <Route path="/sessions" element={<Sessions />} />
           <Route path="/course/:id" element={<SingleCourse />} />
-          <Route path="/quizmaker" element={<QuizMaker />} />
-          <Route path="/quiz" element={<QuizList />} />
-          <Route path="/quiz/:id" element={<Quiz />} />
+          <Route
+            path="/quizmaker"
+            element={
+              <PrivateRoute>
+                <QuizMaker />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/quiz"
+            element={
+              <PrivateRoute>
+                <QuizList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/quiz/:id"
+            element={
+              <PrivateRoute>
+                <Quiz />
+              </PrivateRoute>
+            }
+          />
           <Route path="/result/:id" element={<Result />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/meeting/:meetingId" element={<Meeting />} />
