@@ -2,7 +2,7 @@
   "name": "lla_server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",
+    "pdfkit": "^0.13.0",
     "razorpay": "^2.8.4",
     "socket.io": "^4.5.2"
   },
